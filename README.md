@@ -1,8 +1,20 @@
+<!-- @format -->
+
 # soma_app_usage
 
 app usage
 
+Android Only
+
 ## Getting Started
+
+이앱을 빌드하기 전에 파이어베이스에서 google-services.json을
+
+```
+android/app/google-services.json
+```
+
+위치에 저장해야 합니다.
 
 This project is a starting point for a Flutter application.
 
