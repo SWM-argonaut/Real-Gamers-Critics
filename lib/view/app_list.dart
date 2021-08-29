@@ -37,8 +37,7 @@ class _AppListState extends State<AppList> {
                 title: Text('${_app.appName} (${_app.packageName})'),
                 subtitle: Text(''
                     '버전: ${_app.versionName}\n'
-                    '사용시간 : ${_app.totalTimeInForeground}\n'
-                    '마지막 사용 날짜 : ${_app.lastTimeUsed}\n'
+                    '사용시간 : ${_app.usage}\n'
                     '카테고리 : ${_app.category}\n'
                     '시스템 앱 여부: ${_app.systemApp}\n'
                     'APK 파일 위치: ${_app.apkFilePath}\n'

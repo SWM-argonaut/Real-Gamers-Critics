@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:usage_stats/usage_stats.dart';
+import 'package:app_usage/app_usage.dart';
 import 'package:device_apps/device_apps.dart';
 
 class ApplicationInfos {
@@ -46,15 +46,17 @@ class ApplicationInfos {
   /// or disabled (installed, but not visible)
   final bool enabled;
 
-  final Duration? totalTimeInForeground;
+  /// The amount of time the application has been used
+  /// in the specified interval
+  final Duration? usage;
 
-  final String? firstTimeStamp;
+  /// The start of the interval
+  final DateTime? startDate;
 
-  final String? lastTimeStamp;
+  /// The end of the interval
+  final DateTime? endDate;
 
-  final String? lastTimeUsed;
-
-  ApplicationInfos({UsageInfo? usage, required Application app})
+  ApplicationInfos({AppUsageInfo? usage, required Application app})
       : packageName = app.packageName,
         appName = app.appName,
         apkFilePath = app.apkFilePath,
@@ -66,11 +68,8 @@ class ApplicationInfos {
         updateTimeMillis = app.updateTimeMillis,
         enabled = app.enabled,
         category = app.category,
-        totalTimeInForeground = usage?.totalTimeInForeground != null
-            ? Duration(seconds: int.parse(usage!.totalTimeInForeground) ~/ 1000)
-            : null,
-        firstTimeStamp = usage?.firstTimeStamp,
-        lastTimeStamp = usage?.lastTimeStamp,
-        lastTimeUsed = usage?.lastTimeUsed,
+        usage = usage?.usage,
+        startDate = usage?.startDate,
+        endDate = usage?.endDate,
         icon = app is ApplicationWithIcon ? app.icon : null;
 }
