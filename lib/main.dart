@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:get/get.dart';
+
 import 'package:firebase_core/firebase_core.dart';
+
+import 'package:soma_app_usage/configs/languages.dart' as Ln;
 
 import 'package:soma_app_usage/view/home.dart';
 
@@ -29,12 +33,27 @@ class _MyAppState extends State<MyApp> {
       builder: (context, snapshot) {
         // Check for errors
         if (snapshot.hasError) {
-          return Center(child: Text("파이어베이스 연동에 실패했습니다."));
+          return Center(child: Text("Firebase Error".tr));
         }
 
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
-          return Home();
+          return GetMaterialApp(
+              // translations
+              locale: Locale('ko', 'KR'),
+              // TODO: locale: Get.deviceLocale,
+              fallbackLocale: Locale('en', 'US'),
+              translations: Ln.Messages(),
+
+              // theme
+              theme: ThemeData(
+                primaryColor: Colors.white,
+                appBarTheme: AppBarTheme(elevation: 0, color: Colors.white),
+                backgroundColor: Colors.white,
+              ),
+
+              // home
+              home: Home());
         }
 
         // Otherwise, show something whilst waiting for initialization to complete

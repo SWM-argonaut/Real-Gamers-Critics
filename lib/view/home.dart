@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:get/get.dart';
+
 import 'package:soma_app_usage/view/login.dart';
 import 'package:soma_app_usage/view/app_list.dart';
+import 'package:soma_app_usage/configs/size_config.dart';
 
 const TextStyle optionStyle =
     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -23,20 +26,23 @@ class _HomeState extends State<Home> {
   final _bottomNavItems = <BottomNavigationBarItem>[
     BottomNavigationBarItem(
       icon: Icon(Icons.home),
-      label: '리스트',
+      label: 'list'.tr,
     ),
     BottomNavigationBarItem(
       icon: Icon(Icons.login),
-      label: '로그인',
+      label: 'login'.tr,
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
+    SizeConfig.init(context);
+
+    return Scaffold(
       appBar: AppBar(
-        title: Text("핸드폰에 깔려있는 앱"),
+        toolbarHeight: SizeConfig.defaultSize * 9,
+        centerTitle: true,
+        title: Text("home page".tr),
       ),
       body: _tabs.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
@@ -49,6 +55,6 @@ class _HomeState extends State<Home> {
           });
         },
       ),
-    ));
+    );
   }
 }

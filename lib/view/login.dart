@@ -90,6 +90,14 @@ class _LoginPageState extends State<LoginPage> {
               "uid : ${FirebaseAuth.instance.currentUser?.uid}",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
+            Text(
+              "메타 데이터 : ${FirebaseAuth.instance.currentUser?.metadata}",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            Text(
+              "사진 Url : ${FirebaseAuth.instance.currentUser?.photoURL}",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
             Padding(
               padding: EdgeInsets.all(20),
             ),
