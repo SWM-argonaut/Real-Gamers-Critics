@@ -24,6 +24,8 @@ class Messages extends Translations {
 
           //
           "play": "시작",
+
+          "install": "설치"
         }
       };
 }

@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+
+import 'package:device_apps/device_apps.dart';
 
 import 'package:soma_app_usage/configs/configs.dart'
     show playtimeToLeaveComment;
@@ -12,6 +16,8 @@ import 'package:soma_app_usage/blocs/applications.dart'
 import 'package:soma_app_usage/models/applications.dart';
 
 import 'package:soma_app_usage/widget/indicator.dart';
+
+import 'package:soma_app_usage/view/detail_page.dart';
 
 class AppList extends StatelessWidget {
   const AppList({Key? key}) : super(key: key);
@@ -41,65 +47,79 @@ Widget _listItemBuilder(BuildContext context, int index) {
   var _app = InstalledApplicationsBloc.apps[index];
 
   return Align(
-      child: SizedBox(
-          width: SizeConfig.defaultSize * 40,
-          child: Card(
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(SizeConfig.defaultSize * 2),
-              ),
-              child: Row(children: [
-                // icon
-                Container(
-                  width: SizeConfig.defaultSize * 10,
-                  margin: EdgeInsets.only(
-                      top: SizeConfig.defaultSize * 2,
-                      left: SizeConfig.defaultSize * 1,
-                      right: SizeConfig.defaultSize * 2.5,
-                      bottom: SizeConfig.defaultSize * 2),
-                  decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(SizeConfig.defaultSize * 1)),
-                  child: _app.icon != null
-                      ? Image(
-                          image: MemoryImage(_app.icon!),
-                        )
-                      : Icon(Icons.not_accessible),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+      child: GestureDetector(
+          onTap: () {
+            Get.to(() => DetailPage(app: _app));
+          },
+          child: SizedBox(
+              width: SizeConfig.defaultSize * 40,
+              child: Card(
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(SizeConfig.defaultSize * 2),
+                  ),
+                  child: Row(children: [
+                    // icon
                     Container(
-                        width: SizeConfig.defaultSize * 24,
-                        margin: EdgeInsets.only(
-                            right: SizeConfig.defaultSize * 0.5,
-                            bottom: SizeConfig.defaultSize * 0.5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('${_app.appName}',
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontSize: SizeConfig.defaultSize * 2,
-                                    fontWeight: FontWeight.bold)),
-                            ActionChip(
-                              onPressed: () {},
-                              label: Text('play'.tr,
-                                  style: TextStyle(
-                                      color: Color.fromRGBO(102, 48, 255, 1))),
-                              backgroundColor: Color.fromRGBO(240, 235, 255, 1),
-                            ),
-                          ],
-                        )),
-                    Text("Play Time : ${_app.usage}\n"), // TODO: tr
-                    LinearIndicator(
-                      width: SizeConfig.defaultSize * 24,
-                      percent: _app.usage!.inMinutes / playtimeToLeaveComment,
-                      text:
-                          "${_app.usage!.inMinutes}m/${playtimeToLeaveComment}m",
+                      width: SizeConfig.defaultSize * 10,
+                      margin: EdgeInsets.only(
+                          top: SizeConfig.defaultSize * 2,
+                          left: SizeConfig.defaultSize * 1,
+                          right: SizeConfig.defaultSize * 2.5,
+                          bottom: SizeConfig.defaultSize * 2),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                              SizeConfig.defaultSize * 2.2)),
+                      child: _app.icon != null
+                          ? Image(
+                              image: MemoryImage(_app.icon!),
+                            )
+                          : Icon(Icons.not_accessible),
                     ),
-                  ],
-                )
-              ]))));
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            width: SizeConfig.defaultSize * 24,
+                            margin: EdgeInsets.only(
+                                right: SizeConfig.defaultSize * 0.5,
+                                bottom: SizeConfig.defaultSize * 0.5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('${_app.appName}',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontSize: SizeConfig.defaultSize * 2,
+                                        fontWeight: FontWeight.bold)),
+                                ActionChip(
+                                  onPressed: () {
+                                    // TODO: https://stackoverflow.com/questions/11753000/how-to-open-the-google-play-store-directly-from-my-android-application
+                                    _app.enabled
+                                        ? DeviceApps.openApp(_app.packageName)
+                                        : log("미설치");
+                                  },
+                                  label: Text(
+                                      _app.enabled ? 'play'.tr : 'install'.tr,
+                                      style: TextStyle(
+                                          color:
+                                              Color.fromRGBO(102, 48, 255, 1))),
+                                  backgroundColor:
+                                      Color.fromRGBO(240, 235, 255, 1),
+                                ),
+                              ],
+                            )),
+                        Text("Play Time : ${_app.usage}\n"), // TODO: tr
+                        LinearIndicator(
+                          width: SizeConfig.defaultSize * 24,
+                          percent:
+                              _app.usage!.inMinutes / playtimeToLeaveComment,
+                          text:
+                              "${_app.usage!.inMinutes}m/${playtimeToLeaveComment}m",
+                        ),
+                      ],
+                    )
+                  ])))));
 }
