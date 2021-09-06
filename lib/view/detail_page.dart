@@ -10,6 +10,8 @@ import 'package:soma_app_usage/configs/size_config.dart';
 
 import 'package:soma_app_usage/models/applications.dart';
 
+import 'package:soma_app_usage/widget/comment.dart';
+
 class DetailPage extends StatelessWidget {
   final ApplicationInfos app;
 
@@ -46,8 +48,13 @@ class DetailPage extends StatelessWidget {
 
       // FloatingActionButton
       floatingActionButton: FloatingActionButton(
-        child: Text("버튼"),
-        onPressed: () {},
+        child: Icon(Icons.comment),
+        onPressed: () {
+          Get.bottomSheet(Comment(),
+              enableDrag: false,
+              ignoreSafeArea: false,
+              isScrollControlled: true);
+        },
       ),
     );
   }
