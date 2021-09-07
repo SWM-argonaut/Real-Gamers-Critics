@@ -15,6 +15,10 @@ class Messages extends Translations {
           "err": "뭔가 잘못됨...",
           "Firebase Error": "파이어베이스 연동에 실패했습니다.",
 
+          // 버튼
+          "confirm": "확인",
+          "Go to login": "로그인 하러 가기",
+
           // 메인 페이지
           "home page": "내 게임들",
 
@@ -27,6 +31,8 @@ class Messages extends Translations {
           "install": "설치",
 
           // 댓글 페이지
+          "need login": "로그인이 필요합니다.",
+          "need login for comment": "댓글을 달기 위해선 로그인이 필요합니다.",
           "comment": "댓글",
           "before review": "리뷰는 공개되며 플레이 타임등의 정보를 포함합니다.",
           "short comment": "한줄평",

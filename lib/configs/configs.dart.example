@@ -1,0 +1,3 @@
+const int playtimeToLeaveComment = 100;
+
+const String apiBaseUrl = "your api base url";
