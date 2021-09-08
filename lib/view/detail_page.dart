@@ -1,16 +1,26 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
 import 'package:device_apps/device_apps.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:fl_chart/fl_chart.dart';
 
-import 'package:soma_app_usage/configs/size_config.dart';
+import 'package:real_gamers_critics/configs/size_config.dart';
 
-import 'package:soma_app_usage/models/applications.dart';
+import 'package:real_gamers_critics/functions/api/comment.dart';
+import 'package:real_gamers_critics/functions/playstore/check_app.dart';
 
-import 'package:soma_app_usage/widget/comment.dart';
+import 'package:real_gamers_critics/models/applications.dart';
+
+import 'package:real_gamers_critics/widget/comment.dart';
+
+import 'package:real_gamers_critics/view/login.dart';
 
 class DetailPage extends StatelessWidget {
   final ApplicationInfos app;
@@ -19,6 +29,19 @@ class DetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // CommentApi.getComment();
+    // async 배열 만들어서 동시에 처리
+    // () async {
+    //   log("start " + DateTime.now().toString());
+
+    //   for (int i = 0; i < 10; i++) {
+    //     isGame("com.spotify.music");
+    //     log(i.toString());
+    //   }
+
+    //   log("end " + DateTime.now().toString());
+    // }();
+
     return Scaffold(
       // AppBar
       appBar: AppBar(
@@ -47,15 +70,26 @@ class DetailPage extends StatelessWidget {
           )),
 
       // FloatingActionButton
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.comment),
-        onPressed: () {
-          Get.bottomSheet(Comment(),
-              enableDrag: false,
-              ignoreSafeArea: false,
-              isScrollControlled: true);
-        },
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   child: Icon(Icons.comment),
+      //   onPressed: () {
+      //     if (FirebaseAuth.instance.currentUser == null) {
+      //       Get.snackbar("need login".tr, "need login for comment".tr,
+      //           margin: EdgeInsets.symmetric(
+      //               vertical: SizeConfig.defaultSize * 15,
+      //               horizontal: SizeConfig.defaultSize * 3),
+      //           mainButton: TextButton(
+      //               onPressed: () => Get.to(LoginPage()),
+      //               child: Text("login".tr)),
+      //           snackPosition: SnackPosition.BOTTOM);
+      //     } else {
+      //       Get.bottomSheet(Comment(),
+      //           enableDrag: false,
+      //           ignoreSafeArea: false,
+      //           isScrollControlled: true);
+      //     }
+      //   },
+      // ),
     );
   }
 }
@@ -102,25 +136,33 @@ Container playTime(ApplicationInfos app) {
     child: Column(
       children: [
         // play time info
-        Container(alignment: Alignment.centerLeft, child: Text("play time".tr)),
+        // Container(alignment: Alignment.centerLeft, child: Text("play time".tr)),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
               width: SizeConfig.screenWidth / 2 - 5,
               child: Column(
-                children: [Text("total play time".tr), Text("${app.usage}")],
-              ),
-            ),
-            SizedBox(
-              width: SizeConfig.screenWidth / 2 - 5,
-              child: Column(
                 children: [
-                  Text("last played date".tr),
-                  Text("다른 라이브러리 사용 or 직접") // TODO:
+                  Container(
+                      padding: EdgeInsets.all(SizeConfig.defaultSize * 5),
+                      child: Text("total play time".tr)),
+                  Text(
+                    "${app.usage}".split(".").first,
+                    style: TextStyle(fontSize: SizeConfig.defaultSize * 5),
+                  )
                 ],
               ),
-            )
+            ),
+            // SizedBox(
+            //   width: SizeConfig.screenWidth / 2 - 5,
+            //   child: Column(
+            //     children: [
+            //       Text("last played date".tr),
+            //       Text("다른 라이브러리 사용 or 직접") // TODO:
+            //     ],
+            //   ),
+            // )
           ],
         ),
 

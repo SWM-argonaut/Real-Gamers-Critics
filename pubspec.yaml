@@ -1,5 +1,6 @@
-name: soma_app_usage
-description: app usage
+
+name: real_gamers_critics
+description: Real Gamer's Critics
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -37,10 +38,23 @@ dependencies:
   flutter_signin_button: ^2.0.0
   get: ^4.3.8
   fl_chart: ^0.40.0
+  permission_handler: ^8.1.4+2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  flutter_launcher_icons: ^0.9.0
+  flutter_app_name: ^0.1.1
+
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/icon1.0.0.png"
+
+flutter_app_name:
+  name: "Real Gamer's Critics"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

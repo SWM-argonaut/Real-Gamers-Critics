@@ -1,14 +1,23 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
-import 'package:soma_app_usage/models/applications.dart';
+import 'package:real_gamers_critics/models/applications.dart';
 
-import 'package:soma_app_usage/functions/device/applications.dart';
+import 'package:real_gamers_critics/functions/device/applications.dart';
 
+// TODO: Getx로 바꾸기
 class InstalledApplicationsBloc {
   static late List<ApplicationInfos> apps;
 
-  static Future<bool> isInit = () async {
-    apps = await getAppInfos();
+  static bool _isInit = false;
 
-    return true;
-  }();
+  static Future<bool> init() async {
+    if (!_isInit) {
+      log("app list init");
+      apps = await getAppInfos();
+      _isInit = apps.length != 0;
+    }
+
+    return _isInit;
+  }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:real_gamers_critics/configs/size_config.dart';
+
 /// 0 <= percent <= 1
 class LinearIndicator extends StatelessWidget {
   final double width;
@@ -29,12 +31,18 @@ class LinearIndicator extends StatelessWidget {
       Container(
         width: width,
         height: height,
-        color: backgroundColor,
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(SizeConfig.defaultSize * 3),
+        ),
       ),
       Container(
         width: width * percent,
         height: height,
-        color: color,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(SizeConfig.defaultSize * 3),
+        ),
       ),
     ];
 

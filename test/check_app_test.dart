@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:soma_app_usage/functions/playstore/check_app.dart';
+import 'package:real_gamers_critics/functions/playstore/check_app.dart';
 
 void main() {
   group("check_app.dart", () {

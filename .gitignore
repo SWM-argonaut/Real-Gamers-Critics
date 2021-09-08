@@ -48,3 +48,6 @@ app.*.map.json
 
 # Google
 google-services.json
+
+# configs
+configs.dart

@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 
-import 'package:soma_app_usage/configs/languages.dart' as Ln;
+import 'package:real_gamers_critics/configs/languages.dart' as Ln;
 
-import 'package:soma_app_usage/view/home.dart';
+import 'package:real_gamers_critics/view/home.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,8 +48,9 @@ class _MyAppState extends State<MyApp> {
               // theme
               theme: ThemeData(
                 primaryColor: Colors.white,
-                appBarTheme: AppBarTheme(elevation: 0, color: Colors.white),
                 backgroundColor: Colors.white,
+                canvasColor: Colors.white,
+                appBarTheme: AppBarTheme(elevation: 0, color: Colors.white),
               ),
 
               // home

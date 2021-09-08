@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import 'package:soma_app_usage/view/login.dart';
-import 'package:soma_app_usage/view/app_list.dart';
-import 'package:soma_app_usage/configs/size_config.dart';
+import 'package:real_gamers_critics/view/login.dart';
+import 'package:real_gamers_critics/view/app_list.dart';
+import 'package:real_gamers_critics/configs/size_config.dart';
 
 const TextStyle optionStyle =
     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -39,11 +39,6 @@ class _HomeState extends State<Home> {
     SizeConfig.init(context);
 
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: SizeConfig.defaultSize * 9,
-        centerTitle: true,
-        title: Text("home page".tr),
-      ),
       body: _tabs.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: _bottomNavItems,

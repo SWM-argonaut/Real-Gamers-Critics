@@ -6,18 +6,21 @@ import 'package:get/get.dart';
 
 import 'package:device_apps/device_apps.dart';
 
-import 'package:soma_app_usage/configs/configs.dart'
+import 'package:real_gamers_critics/configs/configs.dart'
     show playtimeToLeaveComment;
-import 'package:soma_app_usage/configs/size_config.dart';
+import 'package:real_gamers_critics/configs/size_config.dart';
 
-import 'package:soma_app_usage/blocs/applications.dart'
+import 'package:real_gamers_critics/blocs/applications.dart'
     show InstalledApplicationsBloc;
 
-import 'package:soma_app_usage/models/applications.dart';
+import 'package:real_gamers_critics/models/applications.dart';
 
-import 'package:soma_app_usage/widget/indicator.dart';
+import 'package:real_gamers_critics/view/home.dart';
+import 'package:real_gamers_critics/view/permission.dart';
 
-import 'package:soma_app_usage/view/detail_page.dart';
+import 'package:real_gamers_critics/widget/indicator.dart';
+
+import 'package:real_gamers_critics/view/detail_page.dart';
 
 class AppList extends StatelessWidget {
   const AppList({Key? key}) : super(key: key);
@@ -25,19 +28,30 @@ class AppList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<bool>(
-      future: InstalledApplicationsBloc.isInit,
-      builder: (BuildContext context, AsyncSnapshot<bool> data) {
-        if (!data.hasData) {
+      future: InstalledApplicationsBloc.init(),
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
         }
-        if (data.hasError) {
+        if (snapshot.hasError) {
           return Center(child: Text("err".tr));
         }
 
-        return ListView.builder(
-          itemCount: InstalledApplicationsBloc.apps.length,
-          itemBuilder: _listItemBuilder,
-        );
+        // 목록을 불러오지 못했을 때 권한 확인으로 바꾸기
+        if (snapshot.data == false) {
+          return PermissionPage();
+        }
+
+        return Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              toolbarHeight: SizeConfig.defaultSize * 9,
+              title: Text("home page".tr),
+            ),
+            body: ListView.builder(
+              itemCount: InstalledApplicationsBloc.apps.length,
+              itemBuilder: _listItemBuilder,
+            ));
       },
     );
   }

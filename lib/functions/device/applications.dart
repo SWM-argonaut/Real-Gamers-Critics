@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:app_usage/app_usage.dart';
 import 'package:device_apps/device_apps.dart';
 
-import 'package:soma_app_usage/models/applications.dart';
+import 'package:real_gamers_critics/models/applications.dart';
 
 Future<List<ApplicationInfos>> getAppInfos() async {
   if (!Platform.isAndroid) {
@@ -41,7 +41,7 @@ Future<List<AppUsageInfo>> getUsageStats(
     // getAppUsage 함수는 안드로이드의 queryAndAggregateUsageStats 함수를 사용하는데
     // 이 함수는 플래그로 best interval을 사용하는데 (https://developer.android.com/reference/android/app/usage/UsageStatsManager#queryAndAggregateUsageStats(long,%20long))
     // 이게 문제인가?
-    DateTime startDate = start ?? DateTime.now().subtract(Duration(days: 600));
+    DateTime startDate = start ?? DateTime.now().subtract(Duration(days: 365));
 
     return AppUsage.getAppUsage(startDate, endDate);
   } on AppUsageException catch (exception) {

@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import 'package:soma_app_usage/configs/size_config.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:soma_app_usage/widget/rating.dart';
+import 'package:real_gamers_critics/configs/size_config.dart';
+
+import 'package:real_gamers_critics/widget/rating.dart';
 
 class Comment extends StatelessWidget {
   const Comment({Key? key}) : super(key: key);
@@ -22,6 +24,29 @@ class Comment extends StatelessWidget {
     int _rating = 0;
     String _shortComment = "";
     String _comment = "";
+
+    if (FirebaseAuth.instance.currentUser == null) {
+      return Container(
+        color: Colors.white,
+        alignment: Alignment.center,
+        height: SizeConfig.screenHeight * 0.6,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "need login".tr,
+              style: TextStyle(fontSize: SizeConfig.defaultSize * 3),
+            ),
+            Text(
+              "need login for comment".tr,
+              style: TextStyle(fontSize: SizeConfig.defaultSize * 2),
+            ),
+            ElevatedButton(
+                onPressed: () => Get.back(), child: Text("confirm".tr)),
+          ],
+        ),
+      );
+    }
 
     return Container(
       height: SizeConfig.screenHeight * 0.73,

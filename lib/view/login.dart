@@ -2,12 +2,14 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:get/get.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
-import 'package:soma_app_usage/functions/auth/google.dart';
+import 'package:real_gamers_critics/functions/auth/google.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -30,6 +32,10 @@ class _LoginPageState extends State<LoginPage> {
 
   Scaffold _loginPage() {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("로그인"),
+      ),
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -57,7 +63,15 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Scaffold _logoutPage() {
+    // () async {
+    //   log("${await FirebaseAuth.instance.currentUser?.getIdToken()}");
+    // }();
+
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("로그인"),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -82,31 +96,14 @@ class _LoginPageState extends State<LoginPage> {
               "이메일 : ${FirebaseAuth.instance.currentUser?.email}",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
-            Text(
-              "전화번호 : ${FirebaseAuth.instance.currentUser?.phoneNumber}",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
-            Text(
-              "uid : ${FirebaseAuth.instance.currentUser?.uid}",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
-            Text(
-              "메타 데이터 : ${FirebaseAuth.instance.currentUser?.metadata}",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
-            Text(
-              "사진 Url : ${FirebaseAuth.instance.currentUser?.photoURL}",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
             Padding(
               padding: EdgeInsets.all(20),
             ),
             ElevatedButton(
               child: Text("로그아웃"),
               onPressed: () {
-                setState(() {
-                  FirebaseAuth.instance.signOut();
-                  GoogleSignIn().signOut();
+                logOutWithGoogle().then((_) {
+                  setState(() {});
                 });
               },
             )

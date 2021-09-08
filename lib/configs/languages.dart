@@ -26,9 +26,16 @@ class Messages extends Translations {
           "list": "리스트",
           "login": "로그인",
 
+          // 리스트 페이지
+          "need access": "권한이 필요합니다",
+          "need access to get playtime": "앱의 사용시간을 표시하기 위해 권한이 필요합니다.",
+          "reload": "재시작",
+
           //디테일 페이지
           "play": "시작",
           "install": "설치",
+          "play time": "플레이 시간",
+          "total play time": "총 플레이 시간",
 
           // 댓글 페이지
           "need login": "로그인이 필요합니다.",

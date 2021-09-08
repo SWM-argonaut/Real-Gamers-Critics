@@ -1,4 +1,4 @@
-package com.argonaut.app_usage.soma_app_usage
+package com.argonaut.real_gamers_critics
 
 import io.flutter.embedding.android.FlutterActivity
 
