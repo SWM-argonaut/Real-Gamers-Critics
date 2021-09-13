@@ -8,10 +8,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:real_gamers_critics/configs/size_config.dart';
 
+import 'package:real_gamers_critics/functions/api/comment.dart';
+import 'package:real_gamers_critics/models/applications.dart';
+
 import 'package:real_gamers_critics/widget/rating.dart';
 
-class Comment extends StatelessWidget {
-  const Comment({Key? key}) : super(key: key);
+class CommentWriting extends StatelessWidget {
+  final ApplicationInfos app;
+
+  const CommentWriting({required this.app, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -101,8 +106,12 @@ class Comment extends StatelessWidget {
               margin: EdgeInsets.all(SizeConfig.defaultSize * 3),
               child: ElevatedButton(
                 onPressed: () {
-                  log("rating: ${ratingController.rating}\nshort: ${shortCommentCtrl.text}\nlong: ${longCommentCtrl.text}");
-                  Get.back();
+                  if (shortCommentCtrl.text.length != 0) {
+                    log("rating: ${ratingController.rating}\nshort: ${shortCommentCtrl.text}\nlong: ${longCommentCtrl.text}");
+                    log("${CommentApi.addComment(app.packageName, shortCommentCtrl.text, longCommentCtrl.text, ratingController.rating.toInt())}");
+                    Get.back();
+                  }
+                  // TODO: 공백 채우라고 메세지 띄우기
                 },
                 child: Text("send comment".tr),
               ))

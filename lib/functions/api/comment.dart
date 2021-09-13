@@ -1,6 +1,9 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart' as http;
+
+import 'package:get/get.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -9,30 +12,81 @@ import 'package:real_gamers_critics/configs/configs.dart';
 import 'package:real_gamers_critics/models/comment.dart';
 
 class CommentApi {
-  static Future<http.Response> getComment() {
-    return _postWithAuth(
-      "get_detail",
-      <String, dynamic>{},
-    );
+  static Future<List<CommentModel>> getAllMyComments() async {
+    return List<CommentModel>.from((await _getWithAuth(
+      "comments/me",
+    ))
+        .map((_comment) => CommentModel.fromJson(_comment)));
   }
 
-  static Future<http.Response> _postWithAuth(
+  static Future<List<CommentModel>> getAllAppComments(
+      String packageName) async {
+    return List<CommentModel>.from((await _getWithAuth(
+      "comments/region/${Get.deviceLocale?.countryCode}/gameID/$packageName",
+    ))
+        .map((_comment) => CommentModel.fromJson(_comment)));
+  }
+
+  static Future<dynamic> addComment(
+      String packageName, String shortText, String longText, int rating) async {
+    return await _postWithAuth("comment", <String, dynamic>{
+      "region": "${Get.deviceLocale?.countryCode}",
+      "gameID": packageName,
+      "rating": rating,
+      "shortText": shortText,
+      "longText": longText,
+      "photoURL": FirebaseAuth.instance.currentUser!.photoURL,
+    });
+  }
+
+  static Future<dynamic> updatePlaytime() async {
+    return await _postWithAuth("playtime", <String, dynamic>{
+      "region": "${Get.deviceLocale?.countryCode}",
+      "gameList": {
+        // TODO:
+        "new": 1092843,
+        "test": 1029349,
+        "sample": 2934859,
+      }
+    });
+  }
+
+  static Future<dynamic> addLike() async {
+    return await _postWithAuth("like", <String, dynamic>{
+      "region": "${Get.deviceLocale?.countryCode}",
+      "gameID": "sample",
+      "target": "quartzes", // target Uid
+    });
+  }
+
+  static Future<dynamic> _postWithAuth(
       String endpoint, Map<String, dynamic> body) async {
-    String a = "${await FirebaseAuth.instance.currentUser!.getIdToken()}";
+    String auth = "${await FirebaseAuth.instance.currentUser!.getIdToken()}";
 
     var response = await http.post(
       Uri.parse("$apiBaseUrl/$endpoint"),
-      headers: {"Authorization": "Bearer $a"},
-      body: '{"region": "KR", "gameID": "new"}', // TODO:
+      headers: {"Authorization": "Bearer $auth"},
+      body: json.encode(body),
     );
-    print(a);
 
     log('Response status: ${response.statusCode}');
-    log('Response header: ${response.headers}');
     log('Response body: ${response.body}');
-    log("response : ${response.request?.headers}");
 
-    return response;
+    return json.decode(response.body);
+  }
+
+  static Future<dynamic> _getWithAuth(String endpoint) async {
+    String auth = "${await FirebaseAuth.instance.currentUser!.getIdToken()}";
+
+    var response = await http.get(
+      Uri.parse("$apiBaseUrl/$endpoint"),
+      headers: {"Authorization": "Bearer $auth"},
+    );
+
+    log('Response status: ${response.statusCode}');
+    log('Response body: ${response.body}');
+
+    return json.decode(response.body);
   }
 }
 

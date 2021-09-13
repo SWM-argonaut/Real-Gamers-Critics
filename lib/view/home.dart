@@ -6,6 +6,8 @@ import 'package:real_gamers_critics/view/login.dart';
 import 'package:real_gamers_critics/view/app_list.dart';
 import 'package:real_gamers_critics/configs/size_config.dart';
 
+import 'package:real_gamers_critics/functions/api/comment.dart';
+
 const TextStyle optionStyle =
     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
@@ -39,6 +41,13 @@ class _HomeState extends State<Home> {
     SizeConfig.init(context);
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          CommentApi.addLike();
+        },
+      ),
+
+      //
       body: _tabs.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: _bottomNavItems,

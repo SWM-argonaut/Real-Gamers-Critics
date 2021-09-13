@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:real_gamers_critics/models/applications.dart';
 
 import 'package:real_gamers_critics/functions/device/applications.dart';
@@ -14,7 +13,7 @@ class InstalledApplicationsBloc {
   static Future<bool> init() async {
     if (!_isInit) {
       log("app list init");
-      apps = await getAppInfos();
+      apps = await getGameInfos();
       _isInit = apps.length != 0;
     }
 

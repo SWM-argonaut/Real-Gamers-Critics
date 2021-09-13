@@ -21,7 +21,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    log("${FirebaseAuth.instance.currentUser}");
+    // log("${FirebaseAuth.instance.currentUser}");
 
     if (FirebaseAuth.instance.currentUser == null) {
       return _loginPage();
@@ -63,9 +63,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Scaffold _logoutPage() {
-    // () async {
-    //   log("${await FirebaseAuth.instance.currentUser?.getIdToken()}");
-    // }();
+    () async {
+      log("${await FirebaseAuth.instance.currentUser?.getIdToken()}");
+    }();
 
     return Scaffold(
       appBar: AppBar(

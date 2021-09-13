@@ -14,6 +14,7 @@ class Messages extends Translations {
           // 에러
           "err": "뭔가 잘못됨...",
           "Firebase Error": "파이어베이스 연동에 실패했습니다.",
+          "no games": "설치된 게임이 없습니다.",
 
           // 버튼
           "confirm": "확인",
@@ -46,6 +47,27 @@ class Messages extends Translations {
           "comment more info": "추가 정보 제공하기(선택 사항)",
           "long comment": "상세평(선택)",
           "send comment": "게시",
+
+          // 장르
+          "ACTION": "액션",
+          "ADVENTURE": "어드벤쳐",
+          "ARCADE": "아케이드",
+          "BOARD": "보드게임",
+          "CARD": "카드",
+          "CASINO": "카지노",
+          "CASUAL": "캐주얼",
+          "EDUCATIONAL": "교육",
+          "MUSIC": "음악",
+          "PUZZLE": "퍼즐",
+          "RACING": "레이싱",
+          "ROLE_PLAYING": "롤플레잉",
+          "SIMULATION": "시뮬레이션",
+          "SPORTS": "스포츠",
+          "STRATEGY": "전략",
+          "TRIVIA": "퀴즈",
+          "WORD": "단어",
+          "null": "게임이 아닙니다",
+          "UNKNOWN": "플레이스토어에 없는 앱입니다",
         }
       };
 }

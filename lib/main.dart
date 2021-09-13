@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 
+import 'package:real_gamers_critics/configs/configs.dart';
 import 'package:real_gamers_critics/configs/languages.dart' as Ln;
 
 import 'package:real_gamers_critics/view/home.dart';
@@ -49,8 +50,8 @@ class _MyAppState extends State<MyApp> {
               theme: ThemeData(
                 primaryColor: Colors.white,
                 backgroundColor: Colors.white,
-                canvasColor: Colors.white,
-                appBarTheme: AppBarTheme(elevation: 0, color: Colors.white),
+                canvasColor: backgroundColor,
+                appBarTheme: AppBarTheme(elevation: 0, color: backgroundColor),
               ),
 
               // home

@@ -1,42 +1,71 @@
+import 'dart:developer';
+
 import 'package:http/http.dart' as http;
 
-const String playStoreBaseUrl =
-    "https://play.google.com/store/apps/details?id=";
+import 'package:get/get.dart';
 
+import 'package:real_gamers_critics/configs/configs.dart';
+
+// 2021년 플레이스토어 기준
 const List<String> gameCategory = [
-  "Action",
-  "Adventure",
-  "Arcade",
-  "Board",
-  "Card",
-  "Casino",
-  "Casual",
-  "Educational",
-  "Music",
-  "Puzzle",
-  "Racing",
-  "Role Playing",
-  "Simulation",
-  "Sports",
-  "Strategy",
-  "Trivia",
-  "Word",
+  "ACTION",
+  "ADVENTURE",
+  "ARCADE",
+  "BOARD",
+  "CARD",
+  "CASINO",
+  "CASUAL",
+  "EDUCATIONAL",
+  "MUSIC",
+  "PUZZLE",
+  "RACING",
+  "ROLE_PLAYING",
+  "SIMULATION",
+  "SPORTS",
+  "STRATEGY",
+  "TRIVIA",
+  "WORD",
 ];
 
 /// ex) appId = com.yodo1.crossyroad
+///
+/// if the app isn't in the playstore, throw Exception("Not Founded")
 Future<bool> isGame(String appId) async {
-  // TODO 단순 문자열 서치라서 개선하는게 좋을듯. 근데 다 js 라서 모르겠다.
-
   var response = await http.get(Uri.parse(playStoreBaseUrl + appId));
 
-  print("Response status: ${response.statusCode}");
-  print("Response body: ${response.body}");
+  log("Response status: ${response.statusCode}");
+  if (response.statusCode == 404) {
+    throw Exception("Not Founded");
+  }
+  int index = response.body.indexOf('"genre"');
+  String genreField = response.body.substring(index + 20, index + 55);
+  log(genreField);
 
-  for (String _category in gameCategory) {
-    if (response.body.contains(_category)) {
-      return true;
-    }
+  return genreField.contains("GAME_");
+}
+
+/// ex) appId = com.yodo1.crossyroad
+///
+/// If the app isn't a game, return null
+///
+/// if the app isn't in the playstore, return "UNKNOWN"
+// TODO: local storage
+Future<String?> getGenre(String appId) async {
+  var response = await http.get(Uri.parse(playStoreBaseUrl + appId));
+
+  log("Response status: ${response.statusCode}");
+  if (response.statusCode == 404) {
+    return "UNKNOWN";
   }
 
-  return false;
+  int index = response.body.indexOf('"genre"');
+  String genreField = response.body.substring(index + 20, index + 55);
+  log(genreField);
+
+  index = genreField.indexOf("GAME_");
+  if (index == -1) {
+    return null;
+  }
+
+  return genreField.substring(index + 5, genreField.indexOf('"'));
 }

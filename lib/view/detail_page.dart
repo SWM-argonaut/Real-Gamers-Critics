@@ -17,6 +17,7 @@ import 'package:real_gamers_critics/functions/api/comment.dart';
 import 'package:real_gamers_critics/functions/playstore/check_app.dart';
 
 import 'package:real_gamers_critics/models/applications.dart';
+import 'package:real_gamers_critics/models/comment.dart';
 
 import 'package:real_gamers_critics/widget/comment.dart';
 
@@ -29,19 +30,6 @@ class DetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // CommentApi.getComment();
-    // async 배열 만들어서 동시에 처리
-    // () async {
-    //   log("start " + DateTime.now().toString());
-
-    //   for (int i = 0; i < 10; i++) {
-    //     isGame("com.spotify.music");
-    //     log(i.toString());
-    //   }
-
-    //   log("end " + DateTime.now().toString());
-    // }();
-
     return Scaffold(
       // AppBar
       appBar: AppBar(
@@ -66,30 +54,34 @@ class DetailPage extends StatelessWidget {
             children: [
               ...appInfo(app),
               playTime(app),
+              comments(app),
             ],
           )),
 
       // FloatingActionButton
-      // floatingActionButton: FloatingActionButton(
-      //   child: Icon(Icons.comment),
-      //   onPressed: () {
-      //     if (FirebaseAuth.instance.currentUser == null) {
-      //       Get.snackbar("need login".tr, "need login for comment".tr,
-      //           margin: EdgeInsets.symmetric(
-      //               vertical: SizeConfig.defaultSize * 15,
-      //               horizontal: SizeConfig.defaultSize * 3),
-      //           mainButton: TextButton(
-      //               onPressed: () => Get.to(LoginPage()),
-      //               child: Text("login".tr)),
-      //           snackPosition: SnackPosition.BOTTOM);
-      //     } else {
-      //       Get.bottomSheet(Comment(),
-      //           enableDrag: false,
-      //           ignoreSafeArea: false,
-      //           isScrollControlled: true);
-      //     }
-      //   },
-      // ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.comment),
+        onPressed: () {
+          if (FirebaseAuth.instance.currentUser == null) {
+            Get.snackbar("need login".tr, "need login for comment".tr,
+                margin: EdgeInsets.symmetric(
+                    vertical: SizeConfig.defaultSize * 15,
+                    horizontal: SizeConfig.defaultSize * 3),
+                mainButton: TextButton(
+                    onPressed: () => Get.to(LoginPage()),
+                    child: Text("login".tr)),
+                snackPosition: SnackPosition.BOTTOM);
+          } else {
+            Get.bottomSheet(
+                CommentWriting(
+                  app: app,
+                ),
+                enableDrag: false,
+                ignoreSafeArea: false,
+                isScrollControlled: true);
+          }
+        },
+      ),
     );
   }
 }
@@ -117,7 +109,7 @@ List<Widget> appInfo(ApplicationInfos app) {
     ),
     // TODO: 플레이 스토어 데이터를 가져와야 될듯
     Text(
-      "${app.versionName}",
+      "${app.genre}".tr,
       style: TextStyle(fontSize: SizeConfig.defaultSize * 2.2),
     ),
 
@@ -167,6 +159,37 @@ Container playTime(ApplicationInfos app) {
         ),
 
         // TODO: chart
+      ],
+    ),
+  );
+}
+
+FutureBuilder comments(ApplicationInfos app) {
+  return FutureBuilder<List<CommentModel>>(
+    future: CommentApi.getAllAppComments(app.packageName),
+    builder:
+        (BuildContext context, AsyncSnapshot<List<CommentModel>> snapshot) {
+      if (snapshot.hasError) {
+        return Center(child: Text("comment err".tr));
+      }
+      if (!snapshot.hasData) {
+        return Container();
+      }
+
+      return ListView(
+        children: snapshot.data!.map(commentBuilder).toList(),
+      );
+    },
+  );
+}
+
+Container commentBuilder(CommentModel comment) {
+  return Container(
+    margin: EdgeInsets.all(SizeConfig.defaultSize * 2),
+    child: Column(
+      children: [
+        // TODO : 꾸미기
+        Text("${comment.shortText}"),
       ],
     ),
   );

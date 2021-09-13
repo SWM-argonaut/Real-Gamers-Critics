@@ -30,16 +30,22 @@ class AppList extends StatelessWidget {
     return FutureBuilder<bool>(
       future: InstalledApplicationsBloc.init(),
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.hasError) {
+          if (snapshot.error.toString() == "Exception: usage access err") {
+            // 목록을 불러오지 못했을 때 권한 확인으로 바꾸기
+            return PermissionPage();
+          }
+
+          return Center(child: Text("err".tr));
+        }
         if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
         }
-        if (snapshot.hasError) {
-          return Center(child: Text("err".tr));
-        }
 
-        // 목록을 불러오지 못했을 때 권한 확인으로 바꾸기
         if (snapshot.data == false) {
-          return PermissionPage();
+          return Center(
+            child: Text("no games".tr),
+          );
         }
 
         return Scaffold(

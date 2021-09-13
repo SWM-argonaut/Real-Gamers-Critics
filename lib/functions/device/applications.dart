@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'dart:io' show Platform;
+
 import 'package:flutter/services.dart';
 
 import 'package:app_usage/app_usage.dart';
@@ -6,28 +9,48 @@ import 'package:device_apps/device_apps.dart';
 
 import 'package:real_gamers_critics/models/applications.dart';
 
-Future<List<ApplicationInfos>> getAppInfos() async {
+import 'package:real_gamers_critics/functions/playstore/check_app.dart';
+
+Future<List<ApplicationInfos>> getGameInfos() async {
   if (!Platform.isAndroid) {
     throw new AppUsageException(
         'AppUsage API exclusively available on Android!');
   }
 
-  const MethodChannel _methodChannel =
-      const MethodChannel("app_usage.methodChannel");
+  // const MethodChannel _methodChannel =
+  //     const MethodChannel("app_usage.methodChannel");
 
   List<Application> apps =
       await DeviceApps.getInstalledApplications(includeAppIcons: true);
   List<AppUsageInfo> usages = await getUsageStats();
   List<ApplicationInfos> infos = [];
+  List<Future<void>> tasks = [];
 
-  for (Application app in apps) {
+  if (usages.length == 0) {
+    throw Exception("usage access err");
+  }
+
+  // task
+  Future<void> getAppInfo(Application app) async {
     AppUsageInfo? usage;
     try {
       usage = usages.firstWhere((a) => a.packageName == app.packageName);
     } catch (e) {}
 
-    if (usage != null) infos.add(ApplicationInfos(app: app, usage: usage));
+    if (usage != null) {
+      String? _genre = await getGenre(app.packageName);
+
+      if (_genre != null && _genre != "UNKNOWN") {
+        infos.add(ApplicationInfos(app: app, usage: usage, genre: _genre));
+      }
+    }
   }
+
+  for (Application app in apps) {
+    tasks.add(getAppInfo(app));
+  }
+
+  await Future.wait(tasks);
 
   return infos;
 }

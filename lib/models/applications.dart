@@ -56,7 +56,10 @@ class ApplicationInfos {
   /// The end of the interval
   final DateTime? endDate;
 
-  ApplicationInfos({AppUsageInfo? usage, required Application app})
+  /// genre
+  final String? genre;
+
+  ApplicationInfos({AppUsageInfo? usage, required Application app, this.genre})
       : packageName = app.packageName,
         appName = app.appName,
         apkFilePath = app.apkFilePath,
