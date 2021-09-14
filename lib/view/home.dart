@@ -42,11 +42,12 @@ class _HomeState extends State<Home> {
     SizeConfig.init(context);
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          CommentApi.updatePlaytime(InstalledApplicationsBloc.apps);
-        },
-      ),
+      // temp
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     CommentApi.updatePlaytime(InstalledApplicationsBloc.apps);
+      //   },
+      // ),
 
       //
       body: _tabs.elementAt(_selectedIndex),

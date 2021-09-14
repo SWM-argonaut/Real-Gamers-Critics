@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:real_gamers_critics/configs/configs.dart';
 import 'package:real_gamers_critics/configs/languages.dart' as Ln;
 
+import 'package:real_gamers_critics/blocs/analytics.dart';
+
 import 'package:real_gamers_critics/view/home.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
   runApp(MyApp());
 }
 
@@ -39,6 +43,7 @@ class _MyAppState extends State<MyApp> {
 
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
+          AnalyticsBloc.init();
           return GetMaterialApp(
               // translations
               locale: Locale('ko', 'KR'),

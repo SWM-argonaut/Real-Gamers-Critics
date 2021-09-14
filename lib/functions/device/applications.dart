@@ -40,7 +40,7 @@ Future<List<ApplicationInfos>> getGameInfos() async {
     if (usage != null) {
       String? _genre = await getGenre(app.packageName);
 
-      if (_genre != null && _genre != "UNKNOWN") {
+      if (_genre != "NotGame" && _genre != "UNKNOWN") {
         infos.add(ApplicationInfos(app: app, usage: usage, genre: _genre));
       }
     }

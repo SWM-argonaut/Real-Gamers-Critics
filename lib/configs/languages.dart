@@ -38,6 +38,7 @@ class Messages extends Translations {
           "play time": "플레이 시간",
           "total play time": "총 플레이 시간",
           "reviews": "평점 및 리뷰",
+          "need login to see comments": "댓글을 보기 위해선 로그인 해야합니다.",
 
           // 댓글 페이지
           "need login": "로그인이 필요합니다.",

@@ -15,6 +15,8 @@ import 'package:fl_chart/fl_chart.dart';
 
 import 'package:real_gamers_critics/configs/size_config.dart';
 
+import 'package:real_gamers_critics/blocs/analytics.dart';
+
 import 'package:real_gamers_critics/functions/api/comment.dart';
 import 'package:real_gamers_critics/functions/playstore/check_app.dart';
 
@@ -33,6 +35,9 @@ class DetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // logging
+    AnalyticsBloc.onDetail(app);
+
     return Scaffold(
       // AppBar
       appBar: AppBar(
@@ -58,9 +63,10 @@ class DetailPage extends StatelessWidget {
             children: [
               ...appInfo(app),
               playTime(app),
-              //
               Container(
-                  margin: EdgeInsets.only(left: SizeConfig.defaultSize),
+                  margin: EdgeInsets.only(
+                      left: SizeConfig.defaultSize,
+                      top: SizeConfig.defaultSize * 6),
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "reviews".tr,
@@ -80,7 +86,7 @@ class DetailPage extends StatelessWidget {
                     vertical: SizeConfig.defaultSize * 15,
                     horizontal: SizeConfig.defaultSize * 3),
                 mainButton: TextButton(
-                    onPressed: () => Get.to(LoginPage()),
+                    onPressed: () => Get.off(LoginPage()),
                     child: Text("login".tr)),
                 snackPosition: SnackPosition.BOTTOM);
           } else {
@@ -176,7 +182,18 @@ Container playTime(ApplicationInfos app) {
   );
 }
 
-FutureBuilder comments(ApplicationInfos app) {
+Widget comments(ApplicationInfos app) {
+  //
+  // if (FirebaseAuth.instance.currentUser == null) {
+  //   return Container(
+  //       margin: EdgeInsets.all(SizeConfig.defaultSize * 3),
+  //       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+  //         Text("need login to see comments".tr),
+  //         ElevatedButton(
+  //             onPressed: () => Get.off(LoginPage()), child: Text("login".tr)),
+  //       ]));
+  // }
+
   return FutureBuilder<List<CommentModel>>(
     future: CommentApi.getAllAppComments(app.packageName),
     builder:

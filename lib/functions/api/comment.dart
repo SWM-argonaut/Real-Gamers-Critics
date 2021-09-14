@@ -22,7 +22,7 @@ class CommentApi {
 
   static Future<List<CommentModel>> getAllAppComments(
       String packageName) async {
-    return List<CommentModel>.from((await _getWithAuth(
+    return List<CommentModel>.from((await _get(
       "comments/region/${Get.deviceLocale?.countryCode}/gameID/$packageName",
     ))
         .map((_comment) => CommentModel.fromJson(_comment)));
@@ -67,6 +67,17 @@ class CommentApi {
       Uri.parse("$apiBaseUrl/$endpoint"),
       headers: {"Authorization": "Bearer $auth"},
       body: json.encode(body),
+    );
+
+    log('Response status: ${response.statusCode}');
+    log('Response body: ${response.body}');
+
+    return json.decode(response.body);
+  }
+
+  static Future<dynamic> _get(String endpoint) async {
+    var response = await http.get(
+      Uri.parse("$apiBaseUrl/$endpoint"),
     );
 
     log('Response status: ${response.statusCode}');
