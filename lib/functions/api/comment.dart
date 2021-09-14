@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:real_gamers_critics/configs/configs.dart';
 
+import 'package:real_gamers_critics/models/applications.dart';
 import 'package:real_gamers_critics/models/comment.dart';
 
 class CommentApi {
@@ -39,15 +40,12 @@ class CommentApi {
     });
   }
 
-  static Future<dynamic> updatePlaytime() async {
+  static Future<dynamic> updatePlaytime(List<ApplicationInfos> apps) async {
+    // TODO: 여기 api를 인코딩된걸 주지 않고 코드 보고 실패시 다시 전송하도록 만들어야
     return await _postWithAuth("playtime", <String, dynamic>{
       "region": "${Get.deviceLocale?.countryCode}",
-      "gameList": {
-        // TODO:
-        "new": 1092843,
-        "test": 1029349,
-        "sample": 2934859,
-      }
+      "gameList": Map.fromIterable(apps,
+          key: (a) => a.packageName, value: (a) => a.usage.inSeconds)
     });
   }
 
@@ -62,6 +60,8 @@ class CommentApi {
   static Future<dynamic> _postWithAuth(
       String endpoint, Map<String, dynamic> body) async {
     String auth = "${await FirebaseAuth.instance.currentUser!.getIdToken()}";
+
+    log(json.encode(body));
 
     var response = await http.post(
       Uri.parse("$apiBaseUrl/$endpoint"),

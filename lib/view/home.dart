@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:real_gamers_critics/blocs/applications.dart';
 
 import 'package:real_gamers_critics/view/login.dart';
 import 'package:real_gamers_critics/view/app_list.dart';
@@ -43,7 +44,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          CommentApi.addLike();
+          CommentApi.updatePlaytime(InstalledApplicationsBloc.apps);
         },
       ),
 

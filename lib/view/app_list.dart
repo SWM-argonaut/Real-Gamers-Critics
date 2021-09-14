@@ -15,12 +15,13 @@ import 'package:real_gamers_critics/blocs/applications.dart'
 
 import 'package:real_gamers_critics/models/applications.dart';
 
+import 'package:real_gamers_critics/functions/api/comment.dart';
+
 import 'package:real_gamers_critics/view/home.dart';
 import 'package:real_gamers_critics/view/permission.dart';
+import 'package:real_gamers_critics/view/detail_page.dart';
 
 import 'package:real_gamers_critics/widget/indicator.dart';
-
-import 'package:real_gamers_critics/view/detail_page.dart';
 
 class AppList extends StatelessWidget {
   const AppList({Key? key}) : super(key: key);
@@ -109,11 +110,13 @@ Widget _listItemBuilder(BuildContext context, int index) {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('${_app.appName}',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        fontSize: SizeConfig.defaultSize * 2,
-                                        fontWeight: FontWeight.bold)),
+                                Flexible(
+                                    child: Text('${_app.appName}',
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            fontSize:
+                                                SizeConfig.defaultSize * 2,
+                                            fontWeight: FontWeight.bold))),
                                 ActionChip(
                                   onPressed: () {
                                     // TODO: https://stackoverflow.com/questions/11753000/how-to-open-the-google-play-store-directly-from-my-android-application

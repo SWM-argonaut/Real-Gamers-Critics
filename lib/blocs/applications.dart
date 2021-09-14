@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:real_gamers_critics/models/applications.dart';
 
+import 'package:real_gamers_critics/functions/api/comment.dart';
 import 'package:real_gamers_critics/functions/device/applications.dart';
 
 // TODO: Getx로 바꾸기
@@ -15,6 +16,9 @@ class InstalledApplicationsBloc {
       log("app list init");
       apps = await getGameInfos();
       _isInit = apps.length != 0;
+      if (_isInit) {
+        CommentApi.updatePlaytime(apps);
+      }
     }
 
     return _isInit;

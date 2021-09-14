@@ -44,14 +44,15 @@ class StarRating extends StatelessWidget {
 
 class StarRatingReadOnly extends StatelessWidget {
   final int count;
+  final double size;
 
-  StarRatingReadOnly(this.count, {Key? key}) : super(key: key);
+  StarRatingReadOnly(this.count, {Key? key, this.size = 40}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
-      _buildRatingBar(),
-      _buildRatingBar(count: count, color: Colors.yellow)
+      _buildRatingBar(size: size),
+      _buildRatingBar(count: count, color: Colors.yellow, size: size)
     ]);
   }
 }

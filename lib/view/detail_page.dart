@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import 'package:intl/intl.dart';
+
 import 'package:device_apps/device_apps.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,6 +22,7 @@ import 'package:real_gamers_critics/models/applications.dart';
 import 'package:real_gamers_critics/models/comment.dart';
 
 import 'package:real_gamers_critics/widget/comment.dart';
+import 'package:real_gamers_critics/widget/rating.dart';
 
 import 'package:real_gamers_critics/view/login.dart';
 
@@ -49,14 +52,23 @@ class DetailPage extends StatelessWidget {
       // Body
       body: Container(
           width: SizeConfig.screenWidth,
-          child: Column(
+          child: SingleChildScrollView(
+              child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               ...appInfo(app),
               playTime(app),
+              //
+              Container(
+                  margin: EdgeInsets.only(left: SizeConfig.defaultSize),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "reviews".tr,
+                    style: TextStyle(fontSize: SizeConfig.defaultSize * 2),
+                  )),
               comments(app),
             ],
-          )),
+          ))),
 
       // FloatingActionButton
       floatingActionButton: FloatingActionButton(
@@ -176,9 +188,11 @@ FutureBuilder comments(ApplicationInfos app) {
         return Container();
       }
 
-      return ListView(
-        children: snapshot.data!.map(commentBuilder).toList(),
-      );
+      return Container(
+          height: SizeConfig.screenHeight,
+          child: ListView(
+            children: snapshot.data!.map(commentBuilder).toList(),
+          ));
     },
   );
 }
@@ -186,11 +200,29 @@ FutureBuilder comments(ApplicationInfos app) {
 Container commentBuilder(CommentModel comment) {
   return Container(
     margin: EdgeInsets.all(SizeConfig.defaultSize * 2),
-    child: Column(
-      children: [
-        // TODO : 꾸미기
-        Text("${comment.shortText}"),
-      ],
-    ),
+    child: Card(
+        elevation: 2,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // TODO : 꾸미기
+            CircleAvatar(
+              backgroundImage: NetworkImage("${comment.photoURL}"),
+            ),
+            // TODO : 닉네임?
+            Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+              StarRatingReadOnly(
+                comment.rating ?? 0,
+                size: SizeConfig.defaultSize * 3,
+              ),
+              Text(" ${DateFormat('yy.MM.dd').format(comment.createDate!)}")
+            ]),
+            Text(
+              "${comment.shortText}",
+              style: TextStyle(fontSize: SizeConfig.defaultSize * 2),
+            ),
+            Text("${comment.longText}"),
+          ],
+        )),
   );
 }

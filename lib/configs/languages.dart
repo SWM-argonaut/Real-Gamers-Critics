@@ -37,6 +37,7 @@ class Messages extends Translations {
           "install": "설치",
           "play time": "플레이 시간",
           "total play time": "총 플레이 시간",
+          "reviews": "평점 및 리뷰",
 
           // 댓글 페이지
           "need login": "로그인이 필요합니다.",
