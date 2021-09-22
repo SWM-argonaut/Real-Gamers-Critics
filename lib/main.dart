@@ -46,8 +46,7 @@ class _MyAppState extends State<MyApp> {
           AnalyticsBloc.init();
           return GetMaterialApp(
               // translations
-              locale: Locale('ko', 'KR'),
-              // TODO: locale: Get.deviceLocale,
+              locale: Get.deviceLocale,
               fallbackLocale: Locale('en', 'US'),
               translations: Ln.Messages(),
 

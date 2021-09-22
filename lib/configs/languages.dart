@@ -33,7 +33,7 @@ class Messages extends Translations {
           "reload": "재시작",
 
           //디테일 페이지
-          "play": "시작",
+          "Play": "시작",
           "install": "설치",
           "play time": "플레이 시간",
           "total play time": "총 플레이 시간",

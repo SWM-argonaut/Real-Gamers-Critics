@@ -15,6 +15,7 @@ import 'package:real_gamers_critics/blocs/applications.dart'
 
 import 'package:real_gamers_critics/models/applications.dart';
 
+import 'package:real_gamers_critics/functions/format/time.dart';
 import 'package:real_gamers_critics/functions/api/comment.dart';
 
 import 'package:real_gamers_critics/view/home.dart';
@@ -134,7 +135,8 @@ Widget _listItemBuilder(BuildContext context, int index) {
                                 ),
                               ],
                             )),
-                        Text("Play Time : ${_app.usage}\n"), // TODO: tr
+                        Text(
+                            "Played : ${durationFormat(_app.usage)}\n"), // TODO: tr
                         LinearIndicator(
                           width: SizeConfig.defaultSize * 24,
                           percent:

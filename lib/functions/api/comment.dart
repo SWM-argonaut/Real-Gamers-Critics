@@ -25,6 +25,7 @@ class CommentApi {
     return List<CommentModel>.from((await _get(
       "comments/region/${Get.deviceLocale?.countryCode}/gameID/$packageName",
     ))
+        .where((_comment) => _comment['createDate'] != null)
         .map((_comment) => CommentModel.fromJson(_comment)));
   }
 
@@ -36,7 +37,9 @@ class CommentApi {
       "rating": rating,
       "shortText": shortText,
       "longText": longText,
-      "photoURL": FirebaseAuth.instance.currentUser!.photoURL,
+      "userName": FirebaseAuth.instance.currentUser!.displayName,
+      "photoURL":
+          FirebaseAuth.instance.currentUser!.photoURL, // TODO: userPhotoURL
     });
   }
 

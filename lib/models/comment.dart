@@ -4,8 +4,9 @@ class CommentModel {
   int? _rating;
   DateTime? _createDate;
   String? _userID;
+  String? _userName;
   String? _photoURL;
-  int? _playTime; // 단위 : 초
+  Duration? _playTime; // 단위 : 초
   int? _likes;
   bool? _liked;
   String? _gameIdRegion;
@@ -19,13 +20,15 @@ class CommentModel {
       bool? liked,
       String? gameIdRegion,
       String? userID,
+      String? userName,
       String? photoURL,
-      int? playTime}) {
+      Duration? playTime}) {
     this._shortText = shortText;
     this._longText = longText;
     this._rating = rating;
     this._createDate = createDate;
     this._userID = userID;
+    this._userName = userName;
     this._photoURL = photoURL;
     this._playTime = playTime;
     this._likes = likes;
@@ -38,8 +41,9 @@ class CommentModel {
   int? get rating => _rating;
   DateTime? get createDate => _createDate;
   String? get userID => _userID;
+  String? get userName => _userName;
   String? get photoURL => _photoURL;
-  int? get playTime => _playTime;
+  Duration? get playTime => _playTime;
   int? get likes => _likes;
   bool? get liked => _liked;
   String? get gameIdRegion => _gameIdRegion;
@@ -51,8 +55,9 @@ class CommentModel {
     _createDate =
         DateTime.fromMillisecondsSinceEpoch(json['createDate'] * 1000);
     _userID = json['userID'];
+    _userName = json['userName'];
     _photoURL = json['photoURL'];
-    _playTime = json['playTime'];
+    _playTime = Duration(seconds: json['playTime']);
     _likes = json['likes'];
     _liked = json['liked'];
     _gameIdRegion = json['gameIdRegion'];
@@ -65,6 +70,7 @@ class CommentModel {
     data['rating'] = this._rating;
     data['createDate'] = this._createDate;
     data['userID'] = this._userID;
+    data['userName'] = this._userName;
     data['photoURL'] = this._photoURL;
     data['playTime'] = this._playTime;
     data['likes'] = this._likes;
