@@ -56,7 +56,14 @@ class AppList extends StatelessWidget {
             appBar: AppBar(
               centerTitle: true,
               toolbarHeight: SizeConfig.defaultSize * 9,
-              title: Text("home page".tr),
+              title: Text(
+                "Your Games".tr,
+                style: TextStyle(
+                    color: Color.fromRGBO(46, 32, 85, 1),
+                    fontFamily: 'JejuGothic',
+                    fontSize: SizeConfig.defaultSize * 2.7,
+                    height: 1.4545454545454546),
+              ),
             ),
             body: ListView.builder(
               itemCount: InstalledApplicationsBloc.apps.length,
@@ -155,7 +162,7 @@ Widget _listItemBuilder(BuildContext context, int index) {
                           percent:
                               _app.usage!.inMinutes / playtimeToLeaveComment,
                           text:
-                              "${_app.usage!.inMinutes}m/${playtimeToLeaveComment}m",
+                              "${_app.usage!.inMinutes < playtimeToLeaveComment ? _app.usage!.inMinutes : playtimeToLeaveComment}m/${playtimeToLeaveComment}m",
                         ),
                       ],
                     )

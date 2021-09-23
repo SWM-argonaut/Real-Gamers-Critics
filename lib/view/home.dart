@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+
+import 'package:real_gamers_critics/configs/size_config.dart';
+
 import 'package:real_gamers_critics/blocs/applications.dart';
 
 import 'package:real_gamers_critics/view/login.dart';
 import 'package:real_gamers_critics/view/app_list.dart';
-import 'package:real_gamers_critics/configs/size_config.dart';
+import 'package:real_gamers_critics/view/introduction.dart';
 
 import 'package:real_gamers_critics/functions/api/comment.dart';
 
@@ -20,6 +24,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final _box = GetStorage();
   int _selectedIndex = 0;
   final List<Widget> _tabs = <Widget>[
     AppList(),
@@ -40,6 +45,10 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
+
+    if (!_box.hasData("Introduction")) {
+      return Introduction();
+    }
 
     return Scaffold(
       // temp

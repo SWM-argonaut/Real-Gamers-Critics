@@ -44,6 +44,7 @@ class _MyAppState extends State<MyApp> {
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
           AnalyticsBloc.init();
+
           return GetMaterialApp(
               // translations
               locale: Get.deviceLocale,

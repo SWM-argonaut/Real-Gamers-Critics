@@ -53,6 +53,8 @@ dependencies:
 
   flutter_svg: ^0.22.0
 
+  introduction_screen: ^2.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
