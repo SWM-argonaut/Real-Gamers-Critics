@@ -52,11 +52,11 @@ class CommentApi {
     });
   }
 
-  static Future<dynamic> addLike() async {
+  static Future<dynamic> addLike(String packageName, String userID) async {
     return await _postWithAuth("like", <String, dynamic>{
       "region": "${Get.deviceLocale?.countryCode}",
-      "gameID": "sample",
-      "target": "quartzes", // target Uid
+      "gameID": packageName,
+      "target": userID, // target Uid
     });
   }
 

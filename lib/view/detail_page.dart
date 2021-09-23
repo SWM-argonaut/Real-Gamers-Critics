@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
+import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:get/get.dart';
 
 import 'package:intl/intl.dart';
@@ -25,8 +27,9 @@ import 'package:real_gamers_critics/functions/playstore/check_app.dart';
 import 'package:real_gamers_critics/models/applications.dart';
 import 'package:real_gamers_critics/models/comment.dart';
 
-import 'package:real_gamers_critics/widget/comment.dart';
+import 'package:real_gamers_critics/widget/likes.dart';
 import 'package:real_gamers_critics/widget/rating.dart';
+import 'package:real_gamers_critics/widget/comment.dart';
 
 import 'package:real_gamers_critics/view/login.dart';
 
@@ -231,16 +234,16 @@ Widget comments(ApplicationInfos app) {
                       bottom: SizeConfig.defaultSize),
                   child: Image(
                     image: AssetImage('assets/images/box.png'),
-                    width: SizeConfig.defaultSize * 20,
+                    width: SizeConfig.defaultSize * 18,
                   ),
                 ),
                 Text(
-                  "No one left a review for the game.\nTake the first step!".tr,
+                  "No one left a review for the game\nTake the first step!".tr,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Color.fromRGBO(105, 105, 105, 1),
                       fontFamily: 'JejuGothic',
-                      fontSize: SizeConfig.defaultSize * 2.2,
+                      fontSize: SizeConfig.defaultSize * 2,
                       height: 1.5),
                 ),
               ],
@@ -250,7 +253,9 @@ Widget comments(ApplicationInfos app) {
           return Container(
               height: SizeConfig.screenHeight,
               child: ListView(
-                children: snapshot.data!.map(commentBuilder).toList(),
+                children: snapshot.data!
+                    .map((_comment) => commentBuilder(_comment, app))
+                    .toList(),
               ));
         },
       ),
@@ -258,7 +263,7 @@ Widget comments(ApplicationInfos app) {
   );
 }
 
-Container commentBuilder(CommentModel comment) {
+Container commentBuilder(CommentModel comment, ApplicationInfos app) {
   return Container(
     margin: EdgeInsets.all(SizeConfig.defaultSize * 2),
     child: Column(
@@ -281,24 +286,40 @@ Container commentBuilder(CommentModel comment) {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
-        Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
-          Text("Play Time:".tr + " ${durationFormat(comment.playTime)}"),
-          StarRatingReadOnly(
-            comment.rating ?? 0,
-            size: SizeConfig.defaultSize * 3,
-          ),
-          Text(" ${DateFormat('yy.MM.dd').format(comment.createDate!)}")
-        ]),
+        Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Row(children: [
+                SvgPicture.asset(
+                  "assets/svg/game.svg",
+                  semanticsLabel: 'game logo',
+                  alignment: Alignment.center,
+                  width: SizeConfig.defaultSize * 1.7,
+                ),
+                Text(
+                    " " + "Played:".tr + " ${durationFormat(comment.playTime)}")
+              ]),
+              Row(children: [
+                SvgPicture.asset(
+                  "assets/svg/star.svg",
+                  semanticsLabel: 'game logo',
+                  alignment: Alignment.center,
+                  width: SizeConfig.defaultSize * 2,
+                ),
+                Text(" ${comment.rating}/5 ")
+              ]),
+              // Text(" ${DateFormat('yy.MM.dd').format(comment.createDate!)}")
+            ]),
         Padding(padding: EdgeInsets.all(SizeConfig.defaultSize * 0.3)),
         Text("${comment.longText}"),
         Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           Text("was this review helpful?".tr),
-          IconButton(
-              icon: Icon(Icons.thumb_up),
-              onPressed: () {
-                // TODO
-              }),
-          Text("${formatedNumber(comment.likes ?? 0)}")
+          Likes(
+            on: () => CommentApi.addLike(app.packageName, comment.userID!),
+            // TODO off: () => CommentApi.deleteLike(),
+            count: comment.likes,
+          ),
         ]),
       ],
     ),

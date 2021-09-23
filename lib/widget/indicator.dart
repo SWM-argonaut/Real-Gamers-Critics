@@ -8,14 +8,15 @@ class LinearIndicator extends StatelessWidget {
   final double height;
   final double percent;
   final String? text;
-  final Color color, backgroundColor;
+  final Color backgroundColor;
+  final Color? color;
 
   LinearIndicator({
     required percent,
     this.width = 100,
     this.height = 20,
-    this.color = Colors.green,
-    this.backgroundColor = Colors.black26,
+    this.backgroundColor = Colors.black12,
+    this.color,
     this.text,
     Key? key,
   })  : this.percent = percent > 1.0
@@ -32,7 +33,7 @@ class LinearIndicator extends StatelessWidget {
         width: width,
         height: height,
         decoration: BoxDecoration(
-          color: backgroundColor,
+          color: percent == 1 ? Colors.white : backgroundColor,
           borderRadius: BorderRadius.circular(SizeConfig.defaultSize * 3),
         ),
       ),
@@ -40,7 +41,10 @@ class LinearIndicator extends StatelessWidget {
         width: width * percent,
         height: height,
         decoration: BoxDecoration(
-          color: color,
+          color: color ??
+              (percent == 1
+                  ? Color.fromRGBO(0, 255, 10, 0.2)
+                  : Color.fromRGBO(255, 0, 0, 0.25)),
           borderRadius: BorderRadius.circular(SizeConfig.defaultSize * 3),
         ),
       ),

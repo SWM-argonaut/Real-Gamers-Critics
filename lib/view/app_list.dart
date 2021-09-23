@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
+import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:get/get.dart';
 
 import 'package:device_apps/device_apps.dart';
@@ -135,8 +137,19 @@ Widget _listItemBuilder(BuildContext context, int index) {
                                 ),
                               ],
                             )),
-                        Text(
-                            "Played : ${durationFormat(_app.usage)}\n"), // TODO: tr
+                        Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SvgPicture.asset(
+                                "assets/svg/game.svg",
+                                semanticsLabel: 'game logo',
+                                alignment: Alignment.center,
+                                width: SizeConfig.defaultSize * 2,
+                              ),
+                              Text(" " +
+                                  "Played".tr +
+                                  " : ${durationFormat(_app.usage)}\n")
+                            ]), // TODO: tr
                         LinearIndicator(
                           width: SizeConfig.defaultSize * 24,
                           percent:
