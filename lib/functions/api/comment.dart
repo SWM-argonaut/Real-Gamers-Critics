@@ -17,6 +17,7 @@ class CommentApi {
     return List<CommentModel>.from((await _getWithAuth(
       "comments/me",
     ))
+        .where((_comment) => _comment['createDate'] != null)
         .map((_comment) => CommentModel.fromJson(_comment)));
   }
 

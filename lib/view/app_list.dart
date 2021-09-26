@@ -12,6 +12,7 @@ import 'package:real_gamers_critics/configs/configs.dart'
     show playtimeToLeaveComment;
 import 'package:real_gamers_critics/configs/size_config.dart';
 
+import 'package:real_gamers_critics/blocs/getx.dart';
 import 'package:real_gamers_critics/blocs/applications.dart'
     show InstalledApplicationsBloc;
 
@@ -168,3 +169,20 @@ Widget _listItemBuilder(BuildContext context, int index) {
                     )
                   ])))));
 }
+
+// Obx(() {
+//                           String _text = _myComments.comments.value
+//                                   .singleWhere((_comment) =>
+//                                       _comment.gameIdRegion ==
+//                                       "${_app.packageName}#${Get.deviceLocale?.countryCode}")
+//                                   .shortText ??
+//                               (_app.usage!.inMinutes < playtimeToLeaveComment
+//                                   ? "${_app.usage!.inMinutes}"
+//                                   : "${playtimeToLeaveComment}m/${playtimeToLeaveComment}m");
+
+//                           return LinearIndicator(
+//                               width: SizeConfig.defaultSize * 24,
+//                               percent: _app.usage!.inMinutes /
+//                                   playtimeToLeaveComment,
+//                               text: _text);
+//                         }),

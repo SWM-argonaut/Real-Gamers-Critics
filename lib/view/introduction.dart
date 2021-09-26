@@ -34,36 +34,36 @@ class _IntroductionState extends State<Introduction> {
 }
 
 List<PageViewModel> _pageList = [
-  PageViewModel(
-    image: Container(
-      width: SizeConfig.defaultSize * 30,
-      height: SizeConfig.defaultSize * 30,
-      color: Colors.amber,
-      child: Text("이미지 추천 받습니다."),
-    ),
-    title: "문구 추천 받습니다.",
-    body: "영어로 적어야 되는데....",
-  ),
-  PageViewModel(
-    image: Container(
-      width: SizeConfig.defaultSize * 30,
-      height: SizeConfig.defaultSize * 30,
-      color: Colors.amber,
-      child: Text("이미지 추천 받습니다."),
-    ),
-    title: "문구 추천 받습니다.",
-    body: "영어로 적어야 되는데....",
-  ),
-  PageViewModel(
-    image: Container(
-      width: SizeConfig.defaultSize * 30,
-      height: SizeConfig.defaultSize * 30,
-      color: Colors.amber,
-      child: Text("이미지 추천 받습니다."),
-    ),
-    title: "문구 추천 받습니다.",
-    body: "영어로 적어야 되는데....",
-  ),
+  // PageViewModel(
+  //   image: Container(
+  //     width: SizeConfig.defaultSize * 30,
+  //     height: SizeConfig.defaultSize * 30,
+  //     color: Colors.amber,
+  //     child: Text("이미지 추천 받습니다."),
+  //   ),
+  //   title: "문구 추천 받습니다.",
+  //   body: "영어로 적어야 되는데....",
+  // ),
+  // PageViewModel(
+  //   image: Container(
+  //     width: SizeConfig.defaultSize * 30,
+  //     height: SizeConfig.defaultSize * 30,
+  //     color: Colors.amber,
+  //     child: Text("이미지 추천 받습니다."),
+  //   ),
+  //   title: "문구 추천 받습니다.",
+  //   body: "영어로 적어야 되는데....",
+  // ),
+  // PageViewModel(
+  //   image: Container(
+  //     width: SizeConfig.defaultSize * 30,
+  //     height: SizeConfig.defaultSize * 30,
+  //     color: Colors.amber,
+  //     child: Text("이미지 추천 받습니다."),
+  //   ),
+  //   title: "문구 추천 받습니다.",
+  //   body: "영어로 적어야 되는데....",
+  // ),
   PageViewModel(
     image: Image.asset("assets/images/Usage_access1.jpg"),
     title: "허용 부탁드려요!",

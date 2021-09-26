@@ -31,9 +31,11 @@ Future<List<ApplicationInfos>> getGameInfos() async {
   }
 
   // task
+  // TODO 속도 이슈 로직 정리하기.
   Future<void> getAppInfo(Application app) async {
     AppUsageInfo? usage;
     try {
+      // TODO 맵으로 바꾸기
       usage = usages.firstWhere((a) => a.packageName == app.packageName);
     } catch (e) {}
 

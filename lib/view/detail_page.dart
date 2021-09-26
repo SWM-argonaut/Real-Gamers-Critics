@@ -14,6 +14,7 @@ import 'package:device_apps/device_apps.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:fl_chart/fl_chart.dart';
+import 'package:provider/provider.dart';
 
 import 'package:real_gamers_critics/configs/size_config.dart';
 
@@ -26,6 +27,7 @@ import 'package:real_gamers_critics/functions/playstore/check_app.dart';
 
 import 'package:real_gamers_critics/models/applications.dart';
 import 'package:real_gamers_critics/models/comment.dart';
+import 'package:real_gamers_critics/providers/comment_provicer.dart';
 
 import 'package:real_gamers_critics/widget/likes.dart';
 import 'package:real_gamers_critics/widget/rating.dart';
@@ -35,15 +37,30 @@ import 'package:real_gamers_critics/view/login.dart';
 
 const _topBackroundColor = Color.fromRGBO(46, 33, 85, 0.3);
 
-class DetailPage extends StatelessWidget {
+class DetailPage extends StatefulWidget {
   final ApplicationInfos app;
 
   DetailPage({required this.app, Key? key}) : super(key: key);
 
   @override
+  _DetailPageState createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // logging
-    AnalyticsBloc.onDetail(app);
+    AnalyticsBloc.onDetail(widget.app);
+
+    WidgetsBinding.instance?.addPostFrameCallback((_) =>
+        Provider.of<CommentProvider>(context, listen: false)
+            .fetch(widget.app.packageName));
 
     return Scaffold(
       // AppBar
@@ -79,18 +96,15 @@ class DetailPage extends StatelessWidget {
       body: Container(
           width: SizeConfig.screenWidth,
           color: _topBackroundColor,
-          child: SingleChildScrollView(
-              // TODO
-              physics: NeverScrollableScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ...appInfo(app),
-                  // playTime(app),
-                  comments(app),
-                ],
-              ))),
-      floatingActionButton: reviewButton(app),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ...appInfo(widget.app),
+              // playTime(app),
+              comments(widget.app),
+            ],
+          )),
+      floatingActionButton: reviewButton(widget.app),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
@@ -208,57 +222,57 @@ Widget comments(ApplicationInfos app) {
           margin: EdgeInsets.only(top: SizeConfig.defaultSize * 2),
           child: Text("Reviews".tr,
               style: TextStyle(fontSize: SizeConfig.defaultSize * 3))),
-      FutureBuilder<List<CommentModel>>(
-        future: CommentApi.getAllAppComments(app.packageName),
-        builder:
-            (BuildContext context, AsyncSnapshot<List<CommentModel>> snapshot) {
-          if (snapshot.hasError) {
-            return Center(child: Text("comment err".tr));
-          }
-          if (!snapshot.hasData) {
-            return Container(
-                margin: EdgeInsets.only(top: SizeConfig.defaultSize * 20),
-                alignment: Alignment.topCenter,
-                width: SizeConfig.defaultSize * 3,
-                height: SizeConfig.defaultSize * 3,
-                child: CircularProgressIndicator());
-          }
+      Consumer<CommentProvider>(builder: (context, commentProvider, child) {
+        List<CommentModel>? _comments = commentProvider.get(app.packageName);
 
-          // if no reviews in there
-          if (snapshot.data!.length == 0) {
-            return Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: SizeConfig.defaultSize * 3,
-                      bottom: SizeConfig.defaultSize),
-                  child: Image(
-                    image: AssetImage('assets/images/box.png'),
-                    width: SizeConfig.defaultSize * 18,
-                  ),
-                ),
-                Text(
-                  "No one left a review for the game\nTake the first step!".tr,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Color.fromRGBO(105, 105, 105, 1),
-                      fontFamily: 'JejuGothic',
-                      fontSize: SizeConfig.defaultSize * 2,
-                      height: 1.5),
-                ),
-              ],
-            );
-          }
-
+        if (commentProvider.isLoading) {
           return Container(
-              height: SizeConfig.screenHeight,
-              child: ListView(
-                children: snapshot.data!
-                    .map((_comment) => commentBuilder(_comment, app))
-                    .toList(),
-              ));
-        },
-      ),
+              margin: EdgeInsets.only(top: SizeConfig.defaultSize * 20),
+              alignment: Alignment.topCenter,
+              width: SizeConfig.defaultSize * 3,
+              height: SizeConfig.defaultSize * 3,
+              child: CircularProgressIndicator());
+        }
+
+        // err
+        if (_comments == null) {
+          // TODO
+        }
+
+        // if no reviews in there
+        else if (_comments.length == 0) {
+          return Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                    top: SizeConfig.defaultSize * 3,
+                    bottom: SizeConfig.defaultSize),
+                child: Image(
+                  image: AssetImage('assets/images/box.png'),
+                  width: SizeConfig.defaultSize * 18,
+                ),
+              ),
+              Text(
+                "No one left a review for the game\nTake the first step!".tr,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Color.fromRGBO(105, 105, 105, 1),
+                    fontFamily: 'JejuGothic',
+                    fontSize: SizeConfig.defaultSize * 2,
+                    height: 1.5),
+              ),
+            ],
+          );
+        }
+
+        return Container(
+            height: SizeConfig.screenHeight,
+            child: ListView(
+              children: _comments!
+                  .map((_comment) => commentBuilder(_comment, app))
+                  .toList(),
+            ));
+      })
     ]),
   );
 }
@@ -269,7 +283,7 @@ Container commentBuilder(CommentModel comment, ApplicationInfos app) {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+        Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
           CircleAvatar(
             backgroundImage: NetworkImage("${comment.photoURL}"),
             radius: SizeConfig.defaultSize * 1.5,

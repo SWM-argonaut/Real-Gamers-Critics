@@ -1,11 +1,16 @@
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
+import 'package:get/get.dart';
+
+import 'package:real_gamers_critics/blocs/getx.dart';
 import 'package:real_gamers_critics/blocs/applications.dart';
 
 import 'package:real_gamers_critics/functions/api/comment.dart';
 
 Future<UserCredential> signInWithGoogle() async {
+  MyCommentsController _myComments = Get.find();
+
   // Trigger the authentication flow
   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -24,6 +29,9 @@ Future<UserCredential> signInWithGoogle() async {
 
   // update game playtime
   CommentApi.updatePlaytime(InstalledApplicationsBloc.apps);
+
+  // get my comments
+  _myComments.load();
 
   // Once signed in, return the UserCredential
   return _user;

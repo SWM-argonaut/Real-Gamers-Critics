@@ -34,14 +34,14 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("로그인"),
+        title: Text("login".tr),
       ),
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "로그인",
+            "login".tr,
             style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
           ),
           Padding(
@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("로그인"),
+        title: Text("login".tr),
       ),
       body: Center(
         child: Column(
@@ -89,18 +89,19 @@ class _LoginPageState extends State<LoginPage> {
               padding: EdgeInsets.all(8),
             ),
             Text(
-              "이름 : ${FirebaseAuth.instance.currentUser?.displayName}",
+              "name".tr +
+                  " : ${FirebaseAuth.instance.currentUser?.displayName}",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
             Text(
-              "이메일 : ${FirebaseAuth.instance.currentUser?.email}",
+              "e-mail".tr + " : ${FirebaseAuth.instance.currentUser?.email}",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
             Padding(
               padding: EdgeInsets.all(20),
             ),
             ElevatedButton(
-              child: Text("로그아웃"),
+              child: Text("logout".tr),
               onPressed: () {
                 logOutWithGoogle().then((_) {
                   setState(() {});
