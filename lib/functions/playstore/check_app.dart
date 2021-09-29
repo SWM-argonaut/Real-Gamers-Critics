@@ -43,8 +43,13 @@ Future<String?> getGenre(String appId) async {
   var response = await http.get(Uri.parse(playStoreBaseUrl + appId));
 
   log("Response status: ${response.statusCode}");
-  if (response.statusCode == 404) {
-    // 로컬에 저장하지 않아 다음에도 로직 통과하도록
+
+  if (response.statusCode != 200) {
+    // TODO 예외처리 해야되나?
+    if (response.statusCode == 404) {
+      // 404 일때만 캐싱
+      _box.write(appId, "UNKNOWN");
+    }
     return "UNKNOWN";
   }
 
@@ -63,8 +68,6 @@ Future<String?> getGenre(String appId) async {
   _box.write(appId, _result);
   return _result;
 }
-
-
 
 // /// ex) appId = com.yodo1.crossyroad
 // ///

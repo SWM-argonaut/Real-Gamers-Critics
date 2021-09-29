@@ -56,6 +56,11 @@ dependencies:
 
   introduction_screen: ^2.1.0
 
+  usage_stats:
+    git: 
+      url: https://github.com/hd1534/usage_stats
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

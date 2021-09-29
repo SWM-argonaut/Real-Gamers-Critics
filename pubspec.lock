@@ -553,6 +553,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.0"
+  usage_stats:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: d870e290af5bcc718e9f07e70d00fc7eb99eb798
+      url: "https://github.com/hd1534/usage_stats"
+    source: git
+    version: "0.1.0"
   vector_math:
     dependency: transitive
     description:

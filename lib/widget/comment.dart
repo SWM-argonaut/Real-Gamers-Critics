@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 import 'package:real_gamers_critics/configs/size_config.dart';
 
-import 'package:real_gamers_critics/providers/comment_provicer.dart';
+import 'package:real_gamers_critics/blocs/providers/comment_provicer.dart';
 import 'package:real_gamers_critics/functions/api/comment.dart';
 import 'package:real_gamers_critics/models/applications.dart';
 
@@ -107,12 +107,18 @@ class CommentWriting extends StatelessWidget {
               alignment: Alignment.centerRight,
               margin: EdgeInsets.all(SizeConfig.defaultSize * 3),
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (shortCommentCtrl.text.length != 0) {
+                    Get.defaultDialog(
+                        title: "",
+                        barrierDismissible: true,
+                        content: CircularProgressIndicator());
+
                     log("rating: ${ratingController.rating}\nshort: ${shortCommentCtrl.text}\nlong: ${longCommentCtrl.text}");
-                    log("${CommentApi.addComment(app.packageName, shortCommentCtrl.text, longCommentCtrl.text, ratingController.rating.toInt())}");
+                    log("${await CommentApi.addComment(app.packageName, shortCommentCtrl.text, longCommentCtrl.text, ratingController.rating.toInt())}");
                     Provider.of<CommentProvider>(context, listen: false)
                         .fetch(app.packageName);
+                    Get.back();
                     Get.back();
                   }
                   // TODO: 공백 채우라고 메세지 띄우기

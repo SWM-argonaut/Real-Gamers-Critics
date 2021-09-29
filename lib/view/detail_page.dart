@@ -27,7 +27,7 @@ import 'package:real_gamers_critics/functions/playstore/check_app.dart';
 
 import 'package:real_gamers_critics/models/applications.dart';
 import 'package:real_gamers_critics/models/comment.dart';
-import 'package:real_gamers_critics/providers/comment_provicer.dart';
+import 'package:real_gamers_critics/blocs/providers/comment_provicer.dart';
 
 import 'package:real_gamers_critics/widget/likes.dart';
 import 'package:real_gamers_critics/widget/rating.dart';
@@ -99,9 +99,9 @@ class _DetailPageState extends State<DetailPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              ...appInfo(widget.app),
+              Expanded(flex: 35, child: appInfo(widget.app)),
               // playTime(app),
-              comments(widget.app),
+              Expanded(flex: 65, child: comments(widget.app)),
             ],
           )),
       floatingActionButton: reviewButton(widget.app),
@@ -110,59 +110,61 @@ class _DetailPageState extends State<DetailPage> {
   }
 }
 
-List<Widget> appInfo(ApplicationInfos app) {
-  return [
-    Container(
-      width: SizeConfig.defaultSize * 11,
-      margin: EdgeInsets.only(
-        top: SizeConfig.defaultSize * 2,
-        bottom: SizeConfig.defaultSize * 1,
+Column appInfo(ApplicationInfos app) {
+  return Column(
+    children: [
+      Container(
+        width: SizeConfig.defaultSize * 11,
+        margin: EdgeInsets.only(
+          top: SizeConfig.defaultSize * 2,
+          bottom: SizeConfig.defaultSize * 1,
+        ),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(SizeConfig.defaultSize * 2.2)),
+        child: app.icon != null
+            ? Image(
+                image: MemoryImage(app.icon!),
+              )
+            : Icon(Icons.not_accessible),
       ),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(SizeConfig.defaultSize * 2.2)),
-      child: app.icon != null
-          ? Image(
-              image: MemoryImage(app.icon!),
-            )
-          : Icon(Icons.not_accessible),
-    ),
-    Text(
-      "${app.appName}",
-      style: TextStyle(
-        color: Colors.white,
-        fontSize: SizeConfig.defaultSize * 2.2,
-        fontWeight: FontWeight.bold,
+      Text(
+        "${app.appName}",
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: SizeConfig.defaultSize * 2.2,
+          fontWeight: FontWeight.bold,
+        ),
       ),
-    ),
-    GestureDetector(
-        onTap: () {
-          DeviceApps.openApp(app.packageName);
-        },
-        // TODO: https://stackoverflow.com/questions/11753000/how-to-open-the-google-play-store-directly-from-my-android-application
+      GestureDetector(
+          onTap: () {
+            DeviceApps.openApp(app.packageName);
+          },
+          // TODO: https://stackoverflow.com/questions/11753000/how-to-open-the-google-play-store-directly-from-my-android-application
 
-        child:
-            // Figma Flutter Generator BaseWidget - RECTANGLE
-            Container(
-                width: SizeConfig.defaultSize * 12,
-                height: SizeConfig.defaultSize * 4,
-                alignment: Alignment.center,
-                margin: EdgeInsets.all(SizeConfig.defaultSize * 2),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  color: Color.fromRGBO(106, 54, 255, 0.1),
-                ),
-                child: Text(
-                  "Play".tr,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Color.fromRGBO(106, 54, 255, 1),
-                      fontFamily: 'JejuGothic',
-                      fontSize: SizeConfig.defaultSize * 2,
-                      letterSpacing: 0,
-                      fontWeight: FontWeight.normal,
-                      height: 1.5),
-                ))),
-  ];
+          child:
+              // Figma Flutter Generator BaseWidget - RECTANGLE
+              Container(
+                  width: SizeConfig.defaultSize * 12,
+                  height: SizeConfig.defaultSize * 4,
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.all(SizeConfig.defaultSize * 2),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: Color.fromRGBO(106, 54, 255, 0.1),
+                  ),
+                  child: Text(
+                    "Play".tr,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Color.fromRGBO(106, 54, 255, 1),
+                        fontFamily: 'JejuGothic',
+                        fontSize: SizeConfig.defaultSize * 2,
+                        letterSpacing: 0,
+                        fontWeight: FontWeight.normal,
+                        height: 1.5),
+                  ))),
+    ],
+  );
 }
 
 Container playTime(ApplicationInfos app) {
@@ -208,72 +210,75 @@ Container playTime(ApplicationInfos app) {
 }
 
 Widget comments(ApplicationInfos app) {
-  return Container(
-    width: SizeConfig.screenWidth,
-    height: SizeConfig.screenHeight,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.vertical(
-        top: Radius.circular(SizeConfig.defaultSize * 3),
-      ),
-    ),
-    child: Column(children: [
-      Container(
-          margin: EdgeInsets.only(top: SizeConfig.defaultSize * 2),
-          child: Text("Reviews".tr,
-              style: TextStyle(fontSize: SizeConfig.defaultSize * 3))),
-      Consumer<CommentProvider>(builder: (context, commentProvider, child) {
-        List<CommentModel>? _comments = commentProvider.get(app.packageName);
-
-        if (commentProvider.isLoading) {
-          return Container(
-              margin: EdgeInsets.only(top: SizeConfig.defaultSize * 20),
-              alignment: Alignment.topCenter,
-              width: SizeConfig.defaultSize * 3,
-              height: SizeConfig.defaultSize * 3,
-              child: CircularProgressIndicator());
-        }
-
-        // err
-        if (_comments == null) {
-          // TODO
-        }
-
-        // if no reviews in there
-        else if (_comments.length == 0) {
-          return Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                    top: SizeConfig.defaultSize * 3,
-                    bottom: SizeConfig.defaultSize),
-                child: Image(
-                  image: AssetImage('assets/images/box.png'),
-                  width: SizeConfig.defaultSize * 18,
-                ),
-              ),
-              Text(
-                "No one left a review for the game\nTake the first step!".tr,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Color.fromRGBO(105, 105, 105, 1),
-                    fontFamily: 'JejuGothic',
-                    fontSize: SizeConfig.defaultSize * 2,
-                    height: 1.5),
-              ),
-            ],
-          );
-        }
-
-        return Container(
-            height: SizeConfig.screenHeight,
-            child: ListView(
-              children: _comments!
-                  .map((_comment) => commentBuilder(_comment, app))
-                  .toList(),
-            ));
-      })
-    ]),
+  return LayoutBuilder(
+    builder: (context, constraints) {
+      return Container(
+        width: constraints.maxWidth,
+        height: constraints.maxHeight,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(SizeConfig.defaultSize * 3),
+          ),
+        ),
+        child: Column(children: [
+          Container(
+              margin: EdgeInsets.only(top: SizeConfig.defaultSize * 2),
+              child: Text("Reviews".tr,
+                  style: TextStyle(fontSize: SizeConfig.defaultSize * 3))),
+          Consumer<CommentProvider>(builder: (context, commentProvider, child) {
+            List<CommentModel>? _comments =
+                commentProvider.get(app.packageName);
+            if (commentProvider.isLoading) {
+              return Container(
+                  margin: EdgeInsets.only(top: SizeConfig.defaultSize * 20),
+                  alignment: Alignment.topCenter,
+                  width: SizeConfig.defaultSize * 3,
+                  height: SizeConfig.defaultSize * 3,
+                  child: CircularProgressIndicator());
+            }
+            // err
+            if (_comments == null) {
+              // TODO 널 처리
+            }
+            // if no reviews in there
+            else if (_comments.length == 0) {
+              return Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: SizeConfig.defaultSize * 3,
+                        bottom: SizeConfig.defaultSize),
+                    child: Image(
+                      image: AssetImage('assets/images/box.png'),
+                      width: SizeConfig.defaultSize * 18,
+                    ),
+                  ),
+                  Text(
+                    "No one left a review for the game\nTake the first step!"
+                        .tr,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Color.fromRGBO(105, 105, 105, 1),
+                        fontFamily: 'JejuGothic',
+                        fontSize: SizeConfig.defaultSize * 2,
+                        height: 1.5),
+                  ),
+                ],
+              );
+            }
+            return Container(
+                height: constraints.maxHeight,
+                child: ListView(
+                  padding: EdgeInsets.only(bottom: SizeConfig.defaultSize * 13),
+                  children: _comments!
+                      .map((_comment) => commentBuilder(_comment, app))
+                      .toList(),
+                ));
+          })
+        ]),
+      );
+    },
   );
 }
 

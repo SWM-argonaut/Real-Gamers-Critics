@@ -13,8 +13,8 @@ import 'package:real_gamers_critics/configs/configs.dart'
 import 'package:real_gamers_critics/configs/size_config.dart';
 
 import 'package:real_gamers_critics/blocs/getx.dart';
-import 'package:real_gamers_critics/blocs/applications.dart'
-    show InstalledApplicationsBloc;
+import 'package:real_gamers_critics/blocs/providers/applications_provider.dart'
+    show ApplicationsProviders;
 
 import 'package:real_gamers_critics/models/applications.dart';
 
@@ -22,7 +22,6 @@ import 'package:real_gamers_critics/functions/format/time.dart';
 import 'package:real_gamers_critics/functions/api/comment.dart';
 
 import 'package:real_gamers_critics/view/home.dart';
-import 'package:real_gamers_critics/view/permission.dart';
 import 'package:real_gamers_critics/view/detail_page.dart';
 
 import 'package:real_gamers_critics/widget/indicator.dart';
@@ -33,7 +32,7 @@ class AppList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<bool>(
-      future: InstalledApplicationsBloc.init(),
+      future: ApplicationsProviders.init(),
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
         if (snapshot.hasError) {
           if (snapshot.error.toString() == "Exception: usage access err") {
@@ -67,7 +66,7 @@ class AppList extends StatelessWidget {
               ),
             ),
             body: ListView.builder(
-              itemCount: InstalledApplicationsBloc.apps.length,
+              itemCount: ApplicationsProviders.apps.length,
               itemBuilder: _listItemBuilder,
             ));
       },
@@ -76,7 +75,7 @@ class AppList extends StatelessWidget {
 }
 
 Widget _listItemBuilder(BuildContext context, int index) {
-  var _app = InstalledApplicationsBloc.apps[index];
+  var _app = ApplicationsProviders.apps[index];
 
   return Align(
       child: GestureDetector(

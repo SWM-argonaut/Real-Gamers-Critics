@@ -13,7 +13,7 @@ import 'package:real_gamers_critics/configs/languages.dart' as Ln;
 import 'package:real_gamers_critics/blocs/getx.dart';
 import 'package:real_gamers_critics/blocs/analytics.dart';
 
-import 'package:real_gamers_critics/providers/comment_provicer.dart';
+import 'package:real_gamers_critics/blocs/providers/comment_provicer.dart';
 
 import 'package:real_gamers_critics/view/home.dart';
 
