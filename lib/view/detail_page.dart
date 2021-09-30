@@ -313,31 +313,36 @@ Container commentBuilder(CommentModel comment, ApplicationInfos app) {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
-        Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Row(children: [
-                SvgPicture.asset(
-                  "assets/svg/game.svg",
-                  semanticsLabel: 'game logo',
-                  alignment: Alignment.center,
-                  width: SizeConfig.defaultSize * 1.7,
-                ),
-                Text(
-                    " " + "Played:".tr + " ${durationFormat(comment.playTime)}")
-              ]),
-              Row(children: [
-                SvgPicture.asset(
-                  "assets/svg/star.svg",
-                  semanticsLabel: 'game logo',
-                  alignment: Alignment.center,
-                  width: SizeConfig.defaultSize * 2,
-                ),
-                Text(" ${comment.rating}/5 ")
-              ]),
-              // Text(" ${DateFormat('yy.MM.dd').format(comment.createDate!)}")
-            ]),
+        Container(
+            padding: EdgeInsets.only(
+                top: SizeConfig.defaultSize,
+                bottom: SizeConfig.defaultSize * 0.2),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Row(children: [
+                    SvgPicture.asset(
+                      "assets/svg/game.svg",
+                      semanticsLabel: 'game logo',
+                      alignment: Alignment.center,
+                      width: SizeConfig.defaultSize * 1.7,
+                    ),
+                    Text(" " +
+                        "Played:".tr +
+                        " ${durationFormat(comment.playTime)}")
+                  ]),
+                  Row(children: [
+                    SvgPicture.asset(
+                      "assets/svg/star.svg",
+                      semanticsLabel: 'game logo',
+                      alignment: Alignment.center,
+                      width: SizeConfig.defaultSize * 2,
+                    ),
+                    Text(" ${comment.rating}/5 ")
+                  ]),
+                  // Text(" ${DateFormat('yy.MM.dd').format(comment.createDate!)}")
+                ])),
         Padding(padding: EdgeInsets.all(SizeConfig.defaultSize * 0.3)),
         Text("${comment.longText}"),
         Row(mainAxisAlignment: MainAxisAlignment.end, children: [
