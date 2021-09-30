@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
               height: 1.4545454545454546),
         ),
       ),
-      endDrawer: Drawer(
+      drawer: Drawer(
         child: HomeDrawer(),
       ),
       body: AppList(),
