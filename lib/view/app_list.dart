@@ -58,7 +58,7 @@ Widget _itemBuilder(ApplicationInfos _app) {
   return GetBuilder<MyCommentsController>(
     builder: (_) {
       // 한줄평이 있으면 한줄평을 아니면 플레이 타임
-      Widget _indicator;
+      LinearIndicator _indicator;
       int _index = _.comments.indexWhere((_comment) =>
           _comment.gameIdRegion ==
           "${_app.packageName}#${Get.deviceLocale?.countryCode}");
@@ -72,15 +72,15 @@ Widget _itemBuilder(ApplicationInfos _app) {
               : "${playtimeToLeaveComment}m/${playtimeToLeaveComment}m"),
         );
       } else {
-        _indicator = Container(
-            width: SizeConfig.defaultSize * 24,
-            height: SizeConfig.defaultSize * 3,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-                color: Color.fromRGBO(250, 255, 0, 0.2),
-                borderRadius: BorderRadius.circular(SizeConfig.defaultSize * 3),
-                border: Border.all(width: 0.1, color: Colors.black)),
-            child: Text('"${_.comments[_index].shortText}"'));
+        _indicator = LinearIndicator(
+          width: SizeConfig.defaultSize * 24,
+          height: SizeConfig.defaultSize * 3,
+          percent: 1.0,
+          durationSeconds: 1,
+          color: Color.fromRGBO(250, 255, 0, 0.2),
+          text: ('"${_.comments[_index].shortText}"'),
+          boxBorder: Border.all(width: 0.1, color: Colors.black),
+        );
       }
 
       return Align(

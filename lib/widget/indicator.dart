@@ -10,12 +10,16 @@ class LinearIndicator extends StatelessWidget {
   final String? text;
   final Color backgroundColor;
   final Color? color;
+  final int durationSeconds;
+  final BoxBorder? boxBorder;
 
   LinearIndicator({
     required percent,
     this.width = 100,
     this.height = 20,
     this.backgroundColor = Colors.black12,
+    this.durationSeconds = 2,
+    this.boxBorder,
     this.color,
     this.text,
     Key? key,
@@ -41,13 +45,14 @@ class LinearIndicator extends StatelessWidget {
         width: width * percent,
         height: height,
         curve: Curves.linear,
-        duration: Duration(seconds: 2),
+        duration: Duration(seconds: durationSeconds),
         decoration: BoxDecoration(
           color: color ??
               (percent == 1
                   ? Color.fromRGBO(0, 255, 10, 0.2)
                   : Color.fromRGBO(255, 0, 0, 0.25)),
           borderRadius: BorderRadius.circular(SizeConfig.defaultSize * 3),
+          border: boxBorder,
         ),
       ),
     ];
