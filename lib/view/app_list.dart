@@ -46,22 +46,9 @@ class AppList extends StatelessWidget {
           );
         }
 
-        return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              toolbarHeight: SizeConfig.defaultSize * 9,
-              title: Text(
-                "Your Games".tr,
-                style: TextStyle(
-                    color: Color.fromRGBO(46, 32, 85, 1),
-                    fontFamily: 'JejuGothic',
-                    fontSize: SizeConfig.defaultSize * 2.7,
-                    height: 1.4545454545454546),
-              ),
-            ),
-            body: ListView(
-              children: appController.apps.map(_itemBuilder).toList(),
-            ));
+        return ListView(
+          children: appController.apps.map(_itemBuilder).toList(),
+        );
       },
     );
   }

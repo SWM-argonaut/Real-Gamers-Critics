@@ -36,8 +36,6 @@ import 'package:real_gamers_critics/widget/rating.dart';
 import 'package:real_gamers_critics/widget/bottom_sheet/comment.dart';
 import 'package:real_gamers_critics/widget/snackbar/warning.dart';
 
-import 'package:real_gamers_critics/view/login.dart';
-
 const _topBackroundColor = Color.fromRGBO(46, 33, 85, 0.3);
 
 class DetailPage extends StatefulWidget {
