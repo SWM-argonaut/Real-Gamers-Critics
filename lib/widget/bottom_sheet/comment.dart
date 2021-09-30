@@ -4,14 +4,18 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:real_gamers_critics/configs/configs.dart';
 import 'package:real_gamers_critics/configs/size_config.dart';
 
+import 'package:real_gamers_critics/blocs/myCommentsController.dart';
 import 'package:real_gamers_critics/blocs/providers/comment_provicer.dart';
+
 import 'package:real_gamers_critics/functions/api/comment.dart';
+
 import 'package:real_gamers_critics/models/applications.dart';
 
 import 'package:real_gamers_critics/widget/rating.dart';
@@ -35,7 +39,9 @@ commentBottomSheet(ApplicationInfos _app) {
 class CommentWriting extends StatelessWidget {
   final ApplicationInfos app;
 
-  const CommentWriting({required this.app, Key? key}) : super(key: key);
+  final MyCommentsController myCommentsController = Get.find();
+
+  CommentWriting({required this.app, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +51,18 @@ class CommentWriting extends StatelessWidget {
     final TextEditingController longCommentCtrl = TextEditingController();
     final RatingController ratingController = RatingController();
 
-    int _rating = 0;
-    String _shortComment = "";
-    String _comment = "";
+    final int _index = myCommentsController.comments.indexWhere((_comment) =>
+        _comment.gameIdRegion ==
+        "${app.packageName}#${Get.deviceLocale?.countryCode}");
+
+    if (_index != -1) {
+      shortCommentCtrl.text =
+          "${myCommentsController.comments[_index].shortText}";
+      longCommentCtrl.text =
+          "${myCommentsController.comments[_index].longText}";
+      ratingController
+          .setRating(myCommentsController.comments[_index].rating ?? 5);
+    }
 
     if (FirebaseAuth.instance.currentUser == null) {
       return Container(
@@ -140,7 +155,7 @@ class CommentWriting extends StatelessWidget {
                   }
                   // TODO: 공백 채우라고 메세지 띄우기
                 },
-                child: Text("send comment".tr),
+                child: Text("rate".tr),
               ))
         ],
       ),

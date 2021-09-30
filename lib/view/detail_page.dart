@@ -20,6 +20,7 @@ import 'package:real_gamers_critics/configs/configs.dart';
 import 'package:real_gamers_critics/configs/size_config.dart';
 
 import 'package:real_gamers_critics/blocs/analytics.dart';
+import 'package:real_gamers_critics/blocs/myCommentsController.dart';
 import 'package:real_gamers_critics/blocs/providers/comment_provicer.dart';
 
 import 'package:real_gamers_critics/functions/api/comment.dart';
@@ -42,6 +43,8 @@ const _topBackroundColor = Color.fromRGBO(46, 33, 85, 0.3);
 class DetailPage extends StatefulWidget {
   final ApplicationInfos app;
 
+  final MyCommentsController myCommentsController = Get.find();
+
   DetailPage({required this.app, Key? key}) : super(key: key);
 
   @override
@@ -63,6 +66,11 @@ class _DetailPageState extends State<DetailPage> {
     WidgetsBinding.instance?.addPostFrameCallback((_) =>
         Provider.of<CommentProvider>(context, listen: false)
             .fetch(widget.app.packageName));
+
+    final int _index = widget.myCommentsController.comments.indexWhere(
+        (_comment) =>
+            _comment.gameIdRegion ==
+            "${widget.app.packageName}#${Get.deviceLocale?.countryCode}");
 
     return Scaffold(
       // AppBar
@@ -106,7 +114,7 @@ class _DetailPageState extends State<DetailPage> {
               Expanded(flex: 65, child: comments(widget.app)),
             ],
           )),
-      floatingActionButton: reviewButton(widget.app),
+      floatingActionButton: reviewButton(widget.app, _index != -1),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
@@ -351,7 +359,7 @@ Container commentBuilder(CommentModel comment, ApplicationInfos app) {
   );
 }
 
-GestureDetector reviewButton(ApplicationInfos app) {
+GestureDetector reviewButton(ApplicationInfos app, bool rated) {
   return GestureDetector(
     child: // Figma Flutter Generator Rectangle5Widget - RECTANGLE
         Container(
@@ -370,7 +378,9 @@ GestureDetector reviewButton(ApplicationInfos app) {
       child: Text(
         (app.usage?.inMinutes ?? 0) < playtimeToLeaveComment
             ? "${playtimeToLeaveComment - (app.usage?.inMinutes ?? 0)} Min to Rate"
-            : 'Rate & Review',
+            : rated
+                ? "Modify Review".tr
+                : "Rate & Review".tr,
         textAlign: TextAlign.center,
         style: TextStyle(
             color: Colors.white,
