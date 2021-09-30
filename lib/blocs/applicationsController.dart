@@ -33,9 +33,16 @@ class ApplicationsController extends GetxController {
 
   void init() {
     // 캐싱된게 있으면 일단 띄워준다.
+    _isLoading = true;
+    update();
+
     if (_box.hasData("cachedAppList")) {
-      // _box.read("cachedAppList");
-      // update();
+      _apps = List<ApplicationInfos>.from(_box
+          .read("cachedAppList")
+          .map((_data) => ApplicationInfos.fromJson(_data)));
+      _isCached = true;
+      update();
+      log("read cached app list");
     }
 
     fetch();
@@ -48,16 +55,19 @@ class ApplicationsController extends GetxController {
 
     /// app info
     await _appInfoFetch();
+    _isCached = false;
     update();
     log("info fetch done");
 
+    /// caching without usage data
+    _box.write("cachedAppList", _apps.map((_app) => _app.toJson()).toList());
+    log("write app list cache");
+
     /// usage time
     await _usageFetch();
+    _isLoading = false;
     update();
     log("usage fetch done");
-
-    /// caching
-    // _box.write("cachedAppList", value)
   }
 
   Future<void> _appInfoFetch() async {
