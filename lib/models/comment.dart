@@ -9,6 +9,7 @@ class CommentModel {
   Duration? _playTime; // 단위 : 초
   int? _likes;
   bool? _liked;
+  List<String>? _likedUser;
   String? _gameIdRegion;
 
   CommentModel(
@@ -18,6 +19,7 @@ class CommentModel {
       DateTime? createDate,
       int? likes,
       bool? liked,
+      List<String>? likedUser,
       String? gameIdRegion,
       String? userID,
       String? userName,
@@ -33,6 +35,7 @@ class CommentModel {
     this._playTime = playTime;
     this._likes = likes;
     this._liked = liked;
+    this._likedUser = likedUser;
     this._gameIdRegion = gameIdRegion;
   }
 
@@ -46,6 +49,7 @@ class CommentModel {
   Duration? get playTime => _playTime;
   int? get likes => _likes;
   bool? get liked => _liked;
+  List<String>? get likedUser => _likedUser;
   String? get gameIdRegion => _gameIdRegion;
 
   CommentModel.fromJson(Map<String, dynamic> json) {
@@ -60,6 +64,7 @@ class CommentModel {
     _playTime = Duration(seconds: json['playTime']);
     _likes = json['likes'];
     _liked = json['liked'];
+    _likedUser = json['likedUser']?.cast<String>();
     _gameIdRegion = json['gameIdRegion'];
   }
 
@@ -75,6 +80,7 @@ class CommentModel {
     data['playTime'] = this._playTime;
     data['likes'] = this._likes;
     data['liked'] = this._liked;
+    data['likedUser'] = this._likedUser;
     data['gameIdRegion'] = this._gameIdRegion;
     return data;
   }

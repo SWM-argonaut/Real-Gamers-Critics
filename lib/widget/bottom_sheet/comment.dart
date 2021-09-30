@@ -15,6 +15,16 @@ import 'package:real_gamers_critics/models/applications.dart';
 
 import 'package:real_gamers_critics/widget/rating.dart';
 
+commentBottomSheet(ApplicationInfos _app) {
+  Get.bottomSheet(
+      CommentWriting(
+        app: _app,
+      ),
+      enableDrag: false,
+      ignoreSafeArea: false,
+      isScrollControlled: true);
+}
+
 class CommentWriting extends StatelessWidget {
   final ApplicationInfos app;
 

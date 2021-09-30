@@ -19,6 +19,7 @@ import 'package:provider/provider.dart';
 import 'package:real_gamers_critics/configs/size_config.dart';
 
 import 'package:real_gamers_critics/blocs/analytics.dart';
+import 'package:real_gamers_critics/blocs/providers/comment_provicer.dart';
 
 import 'package:real_gamers_critics/functions/api/comment.dart';
 import 'package:real_gamers_critics/functions/format/number.dart';
@@ -27,11 +28,11 @@ import 'package:real_gamers_critics/functions/playstore/check_app.dart';
 
 import 'package:real_gamers_critics/models/applications.dart';
 import 'package:real_gamers_critics/models/comment.dart';
-import 'package:real_gamers_critics/blocs/providers/comment_provicer.dart';
 
 import 'package:real_gamers_critics/widget/likes.dart';
 import 'package:real_gamers_critics/widget/rating.dart';
-import 'package:real_gamers_critics/widget/comment.dart';
+import 'package:real_gamers_critics/widget/bottom_sheet/comment.dart';
+import 'package:real_gamers_critics/widget/snackbar/firebase.dart';
 
 import 'package:real_gamers_critics/view/login.dart';
 
@@ -336,8 +337,12 @@ Container commentBuilder(CommentModel comment, ApplicationInfos app) {
           Text("was this review helpful?".tr),
           Likes(
             on: () => CommentApi.addLike(app.packageName, comment.userID!),
+            offAble: false,
             // TODO off: () => CommentApi.deleteLike(),
             count: comment.likes,
+            isOn: comment.likedUser
+                    ?.contains(FirebaseAuth.instance.currentUser?.uid) ??
+                false,
           ),
         ]),
       ],
@@ -373,21 +378,9 @@ GestureDetector reviewButton(ApplicationInfos app) {
     ),
     onTap: () {
       if (FirebaseAuth.instance.currentUser == null) {
-        Get.snackbar("need login".tr, "need login for comment".tr,
-            margin: EdgeInsets.symmetric(
-                vertical: SizeConfig.defaultSize * 15,
-                horizontal: SizeConfig.defaultSize * 3),
-            mainButton: TextButton(
-                onPressed: () => Get.off(LoginPage()), child: Text("login".tr)),
-            snackPosition: SnackPosition.BOTTOM);
+        needLoginSnackbar();
       } else {
-        Get.bottomSheet(
-            CommentWriting(
-              app: app,
-            ),
-            enableDrag: false,
-            ignoreSafeArea: false,
-            isScrollControlled: true);
+        commentBottomSheet(app);
       }
     },
   );

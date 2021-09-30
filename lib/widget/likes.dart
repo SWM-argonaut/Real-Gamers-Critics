@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:real_gamers_critics/functions/format/number.dart';
+
+import 'package:real_gamers_critics/widget/snackbar/firebase.dart';
 
 class LikeController extends GetxController {
   RxBool isOn = false.obs;
@@ -32,9 +36,16 @@ class LikeController extends GetxController {
 class Likes extends StatelessWidget {
   final LikeController controller = LikeController();
   final Function? on, off;
+  final bool offAble; // 이게 참이면 좋아요 취소 불가
   final int? count;
 
-  Likes({isOn = false, this.on, this.off, this.count, Key? key})
+  Likes(
+      {bool isOn = false,
+      this.offAble = true,
+      this.on,
+      this.off,
+      this.count,
+      Key? key})
       : super(key: key) {
     controller.set(isOn, count);
   }
@@ -43,21 +54,28 @@ class Likes extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<LikeController>(
       init: controller,
+      global: false,
       builder: (_) {
         List<Widget> _widgets = [
           IconButton(
               icon: Icon(Icons.thumb_up,
                   color: _.isOn.value ? Colors.blue : Colors.black),
               onPressed: () {
-                if (_.isOn.value) {
-                  _.setOff();
-                  if (off != null) {
-                    off!();
-                  }
+                if (FirebaseAuth.instance.currentUser == null) {
+                  needLoginSnackbar();
                 } else {
-                  _.setOn();
-                  if (on != null) {
-                    on!();
+                  if (_.isOn.value) {
+                    if (offAble) {
+                      _.setOff();
+                      if (off != null) {
+                        off!();
+                      }
+                    }
+                  } else {
+                    _.setOn();
+                    if (on != null) {
+                      on!();
+                    }
                   }
                 }
               }),
