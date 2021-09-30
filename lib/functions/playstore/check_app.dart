@@ -40,33 +40,38 @@ Future<String?> getGenre(String appId) async {
     return _box.read(appId);
   }
 
-  var response = await http.get(Uri.parse(playStoreBaseUrl + appId));
+  try {
+    var response = await http.get(Uri.parse(playStoreBaseUrl + appId));
 
-  log("Response status: ${response.statusCode}");
+    log("Response status: ${response.statusCode}");
 
-  if (response.statusCode != 200) {
-    // TODO 예외처리 해야되나?
-    if (response.statusCode == 404) {
-      // 404 일때만 캐싱
-      _box.write(appId, "UNKNOWN");
+    if (response.statusCode != 200) {
+      // TODO 예외처리 해야되나?
+      if (response.statusCode == 404) {
+        // 404 일때만 캐싱
+        _box.write(appId, "UNKNOWN");
+      }
+      return "UNKNOWN";
     }
-    return "UNKNOWN";
+
+    int index = response.body.indexOf('"genre"');
+    String genreField = response.body.substring(index + 20, index + 55);
+    log(genreField);
+
+    index = genreField.indexOf("GAME_");
+    if (index == -1) {
+      _box.write(appId, "NotGame");
+      return "NotGame";
+    }
+
+    // add key
+    String _result = genreField.substring(index + 5, genreField.indexOf('"'));
+    _box.write(appId, _result);
+    return _result;
+  } catch (e) {
+    log(e.toString());
+    return "NetworkError";
   }
-
-  int index = response.body.indexOf('"genre"');
-  String genreField = response.body.substring(index + 20, index + 55);
-  log(genreField);
-
-  index = genreField.indexOf("GAME_");
-  if (index == -1) {
-    _box.write(appId, "NotGame");
-    return "NotGame";
-  }
-
-  // add key
-  String _result = genreField.substring(index + 5, genreField.indexOf('"'));
-  _box.write(appId, _result);
-  return _result;
 }
 
 // /// ex) appId = com.yodo1.crossyroad

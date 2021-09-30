@@ -558,7 +558,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: d870e290af5bcc718e9f07e70d00fc7eb99eb798
+      resolved-ref: "957dde771c378b5f6b3be6f9aa55cd29c4316ca2"
       url: "https://github.com/hd1534/usage_stats"
     source: git
     version: "0.1.0"

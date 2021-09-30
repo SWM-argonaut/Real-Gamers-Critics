@@ -3,8 +3,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:get/get.dart';
 
-import 'package:real_gamers_critics/blocs/getx.dart';
-import 'package:real_gamers_critics/blocs/providers/applications_provider.dart';
+import 'package:real_gamers_critics/blocs/myCommentsController.dart';
+import 'package:real_gamers_critics/blocs/applicationsController.dart';
 
 import 'package:real_gamers_critics/functions/api/comment.dart';
 
@@ -28,7 +28,7 @@ Future<UserCredential> signInWithGoogle() async {
       await FirebaseAuth.instance.signInWithCredential(credential);
 
   // update game playtime
-  CommentApi.updatePlaytime(ApplicationsProviders.apps);
+  CommentApi.updatePlaytime();
 
   // get my comments
   _myComments.load();

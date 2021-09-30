@@ -1,6 +1,7 @@
+import 'dart:developer';
 import 'dart:typed_data';
 
-import 'package:app_usage/app_usage.dart';
+import 'package:usage_stats/usage_stats.dart';
 import 'package:device_apps/device_apps.dart';
 
 class ApplicationInfos {
@@ -48,18 +49,25 @@ class ApplicationInfos {
 
   /// The amount of time the application has been used
   /// in the specified interval
-  final Duration? usage;
+  Duration? _usage;
 
   /// The start of the interval
-  final DateTime? startDate;
+  DateTime? _firstTimeStamp;
 
   /// The end of the interval
-  final DateTime? endDate;
+  DateTime? _lastTimeStamp;
+
+  DateTime? _lastTimeUsed;
+
+  get usage => _usage;
+  get firstTimeStamp => _firstTimeStamp;
+  get lastTimeStamp => _lastTimeStamp;
+  get lastTimeUsed => _lastTimeUsed;
 
   /// genre
   final String? genre;
 
-  ApplicationInfos({AppUsageInfo? usage, required Application app, this.genre})
+  ApplicationInfos({UsageInfo? usageInfo, required Application app, this.genre})
       : packageName = app.packageName,
         appName = app.appName,
         apkFilePath = app.apkFilePath,
@@ -71,8 +79,18 @@ class ApplicationInfos {
         updateTimeMillis = app.updateTimeMillis,
         enabled = app.enabled,
         category = app.category,
-        usage = usage?.usage,
-        startDate = usage?.startDate,
-        endDate = usage?.endDate,
+        _usage = usageInfo?.totalTimeInForeground ?? Duration(seconds: 0),
+        _firstTimeStamp = usageInfo?.firstTimeStamp,
+        _lastTimeStamp = usageInfo?.lastTimeStamp,
+        _lastTimeUsed = usageInfo?.lastTimeUsed,
         icon = app is ApplicationWithIcon ? app.icon : null;
+
+  void updateUsage(UsageInfo? usageInfo) {
+    if (usageInfo != null) {
+      _usage = usageInfo.totalTimeInForeground;
+      _firstTimeStamp = usageInfo.firstTimeStamp;
+      _lastTimeStamp = usageInfo.lastTimeStamp;
+      _lastTimeUsed = usageInfo.lastTimeUsed;
+    }
+  }
 }

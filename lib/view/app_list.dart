@@ -12,9 +12,9 @@ import 'package:real_gamers_critics/configs/configs.dart'
     show playtimeToLeaveComment;
 import 'package:real_gamers_critics/configs/size_config.dart';
 
-import 'package:real_gamers_critics/blocs/getx.dart';
-import 'package:real_gamers_critics/blocs/providers/applications_provider.dart'
-    show ApplicationsProviders;
+import 'package:real_gamers_critics/blocs/myCommentsController.dart';
+import 'package:real_gamers_critics/blocs/applicationsController.dart'
+    show ApplicationsController, ApplicationsProviders;
 
 import 'package:real_gamers_critics/models/applications.dart';
 
@@ -31,22 +31,16 @@ class AppList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<bool>(
-      future: ApplicationsProviders.init(),
-      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        if (snapshot.hasError) {
-          if (snapshot.error.toString() == "Exception: usage access err") {
-            // 목록을 불러오지 못했을 때 권한 확인으로 바꾸기
-            return PermissionPage();
-          }
-
+    return GetBuilder<ApplicationsController>(
+      builder: (appController) {
+        if (appController.hasError) {
           return Center(child: Text("err".tr));
         }
-        if (!snapshot.hasData) {
+        if (appController.isLoading) {
           return Center(child: CircularProgressIndicator());
         }
 
-        if (snapshot.data == false) {
+        if (appController.apps.length == 0) {
           return Center(
             child: Text("no games".tr),
           );
@@ -65,18 +59,15 @@ class AppList extends StatelessWidget {
                     height: 1.4545454545454546),
               ),
             ),
-            body: ListView.builder(
-              itemCount: ApplicationsProviders.apps.length,
-              itemBuilder: _listItemBuilder,
+            body: ListView(
+              children: appController.apps.map(_itemBuilder).toList(),
             ));
       },
     );
   }
 }
 
-Widget _listItemBuilder(BuildContext context, int index) {
-  var _app = ApplicationsProviders.apps[index];
-
+Widget _itemBuilder(ApplicationInfos _app) {
   return Align(
       child: GestureDetector(
           onTap: () {

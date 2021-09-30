@@ -10,8 +10,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:real_gamers_critics/configs/configs.dart';
 import 'package:real_gamers_critics/configs/languages.dart' as Ln;
 
-import 'package:real_gamers_critics/blocs/getx.dart';
+import 'package:real_gamers_critics/blocs/myCommentsController.dart';
 import 'package:real_gamers_critics/blocs/analytics.dart';
+import 'package:real_gamers_critics/blocs/applicationsController.dart';
 
 import 'package:real_gamers_critics/blocs/providers/comment_provicer.dart';
 
@@ -52,9 +53,8 @@ class _MyAppState extends State<MyApp> {
         if (snapshot.connectionState == ConnectionState.done) {
           AnalyticsBloc.init();
 
-          MyCommentsController _myComments = Get.put(MyCommentsController());
-
-          _myComments.load();
+          Get.put(MyCommentsController()).load();
+          Get.put(ApplicationsController()).init();
 
           return GetMaterialApp(
               // translations

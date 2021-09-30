@@ -5,7 +5,7 @@ import 'package:get_storage/get_storage.dart';
 
 import 'package:real_gamers_critics/configs/size_config.dart';
 
-import 'package:real_gamers_critics/blocs/providers/applications_provider.dart';
+import 'package:real_gamers_critics/blocs/applicationsController.dart';
 
 import 'package:real_gamers_critics/view/login.dart';
 import 'package:real_gamers_critics/view/app_list.dart';

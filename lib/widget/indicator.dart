@@ -37,9 +37,11 @@ class LinearIndicator extends StatelessWidget {
           borderRadius: BorderRadius.circular(SizeConfig.defaultSize * 3),
         ),
       ),
-      Container(
+      AnimatedContainer(
         width: width * percent,
         height: height,
+        curve: Curves.linear,
+        duration: Duration(seconds: 2),
         decoration: BoxDecoration(
           color: color ??
               (percent == 1
