@@ -38,6 +38,9 @@ Future<UserCredential> signInWithGoogle() async {
 }
 
 Future<void> logOutWithGoogle() async {
+  MyCommentsController _myComments = Get.find();
+
   await FirebaseAuth.instance.signOut();
   await GoogleSignIn().signOut();
+  _myComments.load();
 }

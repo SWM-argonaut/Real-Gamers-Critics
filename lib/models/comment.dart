@@ -65,7 +65,7 @@ class CommentModel {
     _likes = json['likes'];
     _liked = json['liked'];
     _likedUser = json['likedUser']?.cast<String>();
-    _gameIdRegion = json['gameIdRegion'];
+    _gameIdRegion = json['gameID#region'];
   }
 
   Map<String, dynamic> toJson() {
@@ -81,7 +81,7 @@ class CommentModel {
     data['likes'] = this._likes;
     data['liked'] = this._liked;
     data['likedUser'] = this._likedUser;
-    data['gameIdRegion'] = this._gameIdRegion;
+    data['gameID#region'] = this._gameIdRegion;
     return data;
   }
 }

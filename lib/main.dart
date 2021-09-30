@@ -53,8 +53,8 @@ class _MyAppState extends State<MyApp> {
         if (snapshot.connectionState == ConnectionState.done) {
           AnalyticsBloc.init();
 
-          Get.put(MyCommentsController()).load();
           Get.put(ApplicationsController()).init();
+          Get.put(MyCommentsController()).load();
 
           return GetMaterialApp(
               // translations
