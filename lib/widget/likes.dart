@@ -8,7 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:real_gamers_critics/functions/format/number.dart';
 
-import 'package:real_gamers_critics/widget/snackbar/firebase.dart';
+import 'package:real_gamers_critics/widget/snackbar/warning.dart';
 
 class LikeController extends GetxController {
   RxBool isOn = false.obs;

@@ -49,6 +49,7 @@ class Messages extends Translations {
           "comment more info": "추가 정보 제공하기(선택 사항)",
           "long comment": "상세평(선택)",
           "send comment": "게시",
+          "need more play time": "플레이 타임이 부족합니다.",
 
           // 장르
           "ACTION": "액션",

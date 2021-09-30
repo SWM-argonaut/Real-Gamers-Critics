@@ -16,6 +16,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
 
+import 'package:real_gamers_critics/configs/configs.dart';
 import 'package:real_gamers_critics/configs/size_config.dart';
 
 import 'package:real_gamers_critics/blocs/analytics.dart';
@@ -32,7 +33,7 @@ import 'package:real_gamers_critics/models/comment.dart';
 import 'package:real_gamers_critics/widget/likes.dart';
 import 'package:real_gamers_critics/widget/rating.dart';
 import 'package:real_gamers_critics/widget/bottom_sheet/comment.dart';
-import 'package:real_gamers_critics/widget/snackbar/firebase.dart';
+import 'package:real_gamers_critics/widget/snackbar/warning.dart';
 
 import 'package:real_gamers_critics/view/login.dart';
 
@@ -367,7 +368,9 @@ GestureDetector reviewButton(ApplicationInfos app) {
         color: Color.fromRGBO(106, 54, 255, 1),
       ),
       child: Text(
-        'Rate & Review',
+        (app.usage?.inMinutes ?? 0) < playtimeToLeaveComment
+            ? "${playtimeToLeaveComment - (app.usage?.inMinutes ?? 0)} Min to Rate"
+            : 'Rate & Review',
         textAlign: TextAlign.center,
         style: TextStyle(
             color: Colors.white,

@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
+import 'package:real_gamers_critics/configs/configs.dart';
 import 'package:real_gamers_critics/configs/size_config.dart';
 
 import 'package:real_gamers_critics/blocs/providers/comment_provicer.dart';
@@ -14,15 +15,21 @@ import 'package:real_gamers_critics/functions/api/comment.dart';
 import 'package:real_gamers_critics/models/applications.dart';
 
 import 'package:real_gamers_critics/widget/rating.dart';
+import 'package:real_gamers_critics/widget/snackbar/warning.dart';
 
 commentBottomSheet(ApplicationInfos _app) {
-  Get.bottomSheet(
-      CommentWriting(
-        app: _app,
-      ),
-      enableDrag: false,
-      ignoreSafeArea: false,
-      isScrollControlled: true);
+  if ((_app.usage?.inMinutes ?? 0) < playtimeToLeaveComment) {
+    needMorePlayTimeSnackbar(
+        playtimeToLeaveComment - (_app.usage?.inMinutes ?? 0));
+  } else {
+    Get.bottomSheet(
+        CommentWriting(
+          app: _app,
+        ),
+        enableDrag: false,
+        ignoreSafeArea: false,
+        isScrollControlled: true);
+  }
 }
 
 class CommentWriting extends StatelessWidget {
