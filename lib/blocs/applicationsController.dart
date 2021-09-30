@@ -104,8 +104,6 @@ class ApplicationsController extends GetxController {
       if (_box.hasData("Introduction") && !(Get.isDialogOpen ?? false)) {
         Get.dialog(UsagePermissionDialog());
       }
-
-      sleep(Duration(seconds: 1));
     }
 
     if (Get.isDialogOpen == true) {

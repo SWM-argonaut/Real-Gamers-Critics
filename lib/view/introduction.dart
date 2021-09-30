@@ -45,24 +45,66 @@ class _IntroductionState extends State<Introduction> {
 List<PageViewModel> _pageList = [
   PageViewModel(
     image: Container(
-      width: SizeConfig.defaultSize * 30,
-      height: SizeConfig.defaultSize * 30,
-      color: Colors.amber,
-      child: Text("이미지 추천 받습니다."),
+        width: SizeConfig.defaultSize * 30,
+        height: SizeConfig.defaultSize * 30,
+        child: Image.asset("assets/images/intro1.png")),
+    titleWidget: Container(
+        padding: EdgeInsets.only(bottom: SizeConfig.defaultSize * 1.3),
+        child: Text(
+          "Play Time Analysis".tr,
+          style: TextStyle(
+              fontSize: SizeConfig.defaultSize * 4,
+              fontWeight: FontWeight.bold),
+        )),
+    bodyWidget: Text(
+      "Check time you played &\nCompare with other gamers".tr,
+      textAlign: TextAlign.center,
+      style: TextStyle(fontSize: SizeConfig.defaultSize * 2.5),
     ),
-    title: "문구 추천 받습니다.",
-    bodyWidget: Text("영어로 적어야 되는데...."),
   ),
   PageViewModel(
-    image: Image.asset("assets/images/Usage_access1.jpg"),
-    title: "허용 부탁드려요!",
+    image: Container(
+        width: SizeConfig.defaultSize * 30,
+        height: SizeConfig.defaultSize * 30,
+        child: Image.asset("assets/images/intro2.png")),
+    titleWidget: Container(
+        padding: EdgeInsets.only(bottom: SizeConfig.defaultSize * 1.3),
+        child: Text(
+          "Game Reviews".tr,
+          style: TextStyle(
+              fontSize: SizeConfig.defaultSize * 4,
+              fontWeight: FontWeight.bold),
+        )),
+    bodyWidget: Text(
+      "Review a mobile game &\nAdd trust with time played".tr,
+      textAlign: TextAlign.center,
+      style: TextStyle(fontSize: SizeConfig.defaultSize * 2.5),
+    ),
+  ),
+  PageViewModel(
+    image: Container(
+        width: SizeConfig.defaultSize * 30,
+        height: SizeConfig.defaultSize * 30,
+        child: Image.asset("assets/images/intro3.png")),
+    titleWidget: Container(
+        padding: EdgeInsets.only(bottom: SizeConfig.defaultSize * 1.3),
+        child: Text(
+          "Permission Please!".tr,
+          style: TextStyle(
+              fontSize: SizeConfig.defaultSize * 4,
+              fontWeight: FontWeight.bold),
+        )),
     bodyWidget: Column(children: [
-      Text("게임의 플레이 시간을 알기 위해서 이 권한이 필요합니다!"),
+      Text(
+        "Please grant permission\nto access your usage data".tr,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: SizeConfig.defaultSize * 2.5),
+      ),
       Container(
           padding: EdgeInsets.all(SizeConfig.defaultSize * 5),
           child: ElevatedButton(
             onPressed: () => UsageStats.grantUsagePermission(),
-            child: Text("접근 허용"),
+            child: Text("GRANT PERMISSION".tr),
           ))
     ]),
   ),

@@ -16,6 +16,18 @@ class Messages extends Translations {
           "Firebase Error": "파이어베이스 연동에 실패했습니다.",
           "no games": "설치된 게임이 없습니다.",
 
+          // 인트로
+          "Play Time Analysis": "플레이 시간 통계",
+          "Check time you played &\nCompare with other gamers":
+              "내 플레이 시간을 확인하고\n다른 게이머들과 비교해보세요",
+          "Game Reviews": "게임 리뷰",
+          "Review a mobile game &\nAdd trust with time played":
+              "플레이 타임 기준으로\n더 신뢰있는 리뷰를 보세요",
+          "Permission Please!": "권한 허용 부탁드려요!",
+          "Please grant permission\nto access your usage data":
+              "게임 플레이 타임 정보를 위해서\n권한이 필요해요!",
+          "GRANT PERMISSION": "허용 하기",
+
           // 버튼
           "confirm": "확인",
           "Go to login": "로그인 하러 가기",
