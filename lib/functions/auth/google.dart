@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:get/get.dart';
+import 'package:real_gamers_critics/blocs/analytics.dart';
 
 import 'package:real_gamers_critics/blocs/myCommentsController.dart';
 import 'package:real_gamers_critics/blocs/applicationsController.dart';
@@ -33,6 +34,8 @@ Future<UserCredential> signInWithGoogle() async {
   // get my comments
   _myComments.load();
 
+  AnalyticsBloc.onLogin();
+
   // Once signed in, return the UserCredential
   return _user;
 }
@@ -42,5 +45,6 @@ Future<void> logOutWithGoogle() async {
 
   await FirebaseAuth.instance.signOut();
   await GoogleSignIn().signOut();
+  AnalyticsBloc.onLogout();
   _myComments.load();
 }

@@ -21,6 +21,8 @@ import 'package:real_gamers_critics/view/home.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
+  AnalyticsBloc.init();
+
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => CommentProvider()),
   ], child: MyApp()));
@@ -51,8 +53,6 @@ class _MyAppState extends State<MyApp> {
 
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
-          AnalyticsBloc.init();
-
           Get.put(ApplicationsController()).init();
           Get.put(MyCommentsController()).load();
 

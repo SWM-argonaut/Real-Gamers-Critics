@@ -145,7 +145,13 @@ Column appInfo(ApplicationInfos app) {
       ),
       GestureDetector(
           onTap: () {
-            DeviceApps.openApp(app.packageName);
+            if (app.enabled) {
+              AnalyticsBloc.onPlay(app.packageName);
+              DeviceApps.openApp(app.packageName);
+            } else {
+              // TODO 플레이 스토어 링크 열기
+              log("미설치");
+            }
           },
           // TODO: https://stackoverflow.com/questions/11753000/how-to-open-the-google-play-store-directly-from-my-android-application
 
@@ -348,7 +354,10 @@ Container commentBuilder(CommentModel comment, ApplicationInfos app) {
         Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           Text("was this review helpful?".tr),
           Likes(
-            on: () => CommentApi.addLike(app.packageName, comment.userID!),
+            on: () {
+              CommentApi.addLike(app.packageName, comment.userID!);
+              AnalyticsBloc.onLikes(comment);
+            },
             offAble: false,
             // TODO off: () => CommentApi.deleteLike(),
             count: comment.likes,
@@ -396,6 +405,7 @@ GestureDetector reviewButton(ApplicationInfos app, bool rated) {
       if (FirebaseAuth.instance.currentUser == null) {
         needLoginSnackbar();
       } else {
+        AnalyticsBloc.onReviwButtonClick(app);
         commentBottomSheet(app);
       }
     },

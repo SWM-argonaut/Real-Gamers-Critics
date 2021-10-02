@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:real_gamers_critics/blocs/analytics.dart';
 
 import 'package:real_gamers_critics/configs/configs.dart';
 import 'package:real_gamers_critics/configs/size_config.dart';
@@ -148,6 +149,7 @@ class CommentWriting extends StatelessWidget {
 
                     log("rating: ${ratingController.rating}\nshort: ${shortCommentCtrl.text}\nlong: ${longCommentCtrl.text}");
                     log("${await CommentApi.addComment(app.packageName, shortCommentCtrl.text, longCommentCtrl.text, ratingController.rating.toInt())}");
+                    AnalyticsBloc.onReviw(app, ratingController.rating.toInt());
                     Provider.of<CommentProvider>(context, listen: false)
                         .fetch(app.packageName);
                     Get.back();

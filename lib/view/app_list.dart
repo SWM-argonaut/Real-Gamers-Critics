@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import 'package:device_apps/device_apps.dart';
+import 'package:real_gamers_critics/blocs/analytics.dart';
 
 import 'package:real_gamers_critics/configs/configs.dart'
     show playtimeToLeaveComment;
@@ -137,10 +138,14 @@ Widget _itemBuilder(ApplicationInfos _app) {
                                     ActionChip(
                                       onPressed: () {
                                         // TODO: https://stackoverflow.com/questions/11753000/how-to-open-the-google-play-store-directly-from-my-android-application
-                                        _app.enabled
-                                            ? DeviceApps.openApp(
-                                                _app.packageName)
-                                            : log("미설치");
+                                        if (_app.enabled) {
+                                          AnalyticsBloc.onPlay(
+                                              _app.packageName);
+                                          DeviceApps.openApp(_app.packageName);
+                                        } else {
+                                          log("미설치");
+                                        }
+                                        ;
                                       },
                                       label: Text(
                                           _app.enabled

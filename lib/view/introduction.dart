@@ -9,6 +9,8 @@ import 'package:introduction_screen/introduction_screen.dart';
 
 import 'package:real_gamers_critics/configs/size_config.dart';
 
+import 'package:real_gamers_critics/blocs/analytics.dart';
+
 import 'package:real_gamers_critics/widget/dialog/permission.dart';
 
 import 'package:real_gamers_critics/view/home.dart';
@@ -24,6 +26,13 @@ class _IntroductionState extends State<Introduction> {
   final _box = GetStorage();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    AnalyticsBloc.onIntro();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return IntroductionScreen(
       pages: _pageList,
@@ -33,7 +42,9 @@ class _IntroductionState extends State<Introduction> {
         // When done button is press
         if (await UsageStats.checkUsagePermission()) {
           _box.write("Introduction", true);
-          Get.offAll(Home());
+          AnalyticsBloc.onIntroFinished();
+          AnalyticsBloc.onGrantPermission();
+          Get.offAll(() => Home());
         } else {
           Get.dialog(UsagePermissionDialog());
         }
@@ -103,7 +114,10 @@ List<PageViewModel> _pageList = [
       Container(
           padding: EdgeInsets.all(SizeConfig.defaultSize * 5),
           child: ElevatedButton(
-            onPressed: () => UsageStats.grantUsagePermission(),
+            onPressed: () {
+              AnalyticsBloc.onGrantpermissionButtonuttonClick();
+              UsageStats.grantUsagePermission();
+            },
             child: Text("GRANT PERMISSION".tr),
           ))
     ]),

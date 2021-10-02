@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 
 import 'package:real_gamers_critics/configs/size_config.dart';
 
+import 'package:real_gamers_critics/blocs/analytics.dart';
 import 'package:real_gamers_critics/blocs/applicationsController.dart';
 
 import 'package:real_gamers_critics/view/app_list.dart';
@@ -48,6 +49,8 @@ class _HomeState extends State<Home> {
               fontSize: SizeConfig.defaultSize * 2.7,
               height: 1.4545454545454546),
         ),
+        // TODO 다른 게임 검색
+        // actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
       ),
       drawer: Drawer(
         child: HomeDrawer(),
