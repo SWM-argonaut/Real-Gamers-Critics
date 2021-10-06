@@ -1,5 +1,7 @@
 // TODO: appsflyer ios setting is required
 
+import 'dart:ui';
+
 import 'package:get/get.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -46,6 +48,9 @@ class AnalyticsBloc {
   }
 
   static _logger({required String name, required Map<String, dynamic> param}) {
+    // TODO 현재 한국데이터는 거의 개발자나 지인이기에 일단 로깅 안함
+    if (Get.deviceLocale == Locale('ko', 'KR')) return;
+
     // firebase
     firebaseAnalytics.logEvent(name: name, parameters: param);
     // mixpanel

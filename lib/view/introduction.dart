@@ -35,7 +35,7 @@ class _IntroductionState extends State<Introduction> {
   @override
   Widget build(BuildContext context) {
     return IntroductionScreen(
-      pages: _pageList,
+      rawPages: _pageList,
       next: const Icon(Icons.arrow_forward),
       done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600)),
       onDone: () async {
@@ -53,13 +53,14 @@ class _IntroductionState extends State<Introduction> {
   }
 }
 
-List<PageViewModel> _pageList = [
-  PageViewModel(
-    image: Container(
-        width: SizeConfig.defaultSize * 30,
-        height: SizeConfig.defaultSize * 30,
+List<Column> _pageList = [
+  Column(children: [
+    Container(
+        width: SizeConfig.screenWidth,
+        height: SizeConfig.screenWidth,
+        padding: EdgeInsets.all(SizeConfig.defaultSize * 3),
         child: Image.asset("assets/images/intro1.png")),
-    titleWidget: Container(
+    Container(
         padding: EdgeInsets.only(bottom: SizeConfig.defaultSize * 1.3),
         child: Text(
           "Play Time Analysis".tr,
@@ -67,18 +68,19 @@ List<PageViewModel> _pageList = [
               fontSize: SizeConfig.defaultSize * 4,
               fontWeight: FontWeight.bold),
         )),
-    bodyWidget: Text(
+    Text(
       "Check time you played &\nCompare with other gamers".tr,
       textAlign: TextAlign.center,
       style: TextStyle(fontSize: SizeConfig.defaultSize * 2.5),
     ),
-  ),
-  PageViewModel(
-    image: Container(
-        width: SizeConfig.defaultSize * 30,
-        height: SizeConfig.defaultSize * 30,
+  ]),
+  Column(children: [
+    Container(
+        width: SizeConfig.screenWidth,
+        height: SizeConfig.screenWidth,
+        padding: EdgeInsets.all(SizeConfig.defaultSize * 3),
         child: Image.asset("assets/images/intro2.png")),
-    titleWidget: Container(
+    Container(
         padding: EdgeInsets.only(bottom: SizeConfig.defaultSize * 1.3),
         child: Text(
           "Game Reviews".tr,
@@ -86,18 +88,19 @@ List<PageViewModel> _pageList = [
               fontSize: SizeConfig.defaultSize * 4,
               fontWeight: FontWeight.bold),
         )),
-    bodyWidget: Text(
+    Text(
       "Review a mobile game &\nAdd trust with time played".tr,
       textAlign: TextAlign.center,
       style: TextStyle(fontSize: SizeConfig.defaultSize * 2.5),
     ),
-  ),
-  PageViewModel(
-    image: Container(
-        width: SizeConfig.defaultSize * 30,
-        height: SizeConfig.defaultSize * 30,
+  ]),
+  Column(children: [
+    Container(
+        width: SizeConfig.screenWidth,
+        height: SizeConfig.screenWidth,
+        padding: EdgeInsets.all(SizeConfig.defaultSize * 3),
         child: Image.asset("assets/images/intro3.png")),
-    titleWidget: Container(
+    Container(
         padding: EdgeInsets.only(bottom: SizeConfig.defaultSize * 1.3),
         child: Text(
           "Permission Please!".tr,
@@ -105,21 +108,19 @@ List<PageViewModel> _pageList = [
               fontSize: SizeConfig.defaultSize * 4,
               fontWeight: FontWeight.bold),
         )),
-    bodyWidget: Column(children: [
-      Text(
-        "Please grant permission\nto access your usage data".tr,
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: SizeConfig.defaultSize * 2.5),
-      ),
-      Container(
-          padding: EdgeInsets.all(SizeConfig.defaultSize * 5),
-          child: ElevatedButton(
-            onPressed: () {
-              AnalyticsBloc.onGrantpermissionButtonuttonClick();
-              UsageStats.grantUsagePermission();
-            },
-            child: Text("GRANT PERMISSION".tr),
-          ))
-    ]),
-  ),
+    Text(
+      "Please grant permission\nto access your usage data".tr,
+      textAlign: TextAlign.center,
+      style: TextStyle(fontSize: SizeConfig.defaultSize * 2.5),
+    ),
+    Container(
+        padding: EdgeInsets.all(SizeConfig.defaultSize * 5),
+        child: ElevatedButton(
+          onPressed: () {
+            AnalyticsBloc.onGrantpermissionButtonuttonClick();
+            UsageStats.grantUsagePermission();
+          },
+          child: Text("GRANT PERMISSION".tr),
+        ))
+  ]),
 ];
