@@ -389,7 +389,7 @@ GestureDetector reviewButton(ApplicationInfos app, bool rated) {
       ),
       child: Text(
         (app.usage?.inMinutes ?? 0) < playtimeToLeaveComment
-            ? "${playtimeToLeaveComment - (app.usage?.inMinutes ?? 0)} Min to Rate"
+            ? "play ${playtimeToLeaveComment - (app.usage?.inMinutes ?? 0)}min more to rate"
             : rated
                 ? "Modify Review".tr
                 : "Rate & Review".tr,

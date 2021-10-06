@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:real_gamers_critics/blocs/analytics.dart';
 
 import 'package:usage_stats/usage_stats.dart';
 import 'package:device_apps/device_apps.dart';
@@ -93,6 +94,8 @@ class ApplicationsController extends GetxController {
     await Future.wait(_tasks);
 
     _apps = _fetchedList;
+
+    AnalyticsBloc.installedAppInfo(_installedApps.length, _apps.length);
   }
 
   /// android only (iOS is not supported).

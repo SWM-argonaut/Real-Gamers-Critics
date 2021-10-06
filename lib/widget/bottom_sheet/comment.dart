@@ -40,6 +40,7 @@ commentBottomSheet(ApplicationInfos _app) {
 class CommentWriting extends StatelessWidget {
   final ApplicationInfos app;
 
+  MyCommentsController _myComments = Get.find();
   final MyCommentsController myCommentsController = Get.find();
 
   CommentWriting({required this.app, Key? key}) : super(key: key);
@@ -150,6 +151,7 @@ class CommentWriting extends StatelessWidget {
                     log("rating: ${ratingController.rating}\nshort: ${shortCommentCtrl.text}\nlong: ${longCommentCtrl.text}");
                     log("${await CommentApi.addComment(app.packageName, shortCommentCtrl.text, longCommentCtrl.text, ratingController.rating.toInt())}");
                     AnalyticsBloc.onReviw(app, ratingController.rating.toInt());
+                    _myComments.load();
                     Provider.of<CommentProvider>(context, listen: false)
                         .fetch(app.packageName);
                     Get.back();

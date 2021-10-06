@@ -53,27 +53,41 @@ class AnalyticsBloc {
   }
 
   static onIntro() {
-    _logger(name: "인트로페이지", param: <String, dynamic>{
-      "상태": "시작",
+    _logger(name: "인트로페이지_시작", param: <String, dynamic>{
+      "지역": "${Get.deviceLocale}",
     });
   }
 
   static onIntroFinished() {
-    _logger(name: "인트로페이지", param: <String, dynamic>{
-      "상태": "끝",
+    _logger(name: "인트로페이지_완료", param: <String, dynamic>{
+      "지역": "${Get.deviceLocale}",
     });
   }
 
   static onGrantpermissionButtonuttonClick() {
-    _logger(name: "권한", param: <String, dynamic>{"상태": "권한_버튼_클릭"});
+    _logger(name: "권한_버튼_클릭", param: <String, dynamic>{
+      "지역": "${Get.deviceLocale}",
+    });
   }
 
   static onGrantPermission() {
-    _logger(name: "권한", param: <String, dynamic>{"상태": "허용됨"});
+    _logger(name: "권한_획득", param: <String, dynamic>{
+      "지역": "${Get.deviceLocale}",
+    });
   }
 
   static onDismissPermission() {
-    _logger(name: "권한", param: <String, dynamic>{"상태": "거부됨"});
+    _logger(name: "권한_거부됨", param: <String, dynamic>{
+      "지역": "${Get.deviceLocale}",
+    });
+  }
+
+  static installedAppInfo(int totalCount, int gameCount) {
+    _logger(name: "설치된_게임앱_정보", param: <String, dynamic>{
+      "지역": "${Get.deviceLocale}",
+      "전체_앱_수": totalCount,
+      "게임앱_수": gameCount,
+    });
   }
 
   static onDetail(ApplicationInfos app) {
