@@ -55,6 +55,7 @@ class _IntroductionState extends State<Introduction> {
 
 List<Column> _pageList = [
   Column(children: [
+    Padding(padding: EdgeInsets.all(SizeConfig.defaultSize * 2)),
     Container(
         width: SizeConfig.screenWidth,
         height: SizeConfig.screenWidth,
@@ -75,6 +76,7 @@ List<Column> _pageList = [
     ),
   ]),
   Column(children: [
+    Padding(padding: EdgeInsets.all(SizeConfig.defaultSize * 2)),
     Container(
         width: SizeConfig.screenWidth,
         height: SizeConfig.screenWidth,
@@ -95,6 +97,7 @@ List<Column> _pageList = [
     ),
   ]),
   Column(children: [
+    Padding(padding: EdgeInsets.all(SizeConfig.defaultSize)),
     Container(
         width: SizeConfig.screenWidth,
         height: SizeConfig.screenWidth,
