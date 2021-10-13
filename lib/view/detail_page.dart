@@ -84,33 +84,24 @@ class _DetailPageState extends State<DetailPage> {
 
     return Scaffold(
       // AppBar
-      appBar: AppBar(
-        backgroundColor: _topBackroundColor,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          ),
-          onPressed: () => Get.back(),
-        ),
-        // TODO 나중에 자기 플레이 타임하고 그래프 예쁠때
-        // actions: [
-        //   IconButton(
-        //     icon: Icon(
-        //       Icons.share,
-        //       color: Colors.white,
-        //     ),
-        //     onPressed: () {},
-        //   ),
-        //   IconButton(
-        //     icon: Icon(
-        //       Icons.delete,
-        //       color: Colors.white,
-        //     ),
-        //     onPressed: () {},
-        //   )
-        // ],
-      ),
+
+      // TODO 나중에 자기 플레이 타임하고 그래프 예쁠때
+      // actions: [
+      //   IconButton(
+      //     icon: Icon(
+      //       Icons.share,
+      //       color: Colors.white,
+      //     ),
+      //     onPressed: () {},
+      //   ),
+      //   IconButton(
+      //     icon: Icon(
+      //       Icons.delete,
+      //       color: Colors.white,
+      //     ),
+      //     onPressed: () {},
+      //   )
+      // ],
 
       // Body
       body: Container(
@@ -132,68 +123,86 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Column appInfo(ApplicationInfos app) {
-    return Column(
-      children: [
-        Container(
-          width: SizeConfig.defaultSize * 11,
-          margin: EdgeInsets.only(
-            top: SizeConfig.defaultSize * 2,
-            bottom: SizeConfig.defaultSize * 1,
-          ),
-          decoration: BoxDecoration(
-              borderRadius:
-                  BorderRadius.circular(SizeConfig.defaultSize * 2.2)),
-          child: app.icon != null
-              ? Image(
-                  image: MemoryImage(app.icon!),
-                )
-              : Icon(Icons.not_accessible),
-        ),
-        Text(
-          "${app.appName}",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: SizeConfig.defaultSize * 2.2,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        GestureDetector(
-            onTap: () {
-              if (app.enabled) {
-                AnalyticsBloc.onPlay(app.packageName);
-                DeviceApps.openApp(app.packageName);
-              } else {
-                // TODO 플레이 스토어 링크 열기
-                log("미설치");
-              }
-            },
-            // TODO: https://stackoverflow.com/questions/11753000/how-to-open-the-google-play-store-directly-from-my-android-application
-
-            child:
-                // Figma Flutter Generator BaseWidget - RECTANGLE
-                Container(
-                    width: SizeConfig.defaultSize * 12,
-                    height: SizeConfig.defaultSize * 4,
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.all(SizeConfig.defaultSize * 2),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: Color.fromRGBO(106, 54, 255, 0.1),
-                    ),
-                    child: Text(
-                      "Play".tr,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Color.fromRGBO(106, 54, 255, 1),
-                          fontFamily: 'JejuGothic',
-                          fontSize: SizeConfig.defaultSize * 2,
-                          letterSpacing: 0,
-                          fontWeight: FontWeight.normal,
-                          height: 1.5),
-                    ))),
-      ],
-    );
+  Stack appInfo(ApplicationInfos app) {
+    return Stack(children: [
+      Container(
+          width: SizeConfig.screenWidth,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                width: SizeConfig.defaultSize * 11,
+                margin: EdgeInsets.only(
+                  top: SizeConfig.defaultSize * 2,
+                  bottom: SizeConfig.defaultSize * 1,
+                ),
+                decoration: BoxDecoration(
+                    borderRadius:
+                        BorderRadius.circular(SizeConfig.defaultSize * 2.2)),
+                child: app.icon != null
+                    ? Image(
+                        image: MemoryImage(app.icon!),
+                      )
+                    : Icon(Icons.not_accessible),
+              ),
+              Text(
+                "${app.appName}",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: SizeConfig.defaultSize * 2.2,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              GestureDetector(
+                  onTap: () {
+                    if (app.enabled) {
+                      AnalyticsBloc.onPlay(app.packageName);
+                      DeviceApps.openApp(app.packageName);
+                    } else {
+                      // TODO 플레이 스토어 링크 열기
+                      log("미설치");
+                    }
+                  },
+                  // TODO: https://stackoverflow.com/questions/11753000/how-to-open-the-google-play-store-directly-from-my-android-application
+                  child:
+                      // Figma Flutter Generator BaseWidget - RECTANGLE
+                      Container(
+                          width: SizeConfig.defaultSize * 12,
+                          height: SizeConfig.defaultSize * 4,
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.all(SizeConfig.defaultSize * 2),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color: Color.fromRGBO(106, 54, 255, 0.1),
+                          ),
+                          child: Text(
+                            "Play".tr,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Color.fromRGBO(106, 54, 255, 1),
+                                fontFamily: 'JejuGothic',
+                                fontSize: SizeConfig.defaultSize * 2,
+                                letterSpacing: 0,
+                                fontWeight: FontWeight.normal,
+                                height: 1.5),
+                          ))),
+            ],
+          )),
+      Positioned(
+          left: SizeConfig.defaultSize * 2,
+          top: SizeConfig.defaultSize * 6,
+          child: GestureDetector(
+              onTap: () => Get.back(),
+              child: Container(
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: Colors.white),
+                  child: Icon(
+                    Icons.chevron_left_rounded,
+                    color: _topBackroundColor,
+                    size: SizeConfig.defaultSize * 3.5,
+                  ))))
+    ]);
   }
 
   Container playTime(ApplicationInfos app) {
