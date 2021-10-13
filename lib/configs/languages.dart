@@ -56,6 +56,10 @@ class Messages extends Translations {
           "No one in our app played this game\nTake the first step!":
               "No one in our app played this game\nTake the first step!",
 
+          //디테일 페이지 - 리더보드
+          "ANONYMOUS": "ANONYMOUS",
+          "Not yet commented": "Not yet commented",
+
           // 댓글 페이지
           "need login": "로그인이 필요합니다.",
           "need login for comment": "댓글을 달기 위해선 로그인이 필요합니다.",

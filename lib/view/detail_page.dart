@@ -517,7 +517,7 @@ class _DetailPageState extends State<DetailPage> {
                                 fontSize: SizeConfig.defaultSize * 1.8),
                           )),
                       title: Text(
-                        _leaderboards[ranking].userName ?? "ANONYMITY",
+                        _leaderboards[ranking].userName ?? "ANONYMOUS".tr,
                         style: TextStyle(
                             fontFamily: 'JejuGothic',
                             fontSize: SizeConfig.defaultSize * 1.8),
@@ -526,7 +526,8 @@ class _DetailPageState extends State<DetailPage> {
                           padding: EdgeInsets.only(
                               top: SizeConfig.defaultSize * 0.5),
                           child: Text(
-                            _leaderboards[ranking].shortText ?? "",
+                            _leaderboards[ranking].shortText ??
+                                "Not yet commented".tr,
                             style: TextStyle(
                                 fontFamily: 'JejuGothic',
                                 color: Color.fromRGBO(105, 105, 105, 1),
