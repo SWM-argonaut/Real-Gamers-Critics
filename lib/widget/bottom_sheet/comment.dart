@@ -7,12 +7,13 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:real_gamers_critics/blocs/analytics.dart';
 
 import 'package:real_gamers_critics/configs/configs.dart';
 import 'package:real_gamers_critics/configs/size_config.dart';
 
+import 'package:real_gamers_critics/blocs/analytics.dart';
 import 'package:real_gamers_critics/blocs/myCommentsController.dart';
+import 'package:real_gamers_critics/blocs/leaderboardController.dart';
 import 'package:real_gamers_critics/blocs/providers/comment_provicer.dart';
 
 import 'package:real_gamers_critics/functions/api/comment.dart';
@@ -42,6 +43,7 @@ class CommentWriting extends StatelessWidget {
 
   MyCommentsController _myComments = Get.find();
   final MyCommentsController myCommentsController = Get.find();
+  final LeaderboardController leaderboardController = Get.find();
 
   CommentWriting({required this.app, Key? key}) : super(key: key);
 
@@ -154,12 +156,21 @@ class CommentWriting extends StatelessWidget {
                     _myComments.load();
                     Provider.of<CommentProvider>(context, listen: false)
                         .fetch(app.packageName);
+
+                    if ((leaderboardController.get(app.packageName)?.indexWhere(
+                            (leaderboard) =>
+                                leaderboard.userID ==
+                                FirebaseAuth.instance.currentUser!.uid)) !=
+                        -1) {
+                      leaderboardController.fetch(app.packageName);
+                    }
+
                     Get.back();
                     Get.back();
                   }
                   // TODO: 공백 채우라고 메세지 띄우기
                 },
-                child: Text("rate".tr),
+                child: Text("Save".tr),
               ))
         ],
       ),

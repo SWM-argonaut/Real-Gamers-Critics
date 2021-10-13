@@ -56,8 +56,9 @@ class CommentModel {
     _shortText = json['shortText'];
     _longText = json['longText'];
     _rating = json['rating'];
-    _createDate =
-        DateTime.fromMillisecondsSinceEpoch(json['createDate'] * 1000);
+    _createDate = json['createDate'] != null
+        ? DateTime.fromMillisecondsSinceEpoch(json['createDate'] * 1000)
+        : null;
     _userID = json['userID'];
     _userName = json['userName'];
     _photoURL = json['photoURL'];

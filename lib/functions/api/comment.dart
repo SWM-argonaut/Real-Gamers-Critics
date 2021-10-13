@@ -31,6 +31,13 @@ class CommentApi {
         .map((_comment) => CommentModel.fromJson(_comment)));
   }
 
+  static Future<List<CommentModel>> getLeaderboard(String packageName) async {
+    return List<CommentModel>.from((await _get(
+      "leaderboard/region/${Get.deviceLocale?.countryCode}/gameID/$packageName",
+    ))
+        .map((_comment) => CommentModel.fromJson(_comment)));
+  }
+
   static Future<dynamic> addComment(
       String packageName, String shortText, String longText, int rating) async {
     return await _postWithAuth("comment", <String, dynamic>{
