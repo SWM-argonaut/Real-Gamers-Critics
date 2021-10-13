@@ -11,6 +11,7 @@ import 'package:real_gamers_critics/configs/configs.dart';
 import 'package:real_gamers_critics/configs/languages.dart' as Ln;
 
 import 'package:real_gamers_critics/blocs/analytics.dart';
+import 'package:real_gamers_critics/blocs/oneSignal.dart';
 import 'package:real_gamers_critics/blocs/myCommentsController.dart';
 import 'package:real_gamers_critics/blocs/leaderboardController.dart';
 import 'package:real_gamers_critics/blocs/applicationsController.dart';
@@ -23,6 +24,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
   AnalyticsBloc.init();
+  initOneSignal();
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => CommentProvider()),

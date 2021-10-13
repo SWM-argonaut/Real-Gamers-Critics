@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:get/get.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
+
 import 'package:real_gamers_critics/blocs/analytics.dart';
 
 import 'package:real_gamers_critics/blocs/myCommentsController.dart';
@@ -36,6 +38,10 @@ Future<UserCredential> signInWithGoogle() async {
 
   AnalyticsBloc.onLogin();
 
+  // one signal tag
+  OneSignal.shared
+      .sendTag("google uid", FirebaseAuth.instance.currentUser?.uid);
+
   // Once signed in, return the UserCredential
   return _user;
 }
@@ -46,5 +52,6 @@ Future<void> logOutWithGoogle() async {
   await FirebaseAuth.instance.signOut();
   await GoogleSignIn().signOut();
   AnalyticsBloc.onLogout();
+  OneSignal.shared.deleteTag("google uid");
   _myComments.load();
 }
