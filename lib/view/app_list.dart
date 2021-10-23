@@ -111,9 +111,12 @@ Widget _itemBuilder(ApplicationInfos _app) {
                               borderRadius: BorderRadius.circular(
                                   SizeConfig.defaultSize * 2.2)),
                           child: _app.icon != null
-                              ? Image(
-                                  image: MemoryImage(_app.icon!),
-                                )
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(
+                                      SizeConfig.defaultSize),
+                                  child: Image(
+                                    image: MemoryImage(_app.icon!),
+                                  ))
                               : Icon(Icons.not_accessible),
                         ),
                         Column(

@@ -141,9 +141,12 @@ class _DetailPageState extends State<DetailPage> {
                     borderRadius:
                         BorderRadius.circular(SizeConfig.defaultSize * 2.2)),
                 child: app.icon != null
-                    ? Image(
-                        image: MemoryImage(app.icon!),
-                      )
+                    ? ClipRRect(
+                        borderRadius:
+                            BorderRadius.circular(SizeConfig.defaultSize),
+                        child: Image(
+                          image: MemoryImage(app.icon!),
+                        ))
                     : Icon(Icons.not_accessible),
               ),
               Text(
