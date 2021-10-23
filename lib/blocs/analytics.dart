@@ -98,8 +98,9 @@ class AnalyticsBloc {
   static onDetail(ApplicationInfos app) {
     _logger(name: "상세페이지", param: <String, dynamic>{
       "구글_유저_아이디": "${FirebaseAuth.instance.currentUser?.uid ?? '로그인_안함'}",
-      "gameId#Region": app.packageName + "${Get.deviceLocale}",
-      "플레이_시간": "${app.usage?.inMinutes}Min",
+      "gameId": app.packageName,
+      "region": "${Get.deviceLocale}",
+      "플레이_시간(분)": app.usage?.inMinutes ?? 0,
     });
   }
 
@@ -123,16 +124,18 @@ class AnalyticsBloc {
   static onReviwButtonClick(ApplicationInfos app) {
     _logger(name: "리뷰버튼눌림", param: <String, dynamic>{
       "구글_유저_아이디": "${FirebaseAuth.instance.currentUser?.uid ?? '로그인_안함'}",
-      "gameId#Region": app.packageName + "${Get.deviceLocale}",
-      "플레이_시간": "${app.usage?.inMinutes}Min",
+      "gameId": app.packageName,
+      "region": "${Get.deviceLocale}",
+      "플레이_시간(분)": app.usage?.inMinutes ?? 0,
     });
   }
 
   static onReviw(ApplicationInfos app, int rating) {
     _logger(name: "리뷰", param: <String, dynamic>{
       "구글_유저_아이디": "${FirebaseAuth.instance.currentUser?.uid ?? '로그인_안함'}",
-      "gameId#Region": app.packageName + "${Get.deviceLocale}",
-      "플레이_시간": "${app.usage?.inMinutes}Min",
+      "gameId": app.packageName,
+      "region": "${Get.deviceLocale}",
+      "플레이_시간(분)": app.usage?.inMinutes ?? 0,
       "평점": rating,
     });
   }
