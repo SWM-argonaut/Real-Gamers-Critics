@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'package:real_gamers_critics/configs/configs.dart';
 import 'package:real_gamers_critics/configs/languages.dart' as Ln;
@@ -23,8 +24,8 @@ import 'package:real_gamers_critics/view/home.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
-  AnalyticsBloc.init();
   initOneSignal();
+  MobileAds.instance.initialize();
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => CommentProvider()),
@@ -56,6 +57,8 @@ class _MyAppState extends State<MyApp> {
 
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
+          AnalyticsBloc.init();
+
           Get.put(LeaderboardController());
           Get.put(MyCommentsController()).load();
           Get.put(ApplicationsController()).init();

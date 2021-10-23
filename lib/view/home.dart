@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import 'package:real_gamers_critics/configs/configs.dart';
 import 'package:real_gamers_critics/configs/size_config.dart';
 
 import 'package:real_gamers_critics/blocs/analytics.dart';
@@ -11,6 +12,7 @@ import 'package:real_gamers_critics/blocs/applicationsController.dart';
 import 'package:real_gamers_critics/view/app_list.dart';
 import 'package:real_gamers_critics/view/introduction.dart';
 
+import 'package:real_gamers_critics/widget/ads.dart';
 import 'package:real_gamers_critics/widget/drawer/home.dart';
 
 import 'package:real_gamers_critics/functions/api/comment.dart';
@@ -55,7 +57,12 @@ class _HomeState extends State<Home> {
       drawer: Drawer(
         child: HomeDrawer(),
       ),
-      body: AppList(),
+      body: Stack(children: [
+        AppList(),
+        Positioned(
+            bottom: 0,
+            child: BannerAdWidget(bannerAdUnitId: bottomBannerAdUnitId)),
+      ]),
     );
   }
 }

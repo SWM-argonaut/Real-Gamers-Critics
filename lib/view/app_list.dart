@@ -48,6 +48,7 @@ class AppList extends StatelessWidget {
         }
 
         return ListView(
+          padding: EdgeInsets.only(bottom: SizeConfig.defaultSize * 9),
           children: appController.apps.map(_itemBuilder).toList(),
         );
       },

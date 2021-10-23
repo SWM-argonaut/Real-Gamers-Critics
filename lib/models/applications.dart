@@ -114,9 +114,12 @@ class ApplicationInfos {
         this._enabled = json['enabled'],
         // this._category = json['category'],
         this._usage = Duration(seconds: json['usage'] ?? 0),
-        this._firstTimeStamp = json['firstTimeStamp'],
-        this._lastTimeStamp = json['lastTimeStamp'],
-        this._lastTimeUsed = json['lastTimeUsed'],
+        this._firstTimeStamp =
+            DateTime.fromMillisecondsSinceEpoch(json['firstTimeStamp'] ?? 0),
+        this._lastTimeStamp =
+            DateTime.fromMillisecondsSinceEpoch(json['lastTimeStamp'] ?? 0),
+        this._lastTimeUsed =
+            DateTime.fromMillisecondsSinceEpoch(json['lastTimeUsed'] ?? 0),
         this._genre = json['genre'],
         this._icon = json['icon'] != null ? base64.decode(json['icon']) : null;
 
@@ -143,9 +146,9 @@ class ApplicationInfos {
     data['enabled'] = this._enabled;
     // data['category'] = this._category;
     data['usage'] = this._usage?.inSeconds;
-    data['firstTimeStamp'] = this._firstTimeStamp;
-    data['lastTimeStamp'] = this._lastTimeStamp;
-    data['lastTimeUsed'] = this._lastTimeUsed;
+    data['firstTimeStamp'] = this._firstTimeStamp?.millisecondsSinceEpoch;
+    data['lastTimeStamp'] = this._lastTimeStamp?.millisecondsSinceEpoch;
+    data['lastTimeUsed'] = this._lastTimeUsed?.millisecondsSinceEpoch;
     data['genre'] = this._genre;
     data['icon'] = this._icon != null ? base64.encode(this._icon!) : null;
     return data;

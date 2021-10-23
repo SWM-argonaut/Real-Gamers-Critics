@@ -19,10 +19,18 @@ import 'package:real_gamers_critics/widget/dialog/permission.dart';
 import 'package:real_gamers_critics/functions/playstore/check_app.dart';
 import 'package:real_gamers_critics/functions/api/comment.dart';
 
+enum OrderBy {
+  PLAYTIME,
+  DATE,
+}
+
 class ApplicationsController extends GetxController {
   final _box = GetStorage();
 
+  bool asc = false; // 오름차순
+  OrderBy orderBy = OrderBy.PLAYTIME;
   List<ApplicationInfos> _apps = [];
+
   bool _isLoading = false;
   bool _isCached = false;
   bool _hasError = false;
@@ -38,15 +46,28 @@ class ApplicationsController extends GetxController {
     update();
 
     if (_box.hasData("cachedAppList")) {
+      log("read cached app list");
       _apps = List<ApplicationInfos>.from(_box
           .read("cachedAppList")
           .map((_data) => ApplicationInfos.fromJson(_data)));
       _isCached = true;
+      _isLoading = false; // tmp TODO 캐시인것도 표시해주면서?
       update();
-      log("read cached app list");
     }
 
     fetch();
+  }
+
+  void sort() {
+    List<int Function(ApplicationInfos, ApplicationInfos)> _compareFuncs = [
+      (a, b) => a.usage?.compareTo(b.usage ?? Duration()) ?? -1, // PLAYTIME
+      (a, b) => a.installTimeMillis.compareTo(b.installTimeMillis), // DATE
+    ];
+    assert(_compareFuncs.length == OrderBy.values.length);
+
+    _apps.sort((a, b) => _compareFuncs[orderBy.index](a, b) * (asc ? 1 : -1));
+
+    update();
   }
 
   void fetch() async {
@@ -57,18 +78,18 @@ class ApplicationsController extends GetxController {
     /// app info
     await _appInfoFetch();
     _isCached = false;
-    update();
+    sort(); // sort() has update()
     log("info fetch done");
-
-    /// caching without usage data
-    _box.write("cachedAppList", _apps.map((_app) => _app.toJson()).toList());
-    log("write app list cache");
 
     /// usage time
     await _usageFetch();
     _isLoading = false;
-    update();
+    sort(); // sort() has update()
     log("usage fetch done");
+
+    /// caching
+    _box.write("cachedAppList", _apps.map((_app) => _app.toJson()).toList());
+    log("write app list cache");
   }
 
   Future<void> _appInfoFetch() async {

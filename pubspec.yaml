@@ -38,7 +38,7 @@ dependencies:
   firebase_core: ^1.6.0
   firebase_auth: ^3.1.0
   google_sign_in: ^5.0.7
-  # google_mobile_ads: ^0.13.2 // 추후 설정 하셈
+  google_mobile_ads: ^0.13.5
   firebase_messaging: ^10.0.7
   firebase_analytics: ^8.3.2
   
