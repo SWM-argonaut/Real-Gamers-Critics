@@ -13,6 +13,8 @@ import 'package:device_apps/device_apps.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:scroll_navigation/scroll_navigation.dart';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
 
@@ -40,18 +42,11 @@ import 'package:real_gamers_critics/widget/snackbar/warning.dart';
 
 const _topBackroundColor = Color.fromRGBO(46, 33, 85, 0.3);
 
-const _tabFontSize = 2.4;
-
-class TapIndexController extends GetxController {
-  RxInt index = 0.obs;
-}
-
 class DetailPage extends StatefulWidget {
   final ApplicationInfos app;
 
   final MyCommentsController myCommentsController = Get.find();
   final LeaderboardController leaderboardController = Get.find();
-  final TapIndexController tapIndexController = TapIndexController();
 
   DetailPage({required this.app, Key? key}) : super(key: key);
 
@@ -83,27 +78,6 @@ class _DetailPageState extends State<DetailPage> {
             "${widget.app.packageName}#${Get.deviceLocale?.countryCode}");
 
     return Scaffold(
-      // AppBar
-
-      // TODO 나중에 자기 플레이 타임하고 그래프 예쁠때
-      // actions: [
-      //   IconButton(
-      //     icon: Icon(
-      //       Icons.share,
-      //       color: Colors.white,
-      //     ),
-      //     onPressed: () {},
-      //   ),
-      //   IconButton(
-      //     icon: Icon(
-      //       Icons.delete,
-      //       color: Colors.white,
-      //     ),
-      //     onPressed: () {},
-      //   )
-      // ],
-
-      // Body
       body: Container(
           width: SizeConfig.screenWidth,
           color: _topBackroundColor,
@@ -252,66 +226,27 @@ class _DetailPageState extends State<DetailPage> {
 
   Widget tap() {
     return LayoutBuilder(builder: (context, constraints) {
-      return Obx(() => Container(
-            width: constraints.maxWidth,
-            height: constraints.maxHeight,
-            padding: EdgeInsets.only(top: SizeConfig.defaultSize * 0.2),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(SizeConfig.defaultSize * 3),
-              ),
+      return Container(
+          width: constraints.maxWidth,
+          height: constraints.maxHeight,
+          padding: EdgeInsets.only(top: SizeConfig.defaultSize * 0.2),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(SizeConfig.defaultSize * 3),
             ),
-            child: Column(children: [
-              Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    GestureDetector(
-                        onTap: () => widget.tapIndexController.index.value = 0,
-                        child: Container(
-                            padding: EdgeInsets.only(
-                                top: SizeConfig.defaultSize * 2),
-                            decoration: widget.tapIndexController.index.value ==
-                                    0
-                                ? BoxDecoration(
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            width:
-                                                SizeConfig.defaultSize * 0.2)))
-                                : null,
-                            child: Text("Reviews".tr,
-                                style: TextStyle(
-                                  fontSize:
-                                      SizeConfig.defaultSize * _tabFontSize,
-                                  fontFamily: 'JejuGothic',
-                                  height: 1.5,
-                                )))),
-                    GestureDetector(
-                        onTap: () => widget.tapIndexController.index.value = 1,
-                        child: Container(
-                            padding: EdgeInsets.only(
-                                top: SizeConfig.defaultSize * 2),
-                            decoration: widget.tapIndexController.index.value ==
-                                    1
-                                ? BoxDecoration(
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            width:
-                                                SizeConfig.defaultSize * 0.2)))
-                                : null,
-                            child: Text("Leaderboard".tr,
-                                style: TextStyle(
-                                  fontSize:
-                                      SizeConfig.defaultSize * _tabFontSize,
-                                  fontFamily: 'JejuGothic',
-                                  height: 1.5,
-                                ))))
-                  ]),
-              Expanded(
-                  child: [comments(), leaderboard()]
-                      .elementAt(widget.tapIndexController.index.value)),
-            ]),
+          ),
+          child: TitleScrollNavigation(
+            initialPage: 1,
+            barStyle: TitleNavigationBarStyle(
+                activeColor: Colors.black54,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: SizeConfig.defaultSize * 2.4),
+                spaceBetween: SizeConfig.defaultSize * 2.4),
+            identiferStyle: NavigationIdentiferStyle(color: Colors.black),
+            titles: ["Reviews".tr, "Leaderboard ".tr],
+            pages: [comments(), leaderboard()],
           ));
     });
   }
