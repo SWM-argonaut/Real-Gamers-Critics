@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 
-import 'package:real_gamers_critics/functions/api/comment.dart';
+import 'package:real_gamers_critics/functions/api/leaderboard.dart';
 
 import 'package:real_gamers_critics/models/comment.dart';
 
@@ -24,7 +24,7 @@ class LeaderboardController extends GetxController {
       update();
 
       _leaderboardMap[packageName] =
-          await CommentApi.getLeaderboard(packageName);
+          await LeaderboardApi.getLeaderboard(packageName);
     } catch (e) {
       log(e.toString());
     } finally {

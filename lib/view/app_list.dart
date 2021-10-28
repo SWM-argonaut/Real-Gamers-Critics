@@ -13,8 +13,8 @@ import 'package:real_gamers_critics/configs/configs.dart'
     show playtimeToLeaveComment;
 import 'package:real_gamers_critics/configs/size_config.dart';
 
-import 'package:real_gamers_critics/blocs/myCommentsController.dart';
-import 'package:real_gamers_critics/blocs/applicationsController.dart'
+import 'package:real_gamers_critics/blocs/my_comments_controller.dart';
+import 'package:real_gamers_critics/blocs/applications_controller.dart'
     show ApplicationsController, ApplicationsProviders;
 
 import 'package:real_gamers_critics/models/applications.dart';

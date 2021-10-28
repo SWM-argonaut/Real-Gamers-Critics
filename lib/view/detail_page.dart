@@ -22,8 +22,8 @@ import 'package:real_gamers_critics/configs/configs.dart';
 import 'package:real_gamers_critics/configs/size_config.dart';
 
 import 'package:real_gamers_critics/blocs/analytics.dart';
-import 'package:real_gamers_critics/blocs/myCommentsController.dart';
-import 'package:real_gamers_critics/blocs/leaderboardController.dart';
+import 'package:real_gamers_critics/blocs/my_comments_controller.dart';
+import 'package:real_gamers_critics/blocs/leaderboard_controller.dart';
 import 'package:real_gamers_critics/blocs/providers/comment_provicer.dart';
 
 import 'package:real_gamers_critics/functions/api/comment.dart';

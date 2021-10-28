@@ -6,10 +6,10 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import 'package:real_gamers_critics/blocs/analytics.dart';
 
-import 'package:real_gamers_critics/blocs/myCommentsController.dart';
-import 'package:real_gamers_critics/blocs/applicationsController.dart';
+import 'package:real_gamers_critics/blocs/my_comments_controller.dart';
+import 'package:real_gamers_critics/blocs/applications_controller.dart';
 
-import 'package:real_gamers_critics/functions/api/comment.dart';
+import 'package:real_gamers_critics/functions/api/playtime.dart';
 
 Future<UserCredential> signInWithGoogle() async {
   MyCommentsController _myComments = Get.find();
@@ -31,7 +31,7 @@ Future<UserCredential> signInWithGoogle() async {
       await FirebaseAuth.instance.signInWithCredential(credential);
 
   // update game playtime
-  CommentApi.updatePlaytime();
+  PlaytimeApi.updatePlaytime();
 
   // get my comments
   _myComments.load();

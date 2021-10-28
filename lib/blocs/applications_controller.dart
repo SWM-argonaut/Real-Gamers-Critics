@@ -16,8 +16,9 @@ import 'package:real_gamers_critics/models/applications.dart';
 
 import 'package:real_gamers_critics/widget/dialog/permission.dart';
 
-import 'package:real_gamers_critics/functions/playstore/check_app.dart';
 import 'package:real_gamers_critics/functions/api/comment.dart';
+import 'package:real_gamers_critics/functions/api/playtime.dart';
+import 'package:real_gamers_critics/functions/playstore/check_app.dart';
 
 enum OrderBy {
   PLAYTIME,
@@ -146,7 +147,7 @@ class ApplicationsController extends GetxController {
     _apps.forEach((_app) => _app.updateUsage(_usages[_app.packageName]));
 
     if (FirebaseAuth.instance.currentUser != null) {
-      CommentApi.updatePlaytime();
+      PlaytimeApi.updatePlaytime();
     }
   }
 }
