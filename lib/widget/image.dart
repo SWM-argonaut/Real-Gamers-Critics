@@ -41,7 +41,8 @@ class SlideImageView extends StatelessWidget {
             return GestureDetector(
                 onTap: () {
                   showImageViewer(context,
-                      CachedNetworkImageProvider("${imageUrls![index]}"));
+                      CachedNetworkImageProvider("${imageUrls![index]}"),
+                      immersive: false);
                 },
                 child: Container(
                   height: _height,
