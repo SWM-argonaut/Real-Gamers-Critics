@@ -12,8 +12,12 @@ import 'package:intl/intl.dart';
 import 'package:device_apps/device_apps.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:real_gamers_critics/models/application_metadata_model.dart';
+import 'package:real_gamers_critics/widget/image.dart';
 
 import 'package:scroll_navigation/scroll_navigation.dart';
+
+import 'package:carousel_slider/carousel_slider.dart';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +29,7 @@ import 'package:real_gamers_critics/blocs/analytics.dart';
 import 'package:real_gamers_critics/blocs/my_comments_controller.dart';
 import 'package:real_gamers_critics/blocs/leaderboard_controller.dart';
 import 'package:real_gamers_critics/blocs/providers/comment_provicer.dart';
+import 'package:real_gamers_critics/blocs/applications_metadata_controller.dart';
 
 import 'package:real_gamers_critics/functions/api/comment.dart';
 import 'package:real_gamers_critics/functions/format/number.dart';
@@ -47,6 +52,7 @@ class DetailPage extends StatefulWidget {
 
   final MyCommentsController myCommentsController = Get.find();
   final LeaderboardController leaderboardController = Get.find();
+  final ApplicationsMetadataController appMetadataController = Get.find();
 
   DetailPage({required this.app, Key? key}) : super(key: key);
 
@@ -70,6 +76,7 @@ class _DetailPageState extends State<DetailPage> {
       Provider.of<CommentProvider>(context, listen: false)
           .fetch(widget.app.packageName);
       widget.leaderboardController.fetch(widget.app.packageName);
+      widget.appMetadataController.fetch(widget.app.packageName);
     });
 
     final int _index = widget.myCommentsController.comments.indexWhere(
@@ -237,7 +244,7 @@ class _DetailPageState extends State<DetailPage> {
             ),
           ),
           child: TitleScrollNavigation(
-            initialPage: 1,
+            // initialPage: 1, // TODO 밑에 바가 안 맞음..
             barStyle: TitleNavigationBarStyle(
                 activeColor: Colors.black54,
                 style: TextStyle(
@@ -245,9 +252,40 @@ class _DetailPageState extends State<DetailPage> {
                     fontSize: SizeConfig.defaultSize * 2.4),
                 spaceBetween: SizeConfig.defaultSize * 2.4),
             identiferStyle: NavigationIdentiferStyle(color: Colors.black),
-            titles: ["Reviews".tr, "Leaderboard ".tr],
-            pages: [comments(), leaderboard()],
+            titles: ["Info".tr, "Reviews".tr, "Leaderboard ".tr],
+            pages: [appMetadata(), comments(), leaderboard()],
           ));
+    });
+  }
+
+  Widget appMetadata() {
+    return GetBuilder<ApplicationsMetadataController>(builder: (_) {
+      ApplicationMetadataModel? _appMetadata = _.get(widget.app.packageName);
+      if (_.isLoading) {
+        return Center(child: CircularProgressIndicator());
+      }
+
+      // if no data in there
+      if (_appMetadata == null) {
+        // TODO 메타데이터 없음 처리
+        return Container(
+          alignment: Alignment.center,
+          child: Text("No Data"),
+        );
+      }
+
+      return Container(
+          child: Column(
+        children: [
+          Container(
+              padding:
+                  EdgeInsets.symmetric(vertical: SizeConfig.defaultSize * 1.4),
+              child: SlideImageView(imageUrls: _appMetadata.screenshots)),
+          Container(
+            child: Text("${_appMetadata.summary}"),
+          )
+        ],
+      ));
     });
   }
 

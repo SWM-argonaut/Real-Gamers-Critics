@@ -34,9 +34,9 @@ class ApplicationMetadataModel {
 
   ApplicationMetadataModel.fromJson(Map<String, dynamic> json) {
     _title = json['title'];
-    _gameId = json['gameId'];
+    _gameId = json['gameID'];
     _icon = json['icon'];
-    _screenshots = json['screenshots'].cast<String>();
+    _screenshots = json['screenshotURLs'].cast<String>();
     _category = json['category'];
     _reviewCount = json['reviewCount'];
     _summary = json['summary'];
@@ -45,9 +45,9 @@ class ApplicationMetadataModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['title'] = this._title;
-    data['gameId'] = this._gameId;
+    data['gameID'] = this._gameId;
     data['icon'] = this._icon;
-    data['screenshots'] = this._screenshots;
+    data['screenshotURLs'] = this._screenshots;
     data['category'] = this._category;
     data['reviewCount'] = this._reviewCount;
     data['summary'] = this._summary;
