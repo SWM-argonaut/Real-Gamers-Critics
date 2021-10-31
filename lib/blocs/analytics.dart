@@ -98,9 +98,17 @@ class AnalyticsBloc {
   static onDetail(ApplicationInfos app) {
     _logger(name: "상세페이지", param: <String, dynamic>{
       "구글_유저_아이디": "${FirebaseAuth.instance.currentUser?.uid ?? '로그인_안함'}",
+      "설치_여부": app.enabled,
       "gameId": app.packageName,
       "region": "${Get.deviceLocale}",
       "플레이_시간(분)": app.usage?.inMinutes ?? 0,
+    });
+  }
+
+  static onSearch() {
+    _logger(name: "서치페이지", param: <String, dynamic>{
+      "구글_유저_아이디": "${FirebaseAuth.instance.currentUser?.uid ?? '로그인_안함'}",
+      "region": "${Get.deviceLocale}",
     });
   }
 

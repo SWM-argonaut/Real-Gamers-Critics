@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 
-import 'package:device_apps/device_apps.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:real_gamers_critics/configs/size_config.dart';
 
@@ -23,6 +23,7 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AnalyticsBloc.onSearch();
     applicationsSearchController.fetch();
 
     return GetBuilder<ApplicationsSearchController>(
@@ -50,11 +51,13 @@ class SearchPage extends StatelessWidget {
           );
         }
 
-        return ListView.builder(
-          itemCount: _list.length,
-          padding: EdgeInsets.only(bottom: SizeConfig.defaultSize * 9),
-          itemBuilder: (context, index) => _itemBuilder(_list[index]),
-        );
+        return Container(
+            padding: EdgeInsets.only(top: SizeConfig.defaultSize),
+            child: ListView.builder(
+              itemCount: _list.length,
+              padding: EdgeInsets.only(bottom: SizeConfig.defaultSize * 9),
+              itemBuilder: (context, index) => _itemBuilder(_list[index]),
+            ));
       },
     );
   }
@@ -90,7 +93,14 @@ Widget _itemBuilder(ApplicationInfos _app) {
                           ? ClipRRect(
                               borderRadius:
                                   BorderRadius.circular(SizeConfig.defaultSize),
-                              child: Image(image: _app.icon!))
+                              child: CachedNetworkImage(
+                                height: SizeConfig.defaultSize * 10,
+                                imageUrl: "${_app.iconUrl}",
+                                placeholder: (context, url) =>
+                                    Center(child: CircularProgressIndicator()),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.image_not_supported),
+                              ))
                           : Icon(Icons.not_accessible),
                     ),
                     Column(
@@ -123,9 +133,7 @@ Widget _itemBuilder(ApplicationInfos _app) {
                                 alignment: Alignment.center,
                                 width: SizeConfig.defaultSize * 2,
                               ),
-                              Text(" " +
-                                  "Played".tr +
-                                  " : ${durationFormat(_app.usage)}\n")
+                              Text(" ${_app.category}\n")
                             ]), // TODO: tr
                       ],
                     )

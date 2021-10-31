@@ -13,7 +13,8 @@ class ApplicationInfos {
   /// Displayable name of the application
   String _appName;
 
-  /// Icon of the application to use in conjunction with [Image.memory]
+  /// Icon
+  String? _iconUrl;
   ImageProvider? _icon;
 
   /// Full path to the base APK for this application
@@ -43,7 +44,7 @@ class ApplicationInfos {
 
   /// The category of this application
   /// The information may come from the application itself or the system
-  ApplicationCategory? _category;
+  String? _category;
 
   /// Whether the app is enabled (installed and visible)
   /// or disabled (installed, but not visible)
@@ -74,13 +75,14 @@ class ApplicationInfos {
   String? get dataDir => _dataDir;
   String? get versionName => _versionName;
   String? get genre => _genre;
+  String? get iconUrl => _iconUrl;
   ImageProvider? get icon => _icon;
   int? get versionCode => _versionCode;
   int? get installTimeMillis => _installTimeMillis;
   int? get updateTimeMillis => _updateTimeMillis;
   bool? get systemApp => _systemApp;
   bool get enabled => _enabled;
-  ApplicationCategory? get category => _category;
+  String? get category => _category;
 
   ApplicationInfos(
       {required Application app, UsageInfo? usageInfo, String? genre})
@@ -94,7 +96,7 @@ class ApplicationInfos {
         _installTimeMillis = app.installTimeMillis,
         _updateTimeMillis = app.updateTimeMillis,
         _enabled = app.enabled,
-        _category = app.category,
+        _category = app.category.toString(),
         _usage = usageInfo?.totalTimeInForeground ?? Duration(seconds: 0),
         _firstTimeStamp = usageInfo?.firstTimeStamp,
         _lastTimeStamp = usageInfo?.lastTimeStamp,
@@ -107,7 +109,9 @@ class ApplicationInfos {
         this._appName = _app.title!,
         this._enabled = false,
         this._usage = Duration(seconds: 0),
-        this._icon = NetworkImage("${_app.icon}");
+        this._icon = NetworkImage("${_app.iconUrl}"),
+        this._iconUrl = _app.iconUrl,
+        this._category = _app.category;
 
   ApplicationInfos.fromJson(Map<String, dynamic> json)
       : this._packageName = json['packageName'],
@@ -151,7 +155,7 @@ class ApplicationInfos {
     data['installTimeMillis'] = this._installTimeMillis;
     data['updateTimeMillis'] = this._updateTimeMillis;
     data['enabled'] = this._enabled;
-    // data['category'] = this._category;
+    data['category'] = this._category;
     data['usage'] = this._usage?.inSeconds;
     data['firstTimeStamp'] = this._firstTimeStamp?.millisecondsSinceEpoch;
     data['lastTimeStamp'] = this._lastTimeStamp?.millisecondsSinceEpoch;

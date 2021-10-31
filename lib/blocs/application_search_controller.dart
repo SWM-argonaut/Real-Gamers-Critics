@@ -7,7 +7,7 @@ import 'package:real_gamers_critics/functions/api/application.dart';
 import 'package:real_gamers_critics/models/applications.dart';
 
 class ApplicationsSearchController extends GetxController {
-  bool _isLoading = false;
+  bool _isLoading = true;
   bool _hasError = false;
 
   Map<String, List<ApplicationInfos>?> _searchdataMap = {};
