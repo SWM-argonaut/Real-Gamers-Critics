@@ -17,8 +17,6 @@ import 'package:real_gamers_critics/widget/image.dart';
 
 import 'package:scroll_navigation/scroll_navigation.dart';
 
-import 'package:carousel_slider/carousel_slider.dart';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
 
@@ -125,9 +123,7 @@ class _DetailPageState extends State<DetailPage> {
                     ? ClipRRect(
                         borderRadius:
                             BorderRadius.circular(SizeConfig.defaultSize),
-                        child: Image(
-                          image: MemoryImage(app.icon!),
-                        ))
+                        child: Image(image: app.icon!))
                     : Icon(Icons.not_accessible),
               ),
               Text(

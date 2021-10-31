@@ -1,3 +1,25 @@
-const int playtimeToLeaveComment = 100;
+import 'package:flutter/material.dart';
 
-const String apiBaseUrl = "your api base url";
+const Map appsFlyerOptions = {
+  "afDevKey": "HERE_YOURE_KEY",
+  "afAppId": "HERE_YOURE_APP_ID",
+  "isDebug": false,
+};
+const String mixpanelToken = "HERE_YOURE_TOKEN";
+const String oneSignalAppId = "HERE_YOURE_APP_ID";
+
+
+// test용 유닛 : ca-app-pub-3940256099942544/6300978111
+// 우리 애드몹 유닛 : HERE_YOURE_UNIT
+// https://developers.google.com/admob/android/test-ads#sample%5C_ad%5C_units
+const String bottomBannerAdUnitId = "HERE_YOURE_UNIT";
+
+const int playtimeToLeaveComment = 15; // 분 단위
+
+const String apiBaseUrl = "HERE_YOURE_API_BASE_URL";
+const String awsS3BaseUrl = "HERE_YOURE_AWS_S3_BASE_URL";
+
+const String playStoreBaseUrl =
+    "https://play.google.com/store/apps/details?hl=en_US&gl=US&id=";
+
+Color backgroundColor = Color.fromRGBO(253, 253, 253, 1);

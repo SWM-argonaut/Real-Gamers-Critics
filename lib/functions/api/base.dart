@@ -14,6 +14,17 @@ import 'package:real_gamers_critics/models/applications.dart';
 import 'package:real_gamers_critics/models/comment.dart';
 
 class BaseApi {
+  static Future<dynamic> getS3File(String endpoint) async {
+    var response = await http.get(
+      Uri.parse("$awsS3BaseUrl/$endpoint"),
+    );
+
+    log('Response status: ${response.statusCode}');
+    log('Response body: ${response.body}');
+
+    return json.decode(response.body);
+  }
+
   static Future<dynamic> postWithAuth(
       String endpoint, Map<String, dynamic> body) async {
     String auth = "${await FirebaseAuth.instance.currentUser!.getIdToken()}";

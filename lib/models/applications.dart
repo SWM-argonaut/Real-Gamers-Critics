@@ -1,9 +1,10 @@
-import 'dart:convert';
-import 'dart:developer';
-import 'dart:typed_data';
+import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:usage_stats/usage_stats.dart';
 import 'package:device_apps/device_apps.dart';
+
+import 'package:real_gamers_critics/models/application_search.dart';
 
 class ApplicationInfos {
   /// Name of the package
@@ -13,10 +14,10 @@ class ApplicationInfos {
   String _appName;
 
   /// Icon of the application to use in conjunction with [Image.memory]
-  Uint8List? _icon;
+  ImageProvider? _icon;
 
   /// Full path to the base APK for this application
-  String _apkFilePath;
+  String? _apkFilePath;
 
   /// Public name of the application (eg: 1.0.0)
   /// The version name of this package, as specified by the <manifest> tag's
@@ -24,21 +25,21 @@ class ApplicationInfos {
   String? _versionName;
 
   /// Unique version id for the application
-  int _versionCode;
+  int? _versionCode;
 
   /// Full path to the default directory assigned to the package for its
   /// persistent data
-  String _dataDir;
+  String? _dataDir;
 
   /// Whether the application is installed in the device's system image
   /// An application downloaded by the user won't be a system app
-  bool _systemApp;
+  bool? _systemApp;
 
   /// The time at which the app was first installed
-  int _installTimeMillis;
+  int? _installTimeMillis;
 
   /// The time at which the app was last updated
-  int _updateTimeMillis;
+  int? _updateTimeMillis;
 
   /// The category of this application
   /// The information may come from the application itself or the system
@@ -69,15 +70,15 @@ class ApplicationInfos {
   DateTime? get lastTimeUsed => _lastTimeUsed;
   String get packageName => _packageName;
   String get appName => _appName;
-  String get apkFilePath => _apkFilePath;
-  String get dataDir => _dataDir;
+  String? get apkFilePath => _apkFilePath;
+  String? get dataDir => _dataDir;
   String? get versionName => _versionName;
   String? get genre => _genre;
-  Uint8List? get icon => _icon;
-  int get versionCode => _versionCode;
-  int get installTimeMillis => _installTimeMillis;
-  int get updateTimeMillis => _updateTimeMillis;
-  bool get systemApp => _systemApp;
+  ImageProvider? get icon => _icon;
+  int? get versionCode => _versionCode;
+  int? get installTimeMillis => _installTimeMillis;
+  int? get updateTimeMillis => _updateTimeMillis;
+  bool? get systemApp => _systemApp;
   bool get enabled => _enabled;
   ApplicationCategory? get category => _category;
 
@@ -99,7 +100,14 @@ class ApplicationInfos {
         _lastTimeStamp = usageInfo?.lastTimeStamp,
         _lastTimeUsed = usageInfo?.lastTimeUsed,
         _genre = genre,
-        _icon = app is ApplicationWithIcon ? app.icon : null;
+        _icon = app is ApplicationWithIcon ? MemoryImage(app.icon) : null;
+
+  ApplicationInfos.fromApplicationSearchModel(ApplicationSearchModel _app)
+      : this._packageName = _app.gameId!,
+        this._appName = _app.title!,
+        this._enabled = false,
+        this._usage = Duration(seconds: 0),
+        this._icon = NetworkImage("${_app.icon}");
 
   ApplicationInfos.fromJson(Map<String, dynamic> json)
       : this._packageName = json['packageName'],
@@ -120,8 +128,7 @@ class ApplicationInfos {
             DateTime.fromMillisecondsSinceEpoch(json['lastTimeStamp'] ?? 0),
         this._lastTimeUsed =
             DateTime.fromMillisecondsSinceEpoch(json['lastTimeUsed'] ?? 0),
-        this._genre = json['genre'],
-        this._icon = json['icon'] != null ? base64.decode(json['icon']) : null;
+        this._genre = json['genre'];
 
   void updateUsage(UsageInfo? usageInfo) {
     if (usageInfo != null) {
@@ -150,7 +157,6 @@ class ApplicationInfos {
     data['lastTimeStamp'] = this._lastTimeStamp?.millisecondsSinceEpoch;
     data['lastTimeUsed'] = this._lastTimeUsed?.millisecondsSinceEpoch;
     data['genre'] = this._genre;
-    data['icon'] = this._icon != null ? base64.encode(this._icon!) : null;
     return data;
   }
 }

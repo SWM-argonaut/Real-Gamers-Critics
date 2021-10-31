@@ -35,6 +35,8 @@ class Messages extends Translations {
           // 메인 페이지
           "home page": "내 게임들",
 
+          "order option error": "order option error",
+
           // 바텀 네비바
           "list": "리스트",
           "login": "로그인",

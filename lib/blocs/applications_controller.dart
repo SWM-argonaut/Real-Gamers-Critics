@@ -62,7 +62,9 @@ class ApplicationsController extends GetxController {
   void sort() {
     List<int Function(ApplicationInfos, ApplicationInfos)> _compareFuncs = [
       (a, b) => a.usage?.compareTo(b.usage ?? Duration()) ?? -1, // PLAYTIME
-      (a, b) => a.installTimeMillis.compareTo(b.installTimeMillis), // DATE
+      (a, b) =>
+          a.installTimeMillis?.compareTo(b.installTimeMillis ?? 0) ??
+          -1, // DATE
     ];
     assert(_compareFuncs.length == OrderBy.values.length);
 
