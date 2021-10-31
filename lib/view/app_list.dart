@@ -117,7 +117,7 @@ Widget _itemBuilder(ApplicationInfos _app) {
                                   borderRadius: BorderRadius.circular(
                                       SizeConfig.defaultSize),
                                   child: Image(image: _app.icon!))
-                              : Icon(Icons.not_accessible),
+                              : Icon(Icons.image_not_supported_outlined),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
