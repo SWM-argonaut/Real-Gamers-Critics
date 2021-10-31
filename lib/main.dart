@@ -26,7 +26,7 @@ import 'package:real_gamers_critics/view/home.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
-  initOneSignal();
+  OnesignalController.initOneSignal();
   MobileAds.instance.initialize();
 
   runApp(MultiProvider(providers: [
@@ -66,6 +66,7 @@ class _MyAppState extends State<MyApp> {
           Get.put(ApplicationsMetadataController());
           Get.put(MyCommentsController()).load();
           Get.put(ApplicationsController()).init();
+          Get.put(OnesignalController()).fetchDeviceState();
 
           return GetMaterialApp(
               // translations

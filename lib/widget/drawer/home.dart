@@ -6,13 +6,17 @@ import 'package:get/get.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:onesignal_flutter/onesignal_flutter.dart';
+
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:real_gamers_critics/blocs/one_signal.dart';
+
 import 'package:real_gamers_critics/configs/size_config.dart';
 
 import 'package:real_gamers_critics/functions/auth/google.dart';
 
 class HomeDrawer extends StatefulWidget {
-  const HomeDrawer({Key? key}) : super(key: key);
+  HomeDrawer({Key? key}) : super(key: key);
 
   @override
   _HomeDrawerState createState() => _HomeDrawerState();
@@ -25,6 +29,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
       children: [
         _header(),
         _logInOut(),
+        _onsignalSetting(),
       ],
     );
   }
@@ -108,6 +113,20 @@ class _HomeDrawerState extends State<HomeDrawer> {
           vertical: SizeConfig.defaultSize * 3,
           horizontal: SizeConfig.defaultSize * 6),
       child: _child,
+    );
+  }
+
+  Container _onsignalSetting() {
+    return Container(
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+        Text("Allow notifications".tr),
+        GetBuilder<OnesignalController>(
+          builder: (_) => Switch(
+            value: !_.pushDisabled,
+            onChanged: (_allow) => _.onesignalSettings(disable: !_allow),
+          ),
+        ),
+      ]),
     );
   }
 }
