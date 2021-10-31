@@ -155,6 +155,7 @@ class _DetailPageState extends State<DetailPage> {
                       AnalyticsBloc.onPlay(app.packageName);
                       DeviceApps.openApp(app.packageName);
                     } else {
+                      AnalyticsBloc.onVisitPlaystore(app.packageName);
                       launchURL("$playStoreBaseUrl${app.packageName}");
                     }
                   },

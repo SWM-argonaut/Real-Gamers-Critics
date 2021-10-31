@@ -115,7 +115,16 @@ class AnalyticsBloc {
   static onPlay(String packageName) {
     _logger(name: "게임_플레이", param: <String, dynamic>{
       "구글_유저_아이디": "${FirebaseAuth.instance.currentUser?.uid ?? '로그인_안함'}",
-      "gameId#Region": packageName + "${Get.deviceLocale}",
+      "gameId": packageName,
+      "region": "${Get.deviceLocale}",
+    });
+  }
+
+  static onVisitPlaystore(String packageName) {
+    _logger(name: "플레이스토어_방문", param: <String, dynamic>{
+      "구글_유저_아이디": "${FirebaseAuth.instance.currentUser?.uid ?? '로그인_안함'}",
+      "gameId": packageName,
+      "region": "${Get.deviceLocale}",
     });
   }
 
