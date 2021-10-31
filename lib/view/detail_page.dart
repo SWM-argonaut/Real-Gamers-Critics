@@ -12,8 +12,8 @@ import 'package:intl/intl.dart';
 import 'package:device_apps/device_apps.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:real_gamers_critics/models/application_metadata_model.dart';
-import 'package:real_gamers_critics/widget/image.dart';
 
 import 'package:scroll_navigation/scroll_navigation.dart';
 
@@ -29,6 +29,7 @@ import 'package:real_gamers_critics/blocs/leaderboard_controller.dart';
 import 'package:real_gamers_critics/blocs/providers/comment_provicer.dart';
 import 'package:real_gamers_critics/blocs/applications_metadata_controller.dart';
 
+import 'package:real_gamers_critics/functions/url_launch.dart';
 import 'package:real_gamers_critics/functions/api/comment.dart';
 import 'package:real_gamers_critics/functions/format/number.dart';
 import 'package:real_gamers_critics/functions/format/time.dart';
@@ -37,6 +38,8 @@ import 'package:real_gamers_critics/functions/playstore/check_app.dart';
 import 'package:real_gamers_critics/models/applications.dart';
 import 'package:real_gamers_critics/models/comment.dart';
 
+import 'package:real_gamers_critics/widget/ads.dart';
+import 'package:real_gamers_critics/widget/image.dart';
 import 'package:real_gamers_critics/widget/likes.dart';
 import 'package:real_gamers_critics/widget/network.dart';
 import 'package:real_gamers_critics/widget/rating.dart';
@@ -82,8 +85,8 @@ class _DetailPageState extends State<DetailPage> {
             _comment.gameIdRegion ==
             "${widget.app.packageName}#${Get.deviceLocale?.countryCode}");
 
-    return Scaffold(
-      body: Container(
+    List<Widget> _children = [
+      Container(
           width: SizeConfig.screenWidth,
           color: _topBackroundColor,
           child: Column(
@@ -96,8 +99,20 @@ class _DetailPageState extends State<DetailPage> {
                 child: tap(),
               )
             ],
-          )),
-      floatingActionButton: reviewButton(widget.app, _index != -1),
+          ))
+    ];
+
+    // not installed (searched)
+    if (widget.app.enabled == false) {
+      _children.add(Positioned(
+          bottom: 0,
+          child: BannerAdWidget(bannerAdUnitId: bottomBannerAdUnitId)));
+    }
+
+    return Scaffold(
+      body: Stack(children: _children),
+      floatingActionButton:
+          widget.app.enabled ? reviewButton(widget.app, _index != -1) : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
@@ -140,8 +155,7 @@ class _DetailPageState extends State<DetailPage> {
                       AnalyticsBloc.onPlay(app.packageName);
                       DeviceApps.openApp(app.packageName);
                     } else {
-                      // TODO 플레이 스토어 링크 열기
-                      log("미설치");
+                      launchURL("$playStoreBaseUrl${app.packageName}");
                     }
                   },
                   // TODO: https://stackoverflow.com/questions/11753000/how-to-open-the-google-play-store-directly-from-my-android-application
@@ -157,7 +171,7 @@ class _DetailPageState extends State<DetailPage> {
                             color: Color.fromRGBO(106, 54, 255, 0.1),
                           ),
                           child: Text(
-                            "Play".tr,
+                            app.enabled ? "Play".tr : "Install".tr,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Color.fromRGBO(106, 54, 255, 1),
@@ -271,17 +285,24 @@ class _DetailPageState extends State<DetailPage> {
       }
 
       return Container(
-          child: Column(
+          child: SingleChildScrollView(
+              child: Column(
         children: [
           Container(
               padding:
                   EdgeInsets.symmetric(vertical: SizeConfig.defaultSize * 1.4),
               child: SlideImageView(imageUrls: _appMetadata.screenshots)),
           Container(
-            child: Text("${_appMetadata.summary}"),
-          )
+            padding:
+                EdgeInsets.symmetric(horizontal: SizeConfig.defaultSize * 2),
+            child: Text(
+              "${_appMetadata.summary}",
+              style: TextStyle(fontSize: SizeConfig.defaultSize * 2),
+            ),
+          ),
+          Padding(padding: EdgeInsets.only(top: SizeConfig.defaultSize * 13))
         ],
-      ));
+      )));
     });
   }
 
