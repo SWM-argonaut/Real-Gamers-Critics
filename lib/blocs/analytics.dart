@@ -29,7 +29,7 @@ class AnalyticsBloc {
   // mixpanel
   static late Mixpanel mixpanel;
 
-  static void init() async {
+  static Future<void> init() async {
     mixpanel = await Mixpanel.init(
       mixpanelToken,
       optOutTrackingDefault: false,
