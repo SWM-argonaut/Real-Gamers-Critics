@@ -139,7 +139,7 @@ class _DetailPageState extends State<DetailPage> {
                         borderRadius:
                             BorderRadius.circular(SizeConfig.defaultSize),
                         child: Image(image: app.icon!))
-                    : Icon(Icons.not_accessible),
+                    : Icon(Icons.image_not_supported),
               ),
               Text(
                 "${app.appName}",
